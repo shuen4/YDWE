@@ -24,23 +24,23 @@ static const wchar_t* namelist[] = {
 
 static const wchar_t* getCurrentAppID()
 {
-	size_t n = sizeof namelist / sizeof namelist[0];
-	size_t random = (size_t)std::random_device()();
-	for (size_t i = 0; i < n; ++i)
+	for (size_t i = 0; i < sizeof(namelist) / sizeof(namelist[0]); ++i)
 	{
-		const wchar_t* name = namelist[(random + i) % n];
+		const wchar_t* name = namelist[i];
 		HANDLE mutex = CreateMutexW(NULL, TRUE, name);
-		if (mutex)
+		if (GetLastError() == ERROR_ALREADY_EXISTS)
+		{
+			if (mutex)
+				CloseHandle(mutex);  // C6001: 使用未初始化的内存"*mutex" ???
+			continue;
+		}
+		else if (mutex)
 		{
 			return name;
 		}
-		else if (GetLastError() != ERROR_ALREADY_EXISTS)
-		{
-			break;
-		}
 	}
 
-	static std::wstring	randomresult = L"YDWE.WorldEdit." + std::to_wstring((long long)random);
+	static std::wstring	randomresult = L"YDWE.WorldEdit." + std::to_wstring((long long)std::random_device()());
 	return randomresult.c_str();
 }
 
@@ -57,7 +57,7 @@ bool JumpListAddRecentTask(JumpList& jumpList, fs::path const& ydweDirectory, fs
 	return SUCCEEDED(hr);
 }
 
-void Initialize()
+extern "C" void Initialize()
 {
 	if (bee::platform::get_version().ver < bee::platform::WinVer::Win7)
 	{

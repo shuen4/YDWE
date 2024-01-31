@@ -46,8 +46,8 @@ end
 function jasshelper:compile(op)	
 	log.trace("JassHelper compilation start.")
 	self:createConfig(op)
-    local common_j_path = self:prepare_common_j(op.map_path, op.option.runtime_version)
-    local blizzard_j_path = self:prepare_blizzard_j(op.map_path, op.option.runtime_version)
+    local common_j_path = self:prepare_common_j(op.map_path, op.option.JASS)
+    local blizzard_j_path = self:prepare_blizzard_j(op.map_path, op.option.JASS)
     
 	local parameter = {}
 	

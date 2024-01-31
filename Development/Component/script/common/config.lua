@@ -22,6 +22,7 @@ local tbl_index = {
 		LaunchLockingMouse = "0",
 		LaunchFixedRatioWindowed = "0",
 		LaunchDisableSecurityAccess = "0",
+		UserName = "YDWE",
 	},
 	ScriptCompiler = {
 		EnableJassHelper = "1",

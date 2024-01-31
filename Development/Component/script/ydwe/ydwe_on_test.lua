@@ -162,7 +162,9 @@ function event.EVENT_TEST_MAP(event_data)
 	
 	-- 获取当前测试的地图名
 	local mappath = fs.path(event_data.map_path)
-	log.info('Current map path ' .. current_map_path:string())
+	if s ~= nil and s ~= '' then
+		log.info('Current map path ' .. current_map_path:string())
+	end
 	log.debug("Testing " .. mappath:string())
     log.debug("Testing " .. event_data.command_line)
 	

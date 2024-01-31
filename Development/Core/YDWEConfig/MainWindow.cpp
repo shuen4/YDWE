@@ -176,6 +176,7 @@ void CMainWindow::InitWindow()
 	m_pWar3PatchList       = dynamic_cast<DuiLib::CVerticalLayoutUI*>(m_pm.FindControl(L"War3PatchList"));
 	m_pWar3PluginList      = dynamic_cast<DuiLib::CVerticalLayoutUI*>(m_pm.FindControl(L"War3PluginList"));
 	m_pWarcraft3Directory  = dynamic_cast<DuiLib::CLabelUI*>(m_pm.FindControl(L"Warcraft3Directory"));
+	m_pWarcraft3Directory1 = dynamic_cast<DuiLib::CLabelUI*>(m_pm.FindControl(L"Warcraft3Directory1"));
 	m_pFontPreview         = dynamic_cast<DuiLib::CLabelUI*>(m_pm.FindControl(L"FontPreview"));
 
 	m_pm.AddNotifier(this);
@@ -208,6 +209,7 @@ void CMainWindow::ResetConfig(base::ini::table& table)
 	table["Font"]["FontSize"] = "12";
 }
 
+std::wstring Warcraft3_custom_path;
 bool CMainWindow::LoadConfig(base::ini::table& table)
 {
 	try
@@ -215,6 +217,11 @@ bool CMainWindow::LoadConfig(base::ini::table& table)
 		ResetConfig(table);
 		auto buf = base::file::read_stream(base::path::self().parent_path() / L"EverConfig.cfg").read<std::string>();
 		base::ini::read(table, buf.c_str());
+		try {
+			bee::registry::key_w reg(L"HKEY_CURRENT_USER\\Software\\YDWE");
+			Warcraft3_custom_path = reg[L"DIR_custom"].get_string();
+		}
+		catch (...) {}
 	}
 	catch (...)
 	{
@@ -229,6 +236,7 @@ bool CMainWindow::SaveConfig(base::ini::table const& table)
 	try
 	{
 		base::file::write_stream(base::path::self().parent_path() / L"EverConfig.cfg").write(base::ini::write(table));
+		bee::registry::key_w(L"HKEY_CURRENT_USER\\Software\\YDWE")[L"DIR_custom"] = Warcraft3_custom_path;
 	}
 	catch (...)
 	{
@@ -325,6 +333,7 @@ void CMainWindow::EnableMapSave(bool bEnable)
 	ContrlSetEnabled("MapSave_0", bEnable);
 	ContrlSetEnabled("MapSave_1", bEnable);
 	ContrlSetEnabled("MapSave_2", bEnable);
+	ContrlSetEnabled("MapSave_3", bEnable);
 	if (!bEnable) ContrlSelected("MapSave_0", true);
 }
 
@@ -634,6 +643,12 @@ void CMainWindow::UpdateWarcraft3Directory()
 	}
 }
 
+void CMainWindow::UpdateWarcraft3Directory1()
+{
+	if (m_pWarcraft3Directory1)
+		m_pWarcraft3Directory1->SetText(Warcraft3_custom_path.c_str());
+}
+
 void CMainWindow::Notify(DuiLib::TNotifyUI& msg)
 {
 	try
@@ -649,6 +664,7 @@ void CMainWindow::Notify(DuiLib::TNotifyUI& msg)
 			InitPatchUI(table);
 			InitPluginUI();
 			UpdateWarcraft3Directory();
+			UpdateWarcraft3Directory1();
 			m_username = table["MapTest"]["UserName"];
 			m_virtualmpq = table["MapTest"]["VirtualMpq"];
 		}
@@ -737,6 +753,17 @@ void CMainWindow::Notify(DuiLib::TNotifyUI& msg)
 					UpdateWarcraft3Directory();
 				}
 
+			}
+			else if (name == L"choose_war3_dir1")
+			{
+				std::wstring retval;
+				if (!warcraft3::directory::open_file_dialog(nullptr, L"Warcraft III.exe\0Warcraft III.exe\0", NULL, &retval))
+					return;
+				fs::path result = fs::path(retval).parent_path();
+				if (!fs::exists(result))
+					return;
+				Warcraft3_custom_path = result.wstring();
+				UpdateWarcraft3Directory1();
 			}
 			else if (name.size() == 11 && name.substr(0, 10) == L"War3Patch_")
 			{

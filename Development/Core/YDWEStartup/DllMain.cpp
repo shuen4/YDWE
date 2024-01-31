@@ -23,6 +23,7 @@
 
 #define _(str)  base::i18n::get_text(str).data()
 #define __(str) bee::u2w(base::i18n::get_text(str)).c_str()
+//#define SIMPLE_LAUNCHER
 
 static bool FileContentEqual(const fs::path &fileFirst, const fs::path &fileSecond, std::error_code *pErrorCode = nullptr)
 {
@@ -213,7 +214,9 @@ INT WINAPI YDWEStartup(HINSTANCE current, HINSTANCE previous, LPSTR pCommandLine
 {
 	warcraft3::command_line cmd;
 
+#ifndef SIMPLE_LAUNCHER
 	if (cmd.has(L"war3"))
+#endif
 	{
 		bool launch_warcraft3(warcraft3::command_line&);
 		launch_warcraft3(cmd);

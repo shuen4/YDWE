@@ -5,6 +5,7 @@
 #import "mscorlib.tlb" raw_interfaces_only, rename("ReportEvent","ReportCLREvent") rename("or","oref")
 #include <atlcomcli.h>
 #include <functional>
+#include <string>
 
 namespace clr {
 

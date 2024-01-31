@@ -13,7 +13,7 @@ BOOL APIENTRY DllMain(HMODULE module, DWORD reason, LPVOID /*pReserved*/)
 }
 
 
-void Initialize()
+extern "C" void Initialize()
 {
 	warcraft3::lua_engine::lua_loader::initialize();
 }

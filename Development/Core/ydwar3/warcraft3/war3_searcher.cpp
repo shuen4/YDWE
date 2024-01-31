@@ -11,6 +11,7 @@ namespace warcraft3 {
 		, version_(search_version())
 		, get_instance_(search_get_instance())
 		, get_gameui_(search_get_gameui())
+		, gamestate_ptr_(search_gamestate_ptr())
 	{ }
 	
 	war3_searcher::war3_searcher(HMODULE hGameDll)
@@ -18,6 +19,7 @@ namespace warcraft3 {
 		, version_(search_version())
 		, get_instance_(search_get_instance())
 		, get_gameui_(search_get_gameui())
+		, gamestate_ptr_(search_gamestate_ptr())
 	{ }
 	
 	uint32_t war3_searcher::get_version() const
@@ -33,6 +35,10 @@ namespace warcraft3 {
 	uint32_t war3_searcher::get_gameui(uint32_t unk0, uint32_t unk1)
 	{
 		return ((uint32_t(_fastcall*)(uint32_t, uint32_t))get_gameui_)(unk0, unk1);
+	}
+
+	uint32_t war3_searcher::get_gamestate() {
+		return *(uint32_t*)gamestate_ptr_;
 	}
 	
 	bool war3_searcher::is_gaming()
@@ -164,6 +170,32 @@ namespace warcraft3 {
 		get_gameui = convert_function(get_gameui);
 
 		return get_gameui;
+	}
+
+	uintptr_t war3_searcher::search_gamestate_ptr() const {
+		uintptr_t gamestate_ptr;
+
+		//=========================================
+		// (1)
+		//
+		// push		"(R)V"
+		// mov		edx, "SetTimeOfDayScale"
+		// mov		ecx, [SetTimeOfDayScale函数的地址] <----
+		// call		BindNative
+		//=========================================
+		gamestate_ptr = search_string("SetTimeOfDayScale");
+		gamestate_ptr = *(uintptr_t*)(gamestate_ptr + 0x05);
+
+		//=========================================
+		// (2)
+		//  SetTimeOfDayScale:
+		//    mov     ecx, [GameState指针的地址] <----
+		//    call    UnknowFunc
+		//=========================================
+		gamestate_ptr = next_opcode(gamestate_ptr, 0x8B, 6);
+		gamestate_ptr = *(uintptr_t*)(gamestate_ptr + 0x2);
+
+		return gamestate_ptr;
 	}
 
 	war3_searcher& get_war3_searcher()

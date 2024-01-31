@@ -21,6 +21,8 @@ local function get_ui()
         line = line:gsub("^%s*(.-)%s*$", "%1")
 		if not enable_japi and line == 'japi' then
 			-- do nothing
+		elseif line:sub(1, 1) == '#' then
+			-- ignore
 		else
 			table.insert(list, ydwe / 'ui' / line)
 		end

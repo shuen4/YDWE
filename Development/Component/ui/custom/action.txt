@@ -1,0 +1,1803 @@
+[AutomationSetTestType]
+title = "AutomationSetTestType [1.31]"
+description = "call AutomationSetTestType(${string})"
+comment = ""
+category = TC_UNKNOWN
+[[.args]]
+type = string
+
+[AutomationTestStart]
+title = "AutomationTestStart [1.31]"
+description = "call AutomationTestStart(${string})"
+comment = ""
+category = TC_UNKNOWN
+[[.args]]
+type = string
+
+[AutomationTestEnd]
+title = "AutomationTestEnd [1.31]"
+description = "call AutomationTestEnd()"
+comment = ""
+category = TC_UNKNOWN
+[[.args]]
+type = nothing
+
+[AutomationTestingFinished]
+title = "AutomationTestingFinished [1.31]"
+description = "call AutomationTestingFinished()"
+comment = ""
+category = TC_UNKNOWN
+[[.args]]
+type = nothing
+
+[BlzSetAbilityTooltip]
+title = "Set Ability Tooltip [1.31]"
+description = "Set Tooltip of ${Ability} to ${Value} for level ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = abilcode
+[[.args]]
+type = string
+[[.args]]
+type = integer
+
+[BlzSetAbilityActivatedTooltip]
+title = "Set Ability Tooltip - Auto-Casting Activated [1.31]"
+description = "Set Tooltip (Auto-Casting Activated) of ${Ability} to ${Value} for level ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = abilcode
+[[.args]]
+type = string
+[[.args]]
+type = integer
+
+[BlzSetAbilityExtendedTooltip]
+title = "Set Ability Extended Tooltip [1.31]"
+description = "Set Extended Tooltip of ${Ability} to ${Value} for level ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = abilcode
+[[.args]]
+type = string
+[[.args]]
+type = integer
+
+[BlzSetAbilityActivatedExtendedTooltip]
+title = "Set Ability Extended Tooltip - Auto-Casting Activated [1.31]"
+description = "Set Extended Tooltip (Auto-Casting Activated) of ${Ability} to ${Value} for level ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = abilcode
+[[.args]]
+type = string
+[[.args]]
+type = integer
+
+[BlzSetAbilityResearchTooltip]
+title = "Set Ability Tooltip - Learn [1.31]"
+description = "Set Tooltip (Learn) of ${Ability} to ${Value} for level ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = abilcode
+[[.args]]
+type = string
+[[.args]]
+type = integer
+
+[BlzSetAbilityResearchExtendedTooltip]
+title = "Set Ability Extended Tooltip - Learn [1.31]"
+description = "Set Extended Tooltip (Learn) of ${Ability} to ${Value} for level ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = abilcode
+[[.args]]
+type = string
+[[.args]]
+type = integer
+
+[BlzSetAbilityIcon]
+title = "Set Ability Icon [1.31]"
+description = "Set Icon of ${Ability} to ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = abilcode
+[[.args]]
+type = string
+
+[BlzSetAbilityActivatedIcon]
+title = "Set Ability Icon - Auto-Casting Activated [1.31]"
+description = "Set Icon (Auto-Casting Activated) of ${Ability} to ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = abilcode
+[[.args]]
+type = string
+
+[BlzSetAbilityPosX]
+title = "Set Ability Position X [1.31]"
+description = "Set Position X of ${Ability} to ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = abilcode
+[[.args]]
+type = integer
+min = 0
+max = 3
+
+[BlzSetAbilityPosY]
+title = "Set Ability Position Y [1.31]"
+description = "Set Position Y of ${Ability} to ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = abilcode
+[[.args]]
+type = integer
+min = 0
+max = 2
+
+[BlzSetAbilityActivatedPosX]
+title = "Set Ability Position X - Auto-Casting Activated [1.31]"
+description = "Set Position X (Auto-Casting Activated) of ${Ability} to ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = abilcode
+[[.args]]
+type = integer
+min = 0
+max = 3
+
+[BlzSetAbilityActivatedPosY]
+title = "Set Ability Position Y - Auto-Casting Activated [1.31]"
+description = "Set Position Y (Auto-Casting Activated) of ${Ability} to ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = abilcode
+[[.args]]
+type = integer
+min = 0
+max = 2
+
+[BlzSetUnitMaxHP]
+title = "Set Max HP [1.31]"
+description = "Set Max HP of ${Unit} to ${Value}"
+comment = ""
+category = TC_UNIT
+[[.args]]
+type = unit
+[[.args]]
+type = integer
+
+[BlzSetUnitMaxMana]
+title = "Set Max Mana [1.31]"
+description = "Set Max Mana of ${Unit} to ${Value}"
+comment = ""
+category = TC_UNIT
+[[.args]]
+type = unit
+[[.args]]
+type = integer
+
+[BlzSetItemName]
+title = "Set Name [1.31]"
+description = "Set Name of ${Item} to ${Value}"
+comment = ""
+category = TC_ITEM
+[[.args]]
+type = item
+[[.args]]
+type = string
+
+[BlzSetItemDescription]
+title = "Set Item Description [1.31]"
+description = "Set Description of ${Item} to ${Value}"
+comment = ""
+category = TC_ITEM
+[[.args]]
+type = item
+[[.args]]
+type = string
+
+[BlzSetItemTooltip]
+title = "Set Item Tooltip [1.31]"
+description = "Set Tooltip of ${Item} to ${Value}"
+comment = ""
+category = TC_ITEM
+[[.args]]
+type = item
+[[.args]]
+type = string
+
+[BlzSetItemExtendedTooltip]
+title = "Set Extended Tooltip [1.31]"
+description = "Set Extended Tooltip of ${Item} to ${Value}"
+comment = ""
+category = TC_ITEM
+[[.args]]
+type = item
+[[.args]]
+type = string
+
+[BlzSetItemIconPath]
+title = "Set Icon Path [1.31]"
+description = "Set Icon Path of ${Item} to ${Value}"
+comment = ""
+category = TC_ITEM
+[[.args]]
+type = item
+[[.args]]
+type = string
+
+[BlzSetUnitName]
+title = "Set Name [1.31]"
+description = "Set Name of ${Unit} to ${Value}"
+comment = ""
+category = TC_UNIT
+[[.args]]
+type = unit
+[[.args]]
+type = string
+
+[BlzSetHeroProperName]
+title = "Set Hero Proper Name [1.31]"
+description = "Set Name of ${Unit} to ${Value}"
+comment = ""
+category = TC_UNIT
+[[.args]]
+type = unit
+[[.args]]
+type = string
+
+[BlzSetUnitBaseDamage]
+title = "Set Base Damage [1.31]"
+description = "Set Base Damage of ${Unit} to ${Value} for weapon index: ${Value}"
+comment = ""
+category = TC_UNIT
+[[.args]]
+type = unit
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+min = 0
+max = 1
+
+[BlzSetUnitDiceNumber]
+title = "Set Dice Number [1.31]"
+description = "Set Dice Number of ${Unit} to ${Value} for weapon index: ${Value}"
+comment = ""
+category = TC_UNIT
+[[.args]]
+type = unit
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+min = 0
+max = 1
+
+[BlzSetUnitDiceSides]
+title = "Set Dice Sides [1.31]"
+description = "Set Dice Sides of ${Unit} to ${Value} for weapon index: ${Value}"
+comment = ""
+category = TC_UNIT
+[[.args]]
+type = unit
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+min = 0
+max = 1
+
+[BlzSetUnitAttackCooldown]
+title = "Set Attack Interval [1.31]"
+description = "Set Attack Interval of ${Unit} to ${Value} for weapon index: ${Value}"
+comment = ""
+category = TC_UNIT
+[[.args]]
+type = unit
+[[.args]]
+type = real
+[[.args]]
+type = integer
+min = 0
+max = 1
+
+[BlzSetSpecialEffectColorByPlayer]
+title = "Set Special Effect Color by Player [1.31]"
+description = "Set Color of ${Effect} to color of ${Player}"
+comment = ""
+category = TC_SPECIALEFFECT
+[[.args]]
+type = effect
+[[.args]]
+type = player
+
+[BlzSetSpecialEffectColor]
+title = "Set Special Effect Color [1.31]"
+description = "Set Color of ${Effect} to r: ${Value}, g: ${Value}, b: ${Value}"
+comment = ""
+category = TC_SPECIALEFFECT
+[[.args]]
+type = effect
+[[.args]]
+type = integer
+min = 0
+max = 255
+[[.args]]
+type = integer
+min = 0
+max = 255
+[[.args]]
+type = integer
+min = 0
+max = 255
+
+[BlzSetSpecialEffectAlpha]
+title = "Set Special Effect Alpha [1.31]"
+description = "Set Alpha of ${Effect} to ${Value}"
+comment = ""
+category = TC_SPECIALEFFECT
+[[.args]]
+type = effect
+[[.args]]
+type = integer
+min = 0
+max = 255
+
+[BlzSetSpecialEffectScale]
+title = "Set Special Effect Scale [1.31]"
+description = "Set Scale of ${Effect} to ${Value}"
+comment = ""
+category = TC_SPECIALEFFECT
+[[.args]]
+type = effect
+[[.args]]
+type = real
+
+[BlzSetSpecialEffectPosition]
+title = "Set Special Effect Position [1.31]"
+description = "Set Position of ${Effect} to x: ${Value}, y: ${Value}, z: ${Value}"
+comment = ""
+category = TC_SPECIALEFFECT
+[[.args]]
+type = effect
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[BlzSetSpecialEffectHeight]
+title = "Set Special Effect Height [1.31]"
+description = "Set Height of ${Effect} to: ${Value}"
+comment = ""
+category = TC_SPECIALEFFECT
+[[.args]]
+type = effect
+[[.args]]
+type = real
+
+[BlzSetSpecialEffectTimeScale]
+title = "Set Special Effect Time Scale [1.31]"
+description = "Set Time Scale of ${Effect} to ${Value}"
+comment = ""
+category = TC_SPECIALEFFECT
+[[.args]]
+type = effect
+[[.args]]
+type = real
+
+[BlzSetSpecialEffectTime]
+title = "Set Special Effect Time [1.31]"
+description = "Set Time of ${Effect} to ${Value}"
+comment = ""
+category = TC_SPECIALEFFECT
+[[.args]]
+type = effect
+[[.args]]
+type = real
+
+[BlzSetSpecialEffectOrientation]
+title = "Set Special Effect Orientation [1.31]"
+description = "Set Orientation of ${Effect} to yaw: ${Value}, pitch: ${Value}, roll: ${Value}"
+comment = ""
+category = TC_SPECIALEFFECT
+[[.args]]
+type = effect
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[BlzSetSpecialEffectYaw]
+title = "Set Special Effect Yaw [1.31]"
+description = "Set Yaw of ${Effect} to: ${Value}"
+comment = ""
+category = TC_SPECIALEFFECT
+[[.args]]
+type = effect
+[[.args]]
+type = real
+
+[BlzSetSpecialEffectPitch]
+title = "Set Special Effect Pitch [1.31]"
+description = "Set Pitch of ${Effect} to: ${Value}"
+comment = ""
+category = TC_SPECIALEFFECT
+[[.args]]
+type = effect
+[[.args]]
+type = real
+
+[BlzSetSpecialEffectRoll]
+title = "Set Special Effect Roll [1.31]"
+description = "Set Roll of ${Effect} to: ${Value}"
+comment = ""
+category = TC_SPECIALEFFECT
+[[.args]]
+type = effect
+[[.args]]
+type = real
+
+[BlzSetSpecialEffectX]
+title = "Set Special Effect Position X [1.31]"
+description = "Set Position - X of ${Effect} to ${Value}"
+comment = ""
+category = TC_SPECIALEFFECT
+[[.args]]
+type = effect
+[[.args]]
+type = real
+
+[BlzSetSpecialEffectY]
+title = "Set Special Effect Position Y [1.31]"
+description = "Set Position - Y of ${Effect} to ${Value}"
+comment = ""
+category = TC_SPECIALEFFECT
+[[.args]]
+type = effect
+[[.args]]
+type = real
+
+[BlzSetSpecialEffectZ]
+title = "Set Special Effect Position Z [1.31]"
+description = "Set Position - Z of ${Effect} to ${Value}"
+comment = ""
+category = TC_SPECIALEFFECT
+[[.args]]
+type = effect
+[[.args]]
+type = real
+
+[BlzSetSpecialEffectPositionLoc]
+title = "Set Special Effect Position by Location [1.31]"
+description = "Set Position of ${Effect} to ${Location}"
+comment = ""
+category = TC_SPECIALEFFECT
+[[.args]]
+type = effect
+[[.args]]
+type = location
+
+[BlzSpecialEffectClearSubAnimations]
+title = "Clear Special Effect Sub-Animation [1.31]"
+description = "Clear All Sub-Animation from Special Effect: ${Effect}"
+comment = ""
+category = TC_SPECIALEFFECT
+[[.args]]
+type = effect
+
+[BlzSpecialEffectRemoveSubAnimation]
+title = "Remove Sub-Animation from Special Effect [1.31]"
+description = "For Special Effect: ${Effect}, Remove Sub-Animation: ${Value}"
+comment = ""
+category = TC_SPECIALEFFECT
+[[.args]]
+type = effect
+[[.args]]
+type = subanimtype
+
+[BlzSpecialEffectAddSubAnimation]
+title = "Add Sub-Animation to Special Effect [1.31]"
+description = "For Special Effect: ${Effect}, Add Sub-Animation: ${Value}"
+comment = ""
+category = TC_SPECIALEFFECT
+[[.args]]
+type = effect
+[[.args]]
+type = subanimtype
+
+[BlzPlaySpecialEffect]
+title = "Play Special Effect Animation [1.31]"
+description = "Play Special Effect: ${Effect}, Animation: ${Value}"
+comment = ""
+category = TC_SPECIALEFFECT
+[[.args]]
+type = effect
+[[.args]]
+type = animtype
+
+[BlzPlaySpecialEffectWithTimeScale]
+title = "Play Special Effect Animation with Time Scale [1.31]"
+description = "Play Special Effect: ${Effect}, Animation: ${Value}, Time Scale: ${Value}"
+comment = ""
+category = TC_SPECIALEFFECT
+[[.args]]
+type = effect
+[[.args]]
+type = animtype
+[[.args]]
+type = real
+
+[BlzSetUnitArmor]
+title = "Set Armor [1.31]"
+description = "Set Armor of ${Unit} to ${Value}"
+comment = ""
+category = TC_UNIT
+[[.args]]
+type = unit
+[[.args]]
+type = real
+
+[BlzUnitHideAbility]
+title = "Hide Ability [1.31]"
+description = "For ${Unit}, Ability ${Value}, Hide ability: ${Value}"
+comment = ""
+category = TC_UNIT
+[[.args]]
+type = unit
+[[.args]]
+type = abilcode
+[[.args]]
+type = boolean
+
+[BlzUnitDisableAbility]
+title = "Disable Ability [1.31]"
+description = "For ${Unit}, Ability ${Value}, Disable ability: ${Value}, Hide UI: ${Value}"
+comment = ""
+category = TC_UNIT
+[[.args]]
+type = unit
+[[.args]]
+type = abilcode
+[[.args]]
+type = boolean
+[[.args]]
+type = boolean
+
+[BlzUnitCancelTimedLife]
+title = "Cancel Timed Life [1.31]"
+description = "Cancel Timed Life for ${Unit}"
+comment = ""
+category = TC_UNIT
+[[.args]]
+type = unit
+
+[BlzUnitInterruptAttack]
+title = "Interrupt Attack [1.31]"
+description = "Interrupt ${Unit}'s Attack"
+comment = ""
+category = TC_UNIT
+[[.args]]
+type = unit
+
+[BlzSetUnitAbilityCooldown]
+title = "Set Ability Cooldown [1.31]"
+description = "For Unit ${Unit}, Set cooldown of ability ${Value}, Level: ${Value} to ${Value}"
+comment = ""
+category = TC_UNIT
+[[.args]]
+type = unit
+[[.args]]
+type = abilcode
+[[.args]]
+type = integer
+[[.args]]
+type = real
+
+[BlzEndUnitAbilityCooldown]
+title = "Reset Unit Ability Cooldown [1.31]"
+description = "For Unit ${Unit}, end cooldown of ability ${Value}"
+comment = ""
+category = TC_UNIT
+[[.args]]
+type = unit
+[[.args]]
+type = abilcode
+
+[BlzSetUnitAbilityManaCost]
+title = "Set Ability Mana Cost [1.31]"
+description = "For Unit ${Unit}, Set mana cost of ability ${Value}, Level: ${Value} to ${Value}"
+comment = ""
+category = TC_UNIT
+[[.args]]
+type = unit
+[[.args]]
+type = abilcode
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+
+[BlzDecPlayerTechResearched]
+title = "BlzDecPlayerTechResearched [1.31]"
+description = "call BlzDecPlayerTechResearched(${Player},${Tech},${Level})"
+comment = ""
+category = TC_PLAYER
+[[.args]]
+type = player
+[[.args]]
+type = techcode
+[[.args]]
+type = integer
+
+[BlzSetEventDamage]
+title = "Set Damage of Unit Damaged Event [1.31]"
+description = "Set Damage of Unit Damaged Event to ${Value}"
+comment = ""
+category = TC_DAMAGEENGINE
+[[.args]]
+type = real
+
+[BlzEnableSelections]
+title = "Enable Selections [1.31]"
+description = "Enable Selection: ${Enable}, Enable Selection Circle: ${Enable}"
+comment = ""
+category = TC_GAME
+[[.args]]
+type = boolean
+[[.args]]
+type = boolean
+
+[BlzCameraSetupApplyForceDurationSmooth]
+title = "BlzCameraSetupApplyForceDurationSmooth [1.31]"
+description = "call BlzCameraSetupApplyForceDurationSmooth(${camera},${doPan},${forcedDuration},${easeInDuration},${easeOutDuration},${smoothFactor})"
+comment = ""
+category = TC_CAMERA
+[[.args]]
+type = camerasetup
+[[.args]]
+type = boolean
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[BlzEnableTargetIndicator]
+title = "Enable Target Indicator [1.31]"
+description = "Enable Target Indicator: ${Enable}"
+comment = ""
+category = TC_GAME
+[[.args]]
+type = boolean
+
+[BlzEnableUIAutoPosition]
+title = "BlzEnableUIAutoPosition [1.31]"
+description = "call BlzEnableUIAutoPosition(${enable})"
+comment = ""
+category = TC_GAME
+[[.args]]
+type = boolean
+
+[BlzHideOriginFrames]
+title = "BlzHideOriginFrames [1.31]"
+description = "call BlzHideOriginFrames(${enable})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = boolean
+
+[BlzDestroyFrame]
+title = "BlzDestroyFrame [1.31]"
+description = "call BlzDestroyFrame(${frame})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+
+[BlzFrameSetPoint]
+title = "BlzFrameSetPoint [1.31]"
+description = "call BlzFrameSetPoint(${frame},${point},${relative},${relativePoint},${x},${y})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = framepointtype
+[[.args]]
+type = framehandle
+[[.args]]
+type = framepointtype
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[BlzFrameSetAbsPoint]
+title = "BlzFrameSetAbsPoint [1.31]"
+description = "call BlzFrameSetAbsPoint(${frame},${point},${x},${y})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = framepointtype
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[BlzFrameClearAllPoints]
+title = "BlzFrameClearAllPoints [1.31]"
+description = "call BlzFrameClearAllPoints(${frame})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+
+[BlzFrameSetAllPoints]
+title = "BlzFrameSetAllPoints [1.31]"
+description = "call BlzFrameSetAllPoints(${frame},${relative})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = framehandle
+
+[BlzFrameSetVisible]
+title = "BlzFrameSetVisible [1.31]"
+description = "call BlzFrameSetVisible(${frame},${visible})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = boolean
+
+[BlzFrameClick]
+title = "BlzFrameClick [1.31]"
+description = "call BlzFrameClick(${frame})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+
+[BlzFrameSetText]
+title = "BlzFrameSetText [1.31]"
+description = "call BlzFrameSetText(${frame},${text})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = string
+
+[BlzFrameAddText]
+title = "BlzFrameAddText [1.31]"
+description = "call BlzFrameAddText(${frame},${text})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = string
+
+[BlzFrameSetTextSizeLimit]
+title = "BlzFrameSetTextSizeLimit [1.31]"
+description = "call BlzFrameSetTextSizeLimit(${frame},${size})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = integer
+
+[BlzFrameSetTextColor]
+title = "BlzFrameSetTextColor [1.31]"
+description = "call BlzFrameSetTextColor(${frame},${color})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = integer
+
+[BlzFrameSetFocus]
+title = "BlzFrameSetFocus [1.31]"
+description = "call BlzFrameSetFocus(${frame},${flag})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = boolean
+
+[BlzFrameSetModel]
+title = "BlzFrameSetModel [1.31]"
+description = "call BlzFrameSetModel(${frame},${modelFile},${cameraIndex})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = string
+[[.args]]
+type = integer
+
+[BlzFrameSetEnable]
+title = "BlzFrameSetEnable [1.31]"
+description = "call BlzFrameSetEnable(${frame},${enabled})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = boolean
+
+[BlzFrameSetAlpha]
+title = "BlzFrameSetAlpha [1.31]"
+description = "call BlzFrameSetAlpha(${frame},${alpha})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = integer
+
+[BlzFrameSetSpriteAnimate]
+title = "BlzFrameSetSpriteAnimate [1.31]"
+description = "call BlzFrameSetSpriteAnimate(${frame},${primaryProp},${flags})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+
+[BlzFrameSetTexture]
+title = "BlzFrameSetTexture [1.31]"
+description = "call BlzFrameSetTexture(${frame},${texFile},${flag},${blend})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = string
+[[.args]]
+type = integer
+[[.args]]
+type = boolean
+
+[BlzFrameSetScale]
+title = "BlzFrameSetScale [1.31]"
+description = "call BlzFrameSetScale(${frame},${scale})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = real
+
+[BlzFrameSetTooltip]
+title = "BlzFrameSetTooltip [1.31]"
+description = "call BlzFrameSetTooltip(${frame},${tooltip})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = framehandle
+
+[BlzFrameCageMouse]
+title = "BlzFrameCageMouse [1.31]"
+description = "call BlzFrameCageMouse(${frame},${enable})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = boolean
+
+[BlzFrameSetValue]
+title = "BlzFrameSetValue [1.31]"
+description = "call BlzFrameSetValue(${frame},${value})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = real
+
+[BlzFrameSetMinMaxValue]
+title = "BlzFrameSetMinMaxValue [1.31]"
+description = "call BlzFrameSetMinMaxValue(${frame},${minValue},${maxValue})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[BlzFrameSetStepSize]
+title = "BlzFrameSetStepSize [1.31]"
+description = "call BlzFrameSetStepSize(${frame},${stepSize})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = real
+
+[BlzFrameSetSize]
+title = "BlzFrameSetSize [1.31]"
+description = "call BlzFrameSetSize(${frame},${width},${height})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[BlzFrameSetVertexColor]
+title = "BlzFrameSetVertexColor [1.31]"
+description = "call BlzFrameSetVertexColor(${frame},${color})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = integer
+
+[BlzFrameSetLevel]
+title = "BlzFrameSetLevel [1.31]"
+description = "call BlzFrameSetLevel(${frame},${level})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = integer
+
+[BlzFrameSetParent]
+title = "BlzFrameSetParent [1.31]"
+description = "call BlzFrameSetParent(${frame},${parent})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = framehandle
+
+[BlzFrameSetFont]
+title = "BlzFrameSetFont [1.31]"
+description = "call BlzFrameSetFont(${frame},${fileName},${height},${flags})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = string
+[[.args]]
+type = real
+[[.args]]
+type = integer
+
+[BlzFrameSetTextAlignment]
+title = "BlzFrameSetTextAlignment [1.31]"
+description = "call BlzFrameSetTextAlignment(${frame},${vert},${horz})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = textaligntype
+[[.args]]
+type = textaligntype
+
+[BlzEnableCursor]
+title = "BlzEnableCursor [1.31]"
+description = "call BlzEnableCursor(${enable})"
+comment = ""
+category = TC_GAME
+[[.args]]
+type = boolean
+
+[BlzSetMousePos]
+title = "BlzSetMousePos [1.31]"
+description = "call BlzSetMousePos(${x},${y})"
+comment = ""
+category = TC_GAME
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+
+[BlzSetSpecialEffectMatrixScale]
+title = "BlzSetSpecialEffectMatrixScale [1.31]"
+description = "call BlzSetSpecialEffectMatrixScale(${effect},${x},${y},${z})"
+comment = ""
+category = TC_SPECIALEFFECT
+[[.args]]
+type = effect
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[BlzResetSpecialEffectMatrix]
+title = "BlzResetSpecialEffectMatrix [1.31]"
+description = "call BlzResetSpecialEffectMatrix(${effect})"
+comment = ""
+category = TC_SPECIALEFFECT
+[[.args]]
+type = effect
+
+[BlzDisplayChatMessage]
+title = "BlzDisplayChatMessage [1.31]"
+description = "call BlzDisplayChatMessage(${player},${recipient},${message})"
+comment = ""
+category = TC_GAME
+[[.args]]
+type = player
+[[.args]]
+type = ChatRecipient
+[[.args]]
+type = string
+
+[BlzPauseUnitEx]
+title = "BlzPauseUnitEx [1.31]"
+description = "call BlzPauseUnitEx(${unit},${flag})"
+comment = ""
+category = TC_UNIT
+[[.args]]
+type = unit
+[[.args]]
+type = boolean
+
+[BlzGroupAddGroupFast]
+title = "BlzGroupAddGroupFast [1.31]"
+description = "call BlzGroupAddGroupFast(${whichGroup},${addGroup})"
+comment = ""
+category = TC_UNITGROUP
+[[.args]]
+type = group
+[[.args]]
+type = group
+
+[BlzGroupRemoveGroupFast]
+title = "BlzGroupRemoveGroupFast [1.31]"
+description = "call BlzGroupRemoveGroupFast(${whichGroup},${removeGroup})"
+comment = ""
+category = TC_UNITGROUP
+[[.args]]
+type = group
+[[.args]]
+type = group
+
+[SaveFrameHandle]
+title = "SaveFrameHandle [1.31]"
+description = "call SaveFrameHandle(${table},${parentKey},${childKey},${whichFrameHandle})"
+comment = ""
+category = TC_HASHTABLE
+[[.args]]
+type = hashtable
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+[[.args]]
+type = framehandle
+
+[BlzSetEventAttackType]
+title = "BlzSetEventAttackType [1.31]"
+description = "call BlzSetEventAttackType(${attackType})"
+comment = ""
+category = TC_DAMAGEENGINE
+[[.args]]
+type = attacktype
+
+[BlzSetEventDamageType]
+title = "BlzSetEventDamageType [1.31]"
+description = "call BlzSetEventDamageType(${damageType})"
+comment = ""
+category = TC_DAMAGEENGINE
+[[.args]]
+type = damagetype
+
+[BlzSetEventWeaponType]
+title = "BlzSetEventWeaponType [1.31]"
+description = "call BlzSetEventWeaponType(${weaponType})"
+comment = ""
+category = TC_DAMAGEENGINE
+[[.args]]
+type = weapontype
+
+[RequestExtraIntegerData]
+title = "RequestExtraIntegerData [1.31]"
+description = "call RequestExtraIntegerData(${dataType},${whichPlayer},${param1},${param2},${param3},${param4},${param5},${param6})"
+comment = ""
+category = TC_UNKNOWN
+[[.args]]
+type = integer
+[[.args]]
+type = player
+[[.args]]
+type = string
+[[.args]]
+type = string
+[[.args]]
+type = boolean
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+
+[RequestExtraBooleanData]
+title = "RequestExtraBooleanData [1.31]"
+description = "call RequestExtraBooleanData(${dataType},${whichPlayer},${param1},${param2},${param3},${param4},${param5},${param6})"
+comment = ""
+category = TC_UNKNOWN
+[[.args]]
+type = integer
+[[.args]]
+type = player
+[[.args]]
+type = string
+[[.args]]
+type = string
+[[.args]]
+type = boolean
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+
+[RequestExtraStringData]
+title = "RequestExtraStringData [1.31]"
+description = "call RequestExtraStringData(${dataType},${whichPlayer},${param1},${param2},${param3},${param4},${param5},${param6})"
+comment = ""
+category = TC_UNKNOWN
+[[.args]]
+type = integer
+[[.args]]
+type = player
+[[.args]]
+type = string
+[[.args]]
+type = string
+[[.args]]
+type = boolean
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+
+[RequestExtraRealData]
+title = "RequestExtraRealData [1.31]"
+description = "call RequestExtraRealData(${dataType},${whichPlayer},${param1},${param2},${param3},${param4},${param5},${param6})"
+comment = ""
+category = TC_UNKNOWN
+[[.args]]
+type = integer
+[[.args]]
+type = player
+[[.args]]
+type = string
+[[.args]]
+type = string
+[[.args]]
+type = boolean
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+
+[BlzConvertColor]
+title = "BlzConvertColor [1.31]"
+description = "call BlzConvertColor(${a},${r},${g},${b})"
+comment = ""
+category = TC_GAME
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+
+[BlzLoadTOCFile]
+title = "BlzLoadTOCFile [1.31]"
+description = "call BlzLoadTOCFile(${TOCFile})"
+comment = ""
+category = TC_GAME
+[[.args]]
+type = string
+
+[BlzCreateFrame]
+title = "BlzCreateFrame [1.31]"
+description = "call BlzCreateFrame(${name},${owner},${priority},${createContext})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = string
+[[.args]]
+type = framehandle
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+
+[BlzCreateSimpleFrame]
+title = "BlzCreateSimpleFrame [1.31]"
+description = "call BlzCreateSimpleFrame(${name},${owner},${createContext})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = string
+[[.args]]
+type = framehandle
+[[.args]]
+type = integer
+
+[BlzCreateFrameByType]
+title = "BlzCreateFrameByType [1.31]"
+description = "call BlzCreateFrameByType(${typeName},${name},${owner},${inherits},${createContext})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = string
+[[.args]]
+type = string
+[[.args]]
+type = framehandle
+[[.args]]
+type = string
+[[.args]]
+type = integer
+
+[BlzSendSyncData]
+title = "BlzSendSyncData [1.31]"
+description = "call BlzSendSyncData(${prefix},${data})"
+comment = ""
+category = TC_GAME
+[[.args]]
+type = string
+[[.args]]
+type = string
+
+[BlzChangeMinimapTerrainTex]
+title = "BlzChangeMinimapTerrainTex [1.31]"
+description = "call BlzChangeMinimapTerrainTex(${texFile})"
+comment = ""
+category = TC_GAME
+[[.args]]
+type = string
+
+[BlzBitOr]
+title = "Bit Or [1.31]"
+description = "${Value1} Or ${Value2}"
+comment = ""
+category = TC_MATH
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+
+[BlzBitAnd]
+title = "Bit And [1.31]"
+description = "${Value1} And ${Value2}"
+comment = ""
+category = TC_MATH
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+
+[BlzBitXor]
+title = "Bit Xor [1.31]"
+description = "${Value1} Xor ${Value2}"
+comment = ""
+category = TC_MATH
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+
+[BlzSetAbilityBooleanField]
+title = "Set Ability Boolean Field [1.31]"
+description = "Set Ability: ${Ability}'s Boolean Field: ${BooleanField} to ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = ability
+[[.args]]
+type = abilitybooleanfield
+[[.args]]
+type = boolean
+
+[BlzSetAbilityIntegerField]
+title = "Set Ability Integer Field [1.31]"
+description = "Set Ability: ${Ability}'s Integer Field: ${IntegerField} to ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = ability
+[[.args]]
+type = abilityintegerfield
+[[.args]]
+type = integer
+
+[BlzSetAbilityRealField]
+title = "Set Ability Real Field [1.31]"
+description = "Set Ability: ${Ability}'s Real Field: ${RealField} to ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = ability
+[[.args]]
+type = abilityrealfield
+[[.args]]
+type = real
+
+[BlzSetAbilityStringField]
+title = "Set Ability String Field [1.31]"
+description = "Set Ability: ${Ability}'s String Field: ${StringField} to ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = ability
+[[.args]]
+type = abilitystringfield
+[[.args]]
+type = string
+
+[BlzSetAbilityBooleanLevelField]
+title = "Set Ability Boolean Level Field [1.31]"
+description = "Set Ability: ${Ability}'s Boolean Level Field: ${BooleanLevelField} of Level: ${Level} to ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = ability
+[[.args]]
+type = abilitybooleanlevelfield
+[[.args]]
+type = integer
+[[.args]]
+type = boolean
+
+[BlzSetAbilityIntegerLevelField]
+title = "Set Ability Integer Level Field [1.31]"
+description = "Set Ability: ${Ability}'s Integer Level Field: ${IntegerLevelField} of Level: ${Level} to ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = ability
+[[.args]]
+type = abilityintegerlevelfield
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+
+[BlzSetAbilityRealLevelField]
+title = "Set Ability Real Level Field [1.31]"
+description = "Set Ability: ${Ability}'s Real Level Field: ${RealLevelField} of Level: ${Level} to ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = ability
+[[.args]]
+type = abilityreallevelfield
+[[.args]]
+type = integer
+[[.args]]
+type = real
+
+[BlzSetAbilityStringLevelField]
+title = "Set Ability String Level Field [1.31]"
+description = "Set Ability: ${Ability}'s String Level Field: ${StringLevelField} of Level: ${Level} to ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = ability
+[[.args]]
+type = abilitystringlevelfield
+[[.args]]
+type = integer
+[[.args]]
+type = string
+
+[BlzSetAbilityBooleanLevelArrayField]
+title = "Set Ability Boolean Level Array Field [1.31]"
+description = "Set Ability: ${Ability}'s Boolean Level Array Field: ${BooleanLevelArrayField} of Level: ${Level} and Index: ${Index} to ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = ability
+[[.args]]
+type = abilitybooleanlevelarrayfield
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+[[.args]]
+type = boolean
+
+[BlzSetAbilityIntegerLevelArrayField]
+title = "Set Ability Integer Level Array Field [1.31]"
+description = "Set Ability: ${Ability}'s Integer Level Array Field: ${IntegerLevelArrayField} of Level: ${Level} and Index: ${Index} to ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = ability
+[[.args]]
+type = abilityintegerlevelarrayfield
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+
+[BlzSetAbilityRealLevelArrayField]
+title = "Set Ability Real Level Array Field [1.31]"
+description = "Set Ability: ${Ability}'s Real Level Array Field: ${RealLevelArrayField} of Level: ${Level} and Index: ${Index} to ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = ability
+[[.args]]
+type = abilityreallevelarrayfield
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+[[.args]]
+type = real
+
+[BlzSetAbilityStringLevelArrayField]
+title = "Set Ability String Level Array Field [1.31]"
+description = "Set Ability: ${Ability}'s String Level Array Field: ${StringLevelArrayField} of Level: ${Level} and Index: ${Index} to ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = ability
+[[.args]]
+type = abilitystringlevelarrayfield
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+[[.args]]
+type = string
+
+[BlzAddAbilityBooleanLevelArrayField]
+title = "Ability Boolean Level Array Field - Add Element [1.31]"
+description = "For Ability: ${Ability}'s Boolean Level Array Field: ${BooleanLevelArrayField} of Level: ${Level}, Add Value: ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = ability
+[[.args]]
+type = abilitybooleanlevelarrayfield
+[[.args]]
+type = integer
+[[.args]]
+type = boolean
+
+[BlzAddAbilityIntegerLevelArrayField]
+title = "Ability Integer Level Array Field - Add Element [1.31]"
+description = "For Ability: ${Ability}'s Integer Level Array Field: ${IntegerLevelArrayField} of Level: ${Level}, Add Value: ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = ability
+[[.args]]
+type = abilityintegerlevelarrayfield
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+
+[BlzAddAbilityRealLevelArrayField]
+title = "Ability Real Level Array Field - Add Element [1.31]"
+description = "For Ability: ${Ability}'s Real Level Array Field: ${RealLevelArrayField} of Level: ${Level}, Add Value: ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = ability
+[[.args]]
+type = abilityreallevelarrayfield
+[[.args]]
+type = integer
+[[.args]]
+type = real
+
+[BlzAddAbilityStringLevelArrayField]
+title = "Ability String Level Array Field - Add Element [1.31]"
+description = "For Ability: ${Ability}'s String Level Array Field: ${StringLevelArrayField} of Level: ${Level}, Add Value: ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = ability
+[[.args]]
+type = abilitystringlevelarrayfield
+[[.args]]
+type = integer
+[[.args]]
+type = string
+
+[BlzRemoveAbilityBooleanLevelArrayField]
+title = "Ability Boolean Level Array Field - Remove Element [1.31]"
+description = "For Ability: ${Ability}'s Boolean Level Array Field: ${BooleanLevelArrayField} of Level: ${Level}, Remove Value: ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = ability
+[[.args]]
+type = abilitybooleanlevelarrayfield
+[[.args]]
+type = integer
+[[.args]]
+type = boolean
+
+[BlzRemoveAbilityIntegerLevelArrayField]
+title = "Ability Integer Level Array Field - Remove Element [1.31]"
+description = "For Ability: ${Ability}'s Integer Level Array Field: ${IntegerLevelArrayField} of Level: ${Level}, Remove Value: ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = ability
+[[.args]]
+type = abilityintegerlevelarrayfield
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+
+[BlzRemoveAbilityRealLevelArrayField]
+title = "Ability Real Level Array Field - Remove Element [1.31]"
+description = "For Ability: ${Ability}'s Real Level Array Field: ${RealLevelArrayField} of Level: ${Level}, Remove Value: ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = ability
+[[.args]]
+type = abilityreallevelarrayfield
+[[.args]]
+type = integer
+[[.args]]
+type = real
+
+[BlzRemoveAbilityStringLevelArrayField]
+title = "Ability String Level Array Field - Remove Element [1.31]"
+description = "For Ability: ${Ability}'s String Level Array Field: ${StringLevelArrayField} of Level: ${Level}, Remove Value: ${Value}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = ability
+[[.args]]
+type = abilitystringlevelarrayfield
+[[.args]]
+type = integer
+[[.args]]
+type = string
+
+[BlzItemAddAbility]
+title = "Item Add Ability [1.31]"
+description = "For Item: ${Item}, Add Ability: ${AbilityCode}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = item
+[[.args]]
+type = abilcode
+
+[BlzSetItemBooleanField]
+title = "Set Item Boolean Field [1.31]"
+description = "Set Item: ${Item}'s Boolean Field: ${BooleanField} to Value: ${Value}"
+comment = ""
+category = TC_ITEM
+[[.args]]
+type = item
+[[.args]]
+type = itembooleanfield
+[[.args]]
+type = boolean
+
+[BlzSetItemIntegerField]
+title = "Set Item Integer Field [1.31]"
+description = "Set Item: ${Item}'s Integer Field: ${IntegerField} to Value: ${Value}"
+comment = ""
+category = TC_ITEM
+[[.args]]
+type = item
+[[.args]]
+type = itemintegerfield
+[[.args]]
+type = integer
+
+[BlzSetItemRealField]
+title = "Set Item Real Field [1.31]"
+description = "Set Item: ${Item}'s Real Field: ${RealField} to Value: ${Value}"
+comment = ""
+category = TC_ITEM
+[[.args]]
+type = item
+[[.args]]
+type = itemrealfield
+[[.args]]
+type = real
+
+[BlzSetItemStringField]
+title = "Set Item String Field [1.31]"
+description = "Set Item: ${Item}'s String Field: ${StringField} to Value: ${Value}"
+comment = ""
+category = TC_ITEM
+[[.args]]
+type = item
+[[.args]]
+type = itemstringfield
+[[.args]]
+type = string
+
+[BlzItemRemoveAbility]
+title = "Item Remove Ability [1.31]"
+description = "For Item: ${Item}, Remove Ability: ${AbilityCode}"
+comment = ""
+category = TC_ABILITY
+[[.args]]
+type = item
+[[.args]]
+type = abilcode
+
+[BlzSetUnitBooleanField]
+title = "Set Unit Boolean Field [1.31]"
+description = "Set Unit: ${Unit}'s Boolean Field: ${BooleanField} to Value: ${Value}"
+comment = ""
+category = TC_UNIT
+[[.args]]
+type = unit
+[[.args]]
+type = unitbooleanfield
+[[.args]]
+type = boolean
+
+[BlzSetUnitIntegerField]
+title = "Set Unit Integer Field [1.31]"
+description = "Set Unit: ${Unit}'s Integer Field: ${IntegerField} to Value: ${Value}"
+comment = ""
+category = TC_UNIT
+[[.args]]
+type = unit
+[[.args]]
+type = unitintegerfield
+[[.args]]
+type = integer
+
+[BlzSetUnitRealField]
+title = "Set Unit Real Field [1.31]"
+description = "Set Unit: ${Unit}'s Real Field: ${RealField} to Value: ${Value}"
+comment = ""
+category = TC_UNIT
+[[.args]]
+type = unit
+[[.args]]
+type = unitrealfield
+[[.args]]
+type = real
+
+[BlzSetUnitStringField]
+title = "Set Unit String Field [1.31]"
+description = "Set Unit: ${Unit}'s String Field: ${StringField} to Value: ${Value}"
+comment = ""
+category = TC_UNIT
+[[.args]]
+type = unit
+[[.args]]
+type = unitstringfield
+[[.args]]
+type = string
+
+[BlzSetUnitWeaponBooleanField]
+title = "Set Unit Weapon Boolean Field [1.31]"
+description = "Set Unit: ${Unit}'s Weapon Boolean Field: ${BooleanField} at Index:${Index} to Value: ${Value}"
+comment = ""
+category = TC_UNIT
+[[.args]]
+type = unit
+[[.args]]
+type = unitweaponbooleanfield
+[[.args]]
+type = integer
+min = 0
+max = 1
+[[.args]]
+type = boolean
+
+[BlzSetUnitWeaponIntegerField]
+title = "Set Unit Weapon Integer Field [1.31]"
+description = "Set Unit: ${Unit}'s Weapon Integer Field: ${IntegerField} at Index:${Index} to Value: ${Value}"
+comment = ""
+category = TC_UNIT
+[[.args]]
+type = unit
+[[.args]]
+type = unitweaponintegerfield
+[[.args]]
+type = integer
+min = 0
+max = 1
+[[.args]]
+type = integer
+
+[BlzSetUnitWeaponRealField]
+title = "Set Unit Weapon Real Field [1.31]"
+description = "Set Unit: ${Unit}'s Weapon Real Field: ${RealField} at Index:${Index} to Value: ${Value}"
+comment = ""
+category = TC_UNIT
+[[.args]]
+type = unit
+[[.args]]
+type = unitweaponrealfield
+[[.args]]
+type = integer
+min = 0
+max = 1
+[[.args]]
+type = real
+
+[BlzSetUnitWeaponStringField]
+title = "Set Unit Weapon String Field [1.31]"
+description = "Set Unit: ${Unit}'s Weapon String Field: ${StringField} at Index:${Index} to Value: ${Value}"
+comment = ""
+category = TC_UNIT
+[[.args]]
+type = unit
+[[.args]]
+type = unitweaponstringfield
+[[.args]]
+type = integer
+min = 0
+max = 1
+[[.args]]
+type = string

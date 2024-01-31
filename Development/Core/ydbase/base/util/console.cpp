@@ -4,6 +4,8 @@
 #include <queue>
 #include <mutex>
 #include <bee/utility/lockqueue.h>
+#include <iostream>
+#include <string>
 
 namespace base { namespace console {
 
@@ -14,6 +16,22 @@ namespace base { namespace console {
 		if (h)
 		{
 			::ShowWindow(h, SW_SHOW);
+
+			// ºÚµ•≤‚ ‘ std::cout
+			CONSOLE_SCREEN_BUFFER_INFO csbi;
+			if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi)) {
+				std::cout << " " << std::flush;
+				if (std::cout.fail()) {
+					FILE* new_file;
+					freopen_s(&new_file, "CONIN$", "r", stdin);
+					freopen_s(&new_file, "CONOUT$", "w", stdout);
+					freopen_s(&new_file, "CONOUT$", "w", stderr);
+					std::cout.clear();
+				}
+				else {
+					SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), csbi.dwCursorPosition);
+				}
+			}
 		}
 		else
 		{

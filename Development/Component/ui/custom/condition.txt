@@ -1,0 +1,29 @@
+[OperatorCompareMouseButton]
+title = "Mouse Button Type Comparison [1.31]"
+description = "${buttonA} ${Operator} ${buttonB}"
+comment = ""
+category = TC_CONDITION
+[[.args]]
+type = mousebuttontype
+default = "BlzGetTriggerPlayerMouseButton"
+[[.args]]
+type = EqualNotEqualOperator
+default = "OperatorEqualENE"
+[[.args]]
+type = mousebuttontype
+default = "mousebuttontype0"
+
+[OperatorCompareMetaKey]
+title = "Meta Key Comparison [1.31]"
+description = "${MetaKeyA} ${Operator} ${MetaKeyB}"
+comment = ""
+category = TC_CONDITION
+[[.args]]
+type = metakey
+default = "BlzGetTriggerPlayerMetaKey"
+[[.args]]
+type = EqualNotEqualOperator
+default = "OperatorEqualENE"
+[[.args]]
+type = metakey
+default = "metakey0"

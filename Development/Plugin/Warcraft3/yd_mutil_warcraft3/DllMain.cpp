@@ -2,7 +2,7 @@
 
 void InitializeMutilWar3();
 
-void Initialize()
+extern "C" void Initialize()
 {
 	InitializeMutilWar3();
 }

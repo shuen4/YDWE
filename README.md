@@ -26,6 +26,6 @@ YDWE是一个用于制作《魔兽争霸III》(英文名 Warcraft3，下面简�
 * [wave](https://github.com/boostorg/wave)
 * [cjass](https://code.google.com/archive/p/cjass/)
 * [pjass](http://jass.sourceforge.net/)
-* [jasshelper](http://www.wc3c.net/showthread.php?t=88142)
+* [jasshelper](http://www.wc3c.net/showthread.php?t=88142) ([fork](https://github.com/shuen4/jasshelper))
 * [tesh](https://www.hiveworkshop.com/threads/tesh-source.211434/)
 

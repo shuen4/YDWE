@@ -37,13 +37,13 @@ void patch_all(const char(&from)[n], const char(&to)[n])
 }
 
 static int remove_sizelimit(lua_State* L) {
-	if (warcraft3::get_war3_searcher().get_version() >= warcraft3::version_127a)
+	if (warcraft3::get_war3_searcher().get_version() >= warcraft3::version_127b)
 	{
 		return 0;
 	}
 	else if (warcraft3::get_war3_searcher().get_version() >= warcraft3::version_124b)
 	{
-		patch_all("\x3D\x00\x00\x80\x00", "\x3D\xFF\xFF\xFF\xFF");
+		patch_all("\x3D\x00\x00\x80\x00\x0F\x87", "\x3D\xFF\xFF\xFF\xFF\x0F\x87");
 	}
 	else
 	{

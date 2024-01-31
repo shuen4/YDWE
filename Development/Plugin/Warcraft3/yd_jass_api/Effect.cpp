@@ -2,6 +2,8 @@
 #include <warcraft3/jass/hook.h>
 #include <warcraft3/war3_searcher.h>
 #include <base/hook/fp_call.h>
+#include <base/util/memory.h>
+#include <string>
 
 #define M_PI       3.14159265358979323846   // pi
 
@@ -62,6 +64,94 @@ private:
 
 namespace warcraft3::japi {
 
+	uintptr_t searchSmartPosSetLocation() {
+		uintptr_t ptr;
+
+		//=========================================
+		// (1)
+		//
+		// push		"()V"
+		// mov		edx, "SetUnitX"
+		// mov		ecx, [SetUnitX函数的地址]  <----
+		// call		BindNative
+		//=========================================
+		ptr = get_war3_searcher().search_string("SetUnitX");
+		ptr = *(uintptr_t*)(ptr + 0x05);
+
+		//=========================================
+		// (2)
+		//  SetUnitX:
+		//    ...
+		//    call		ConvertHandle
+		//    ...
+		//    call		GetSmartPosition (vfn)
+		//    ...
+		//    call      SmartPosition::GetLocation
+		//    ...
+		//    call		GetSmartPosition (vfn)
+		//    ...
+		//    call		SmartPosition::SetLocation <----
+		//    
+		//=========================================
+		ptr = next_opcode(ptr, 0xE8, 5);
+		ptr += 5;
+		ptr = next_opcode(ptr, 0xFF, 2);
+		ptr += 2;
+		ptr = next_opcode(ptr, 0xE8, 5);
+		ptr += 5;
+		ptr = next_opcode(ptr, 0xFF, 2);
+		ptr += 2;
+		ptr = next_opcode(ptr, 0xE8, 5);
+		ptr = convert_function(ptr);
+
+		return ptr;
+	}
+
+	uintptr_t searchSetSpriteTeamColor() {
+		uintptr_t ptr;
+
+		//=========================================
+		// (1)
+		//
+		// push		"()V"
+		// mov		edx, "SetUnitColor"
+		// mov		ecx, [SetUnitColor函数的地址]  <----
+		// call		BindNative
+		//=========================================
+		ptr = get_war3_searcher().search_string("SetUnitColor");
+		ptr = *(uintptr_t*)(ptr + 0x05);
+
+		//=========================================
+		// (2)
+		//  SetUnitColor:
+		//    ...
+		//    call		ConvertHandle
+		//    ...
+		//    call		GetCPreselectUI (vfn)
+		//    ...
+		//    call		SetUnitTeamColor           <----
+		//    
+		//=========================================
+		ptr = next_opcode(ptr, 0xE8, 5);
+		ptr += 5;
+		ptr = next_opcode(ptr, 0xFF, 2);
+		ptr += 2;
+		ptr = next_opcode(ptr, 0xE8, 5);
+		ptr = convert_function(ptr);
+
+		//=========================================
+		// (3)
+		//  SetUnitTeamColor:
+		//    ...
+		//    call		SetSpriteTeamColor         <----
+		//    
+		//=========================================
+		ptr = next_opcode(ptr, 0xE8, 5);
+		ptr = convert_function(ptr);
+
+		return ptr;
+	}
+
 	jass::jnothing_t __cdecl EXSetEffectXY(jass::jhandle_t effect, jass::jreal_t* px, jass::jreal_t* py)
 	{
 		uintptr_t obj = handle_to_object(effect);
@@ -71,7 +161,7 @@ namespace warcraft3::japi {
 		*(float*)(*(uintptr_t*)(obj + 0x28) + 0xC0) = jass::from_real(*px);
 		*(float*)(*(uintptr_t*)(obj + 0x28) + 0xC4) = jass::from_real(*py);
 	}
-	
+
 	jass::jnothing_t __cdecl EXSetEffectZ(jass::jhandle_t effect, jass::jreal_t* pz)
 	{
 		uintptr_t obj = handle_to_object(effect);
@@ -79,7 +169,7 @@ namespace warcraft3::japi {
 			return;
 		}
 		*(float*)(*(uintptr_t*)(obj + 0x28) + 0xC8) = jass::from_real(*pz);
-	
+
 	}
 
 	jass::jreal_t __cdecl EXGetEffectX(jass::jhandle_t effect)
@@ -215,23 +305,186 @@ namespace warcraft3::japi {
 			return;
 		}
 		uintptr_t eff = *(uintptr_t*)(obj + 0x28);
-        base::this_call<void>(*(uintptr_t*)(*(uintptr_t*)eff+0x28), eff, jass::from_real(*pspeed));
+		base::this_call<void>(*(uintptr_t*)(*(uintptr_t*)eff + 0x28), eff, jass::from_real(*pspeed));
+	}
+
+	void UpdateSpriteColor(uint32_t pSprite) {
+		WriteMemory(pSprite + 0x13C, 0);
+		WriteMemory(pSprite + 0x140, 0);
+		uint32_t flag = ReadMemory(pSprite + 0x138);
+		if (!(flag & 0b100000000000))
+			WriteMemory(pSprite + 0x138, flag | 0b100000000000);
+	}
+
+	jass::jnothing_t __cdecl EXSetEffectColorRed(jass::jhandle_t effect, jass::jinteger_t red) {
+		uintptr_t obj = handle_to_object(effect);
+		if (!obj)
+			return;
+		uint32_t pSprite = *(uint32_t*)(obj + 0x28);
+		if (!pSprite)
+			return;
+
+		WriteMemory<uint8_t>(pSprite + 0x14A, red & 0xFF);
+		UpdateSpriteColor(pSprite);
+	}
+
+	jass::jnothing_t __cdecl EXSetEffectColorGreen(jass::jhandle_t effect, jass::jinteger_t green) {
+		uintptr_t obj = handle_to_object(effect);
+		if (!obj)
+			return;
+		uint32_t pSprite = *(uint32_t*)(obj + 0x28);
+		if (!pSprite)
+			return;
+
+		WriteMemory<uint8_t>(pSprite + 0x149, green & 0xFF);
+		UpdateSpriteColor(pSprite);
+	}
+
+	jass::jnothing_t __cdecl EXSetEffectColorBlue(jass::jhandle_t effect, jass::jinteger_t blue) {
+		uintptr_t obj = handle_to_object(effect);
+		if (!obj)
+			return;
+		uint32_t pSprite = *(uint32_t*)(obj + 0x28);
+		if (!pSprite)
+			return;
+
+		WriteMemory<uint8_t>(pSprite + 0x148, blue & 0xFF);
+		UpdateSpriteColor(pSprite);
+	}
+
+	jass::jnothing_t __cdecl EXSetEffectColor(jass::jhandle_t effect, jass::jinteger_t rgb) {
+		uintptr_t obj = handle_to_object(effect);
+		if (!obj)
+			return;
+		uint32_t pSprite = *(uint32_t*)(obj + 0x28);
+		if (!pSprite)
+			return;
+
+		WriteMemory(pSprite + 0x148, (ReadMemory(pSprite + 0x148) & 0xFF000000) | (rgb & 0xFFFFFF));
+		UpdateSpriteColor(pSprite);
+	}
+
+	jass::jnothing_t __cdecl EXSetEffectAlpha(jass::jhandle_t effect, jass::jinteger_t alpha) {
+		uintptr_t obj = handle_to_object(effect);
+		if (!obj)
+			return;
+		uint32_t pSprite = *(uint32_t*)(obj + 0x28);
+		if (!pSprite)
+			return;
+
+		base::this_call<void>(*(uint32_t*)(*(uint32_t*)pSprite + 0x34), pSprite, alpha & 0xFF);
+	}
+
+	jass::jinteger_t __cdecl EXGetEffectColorRed(jass::jhandle_t effect) {
+		uintptr_t obj = handle_to_object(effect);
+		if (!obj)
+			return 0;
+		uint32_t pSprite = *(uint32_t*)(obj + 0x28);
+		if (!pSprite)
+			return 0;
+
+		return ReadMemory<uint8_t>(pSprite + 0x14A);
+	}
+
+	jass::jinteger_t __cdecl EXGetEffectColorGreen(jass::jhandle_t effect) {
+		uintptr_t obj = handle_to_object(effect);
+		if (!obj)
+			return 0;
+		uint32_t pSprite = *(uint32_t*)(obj + 0x28);
+		if (!pSprite)
+			return 0;
+
+		return ReadMemory<uint8_t>(pSprite + 0x149);
+	}
+
+	jass::jinteger_t __cdecl EXGetEffectColorBlue(jass::jhandle_t effect) {
+		uintptr_t obj = handle_to_object(effect);
+		if (!obj)
+			return 0;
+		uint32_t pSprite = *(uint32_t*)(obj + 0x28);
+		if (!pSprite)
+			return 0;
+
+		return ReadMemory<uint8_t>(pSprite + 0x148);
+	}
+
+	jass::jinteger_t __cdecl EXGetEffectColor(jass::jhandle_t effect) {
+		uintptr_t obj = handle_to_object(effect);
+		if (!obj)
+			return 0;
+		uint32_t pSprite = *(uint32_t*)(obj + 0x28);
+		if (!pSprite)
+			return 0;
+
+		return (ReadMemory<uint32_t>(pSprite + 0x148) & 0xFFFFFF);
+	}
+
+	jass::jinteger_t __cdecl EXGetEffectAlpha(jass::jhandle_t effect) {
+		uintptr_t obj = handle_to_object(effect);
+		if (!obj)
+			return 0;
+		uint32_t pSprite = *(uint32_t*)(obj + 0x28);
+		if (!pSprite)
+			return 0;
+
+		return ReadMemory<uint8_t>(pSprite + 0x1B0);
+	}
+
+	jass::jnothing_t __cdecl EXSetEffectTeamColor(jass::jhandle_t effect, jass::jinteger_t/* 实际上并不是 handle */ playercolor) {
+		static uint32_t SetSpriteTeamColor = searchSetSpriteTeamColor();
+		uintptr_t obj = handle_to_object(effect);
+		if (!obj)
+			return;
+
+		uint32_t pSprite = *(uint32_t*)(obj + 0x28);
+		uint32_t pPreselectionUI = *(uint32_t*)(obj + 0x58);
+		base::fast_call<void>(SetSpriteTeamColor, pSprite, pPreselectionUI, playercolor);
+	}
+
+	jass::jnothing_t __cdecl EXUpdateEffectSmartPosition(jass::jhandle_t effect) {
+		static uint32_t SmartPos_SetLocation = searchSmartPosSetLocation();
+
+		uintptr_t obj = handle_to_object(effect);
+		if (!obj)
+			return;
+		struct {
+			float x, y, z;
+		} vec3;
+		vec3.x = *(float*)(*(uintptr_t*)(obj + 0x28) + 0xC0);
+		vec3.y = *(float*)(*(uintptr_t*)(obj + 0x28) + 0xC4);
+		vec3.z = *(float*)(*(uintptr_t*)(obj + 0x28) + 0xC8);
+
+		uint32_t pSmartPos = base::this_call<uint32_t>(*(uint32_t*)((*(uint32_t*)obj) + 0xB0), obj);
+		if (pSmartPos)
+			base::this_call<void>(SmartPos_SetLocation, pSmartPos, &vec3);
 	}
 
 	void InitializeEffect()
 	{
-		jass::japi_add((uintptr_t)EXSetEffectXY,      "EXSetEffectXY",      "(Heffect;RR)V");
-		jass::japi_add((uintptr_t)EXSetEffectZ,       "EXSetEffectZ",       "(Heffect;R)V");
-		jass::japi_add((uintptr_t)EXGetEffectX,       "EXGetEffectX",       "(Heffect;)R");
-		jass::japi_add((uintptr_t)EXGetEffectY,       "EXGetEffectY",       "(Heffect;)R");
-		jass::japi_add((uintptr_t)EXGetEffectZ,       "EXGetEffectZ",       "(Heffect;)R");
-		jass::japi_add((uintptr_t)EXSetEffectSize,    "EXSetEffectSize",    "(Heffect;R)V");
-		jass::japi_add((uintptr_t)EXGetEffectSize,    "EXGetEffectSize",    "(Heffect;)R");
-		jass::japi_add((uintptr_t)EXEffectMatRotateX, "EXEffectMatRotateX", "(Heffect;R)V");
-		jass::japi_add((uintptr_t)EXEffectMatRotateY, "EXEffectMatRotateY", "(Heffect;R)V");
-		jass::japi_add((uintptr_t)EXEffectMatRotateZ, "EXEffectMatRotateZ", "(Heffect;R)V");
-		jass::japi_add((uintptr_t)EXEffectMatScale,   "EXEffectMatScale",   "(Heffect;RRR)V");
-		jass::japi_add((uintptr_t)EXEffectMatReset,   "EXEffectMatReset",   "(Heffect;)V");
-		jass::japi_add((uintptr_t)EXSetEffectSpeed,   "EXSetEffectSpeed",   "(Heffect;R)V");
+		jass::japi_add((uintptr_t)EXSetEffectXY,					"EXSetEffectXY",				"(Heffect;RR)V");
+		jass::japi_add((uintptr_t)EXSetEffectZ,						"EXSetEffectZ",					"(Heffect;R)V");
+		jass::japi_add((uintptr_t)EXGetEffectX,						"EXGetEffectX",					"(Heffect;)R");
+		jass::japi_add((uintptr_t)EXGetEffectY,						"EXGetEffectY",					"(Heffect;)R");
+		jass::japi_add((uintptr_t)EXGetEffectZ,						"EXGetEffectZ",					"(Heffect;)R");
+		jass::japi_add((uintptr_t)EXSetEffectSize,					"EXSetEffectSize",				"(Heffect;R)V");
+		jass::japi_add((uintptr_t)EXGetEffectSize,					"EXGetEffectSize",				"(Heffect;)R");
+		jass::japi_add((uintptr_t)EXEffectMatRotateX,				"EXEffectMatRotateX",			"(Heffect;R)V");
+		jass::japi_add((uintptr_t)EXEffectMatRotateY,				"EXEffectMatRotateY",			"(Heffect;R)V");
+		jass::japi_add((uintptr_t)EXEffectMatRotateZ,				"EXEffectMatRotateZ",			"(Heffect;R)V");
+		jass::japi_add((uintptr_t)EXEffectMatScale,					"EXEffectMatScale",				"(Heffect;RRR)V");
+		jass::japi_add((uintptr_t)EXEffectMatReset,					"EXEffectMatReset",				"(Heffect;)V");
+		jass::japi_add((uintptr_t)EXSetEffectSpeed,					"EXSetEffectSpeed",				"(Heffect;R)V");
+		jass::japi_add((uintptr_t)EXSetEffectColorRed,				"EXSetEffectColorRed",			"(Heffect;I)V");
+		jass::japi_add((uintptr_t)EXSetEffectColorGreen,			"EXSetEffectColorGreen",		"(Heffect;I)V");
+		jass::japi_add((uintptr_t)EXSetEffectColorBlue,				"EXSetEffectColorBlue",			"(Heffect;I)V");
+		jass::japi_add((uintptr_t)EXSetEffectColor,					"EXSetEffectColor",				"(Heffect;I)V");
+		jass::japi_add((uintptr_t)EXSetEffectAlpha,					"EXSetEffectAlpha",				"(Heffect;I)V");
+		jass::japi_add((uintptr_t)EXGetEffectColorRed,				"EXGetEffectColorRed",			"(Heffect;)I");
+		jass::japi_add((uintptr_t)EXGetEffectColorGreen,			"EXGetEffectColorGreen",		"(Heffect;)I");
+		jass::japi_add((uintptr_t)EXGetEffectColorBlue,				"EXGetEffectColorBlue",			"(Heffect;)I");
+		jass::japi_add((uintptr_t)EXGetEffectColor,					"EXGetEffectColor",				"(Heffect;)I");
+		jass::japi_add((uintptr_t)EXGetEffectAlpha,					"EXGetEffectAlpha",				"(Heffect;)I");
+		jass::japi_add((uintptr_t)EXSetEffectTeamColor,				"EXSetEffectTeamColor",			"(Heffect;Hplayercolor;)V");
+		jass::japi_add((uintptr_t)EXUpdateEffectSmartPosition,		"EXUpdateEffectSmartPosition",	"(Heffect;)V");
 	}
 }

@@ -8,7 +8,7 @@ namespace auto_enter {
 
 	void initialize()
 	{
-		std::thread([]()
+		auto _ = std::thread([]()
 		{
 			for (; game_status::enable_auto_enter; std::this_thread::sleep_for(std::chrono::milliseconds(300)))
 			{

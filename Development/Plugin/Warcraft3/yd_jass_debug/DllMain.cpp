@@ -74,6 +74,17 @@ namespace warcraft3::jdebug {
 
 	uintptr_t real_jass_vmmain = 0;
 
+	uintptr_t search_jass_executed_opcode_add() {
+		uintptr_t ptr = search_jass_vmmain();
+		while (*(unsigned char*)(ptr + 1) != 0x8C) {
+			ptr += 6;
+			ptr = next_opcode(ptr, 0x0F, 6);
+		}
+		return ptr;
+	}
+
+	uintptr_t real_jass_executed_opcode_add = 0;
+
 	struct jass::opcode* current_opcode(warcraft3::jass_vm_t* vm)
 	{
 		return vm->opcode - 1;
@@ -92,8 +103,9 @@ namespace warcraft3::jdebug {
 	void show_error(warcraft3::jass_vm_t* vm, const std::string& msg)
 	{
 		base::console::enable();
+		base::console::disable_close_button();
 		std::cout << "---------------------------------------" << std::endl;
-		std::cout << "               Jassï¿½ï¿½ï¿½ï¿½                " << std::endl;
+		std::cout << "               Jass´íÎó                " << std::endl;
 		std::cout << "---------------------------------------" << std::endl;
 		std::cout << msg << std::endl;
 		std::cout << std::endl;
@@ -107,8 +119,9 @@ namespace warcraft3::jdebug {
 
 	uint32_t __fastcall fake_jass_vmmain(warcraft3::jass_vm_t* vm, uint32_t edx, uint32_t opcode, uint32_t unk2, uint32_t limit, uint32_t unk4)
 	{
-		uint32_t result = base::fast_call<uint32_t>(real_jass_vmmain, vm, edx, opcode, unk2, limit, unk4);
 
+		uint32_t result = base::fast_call<uint32_t>(real_jass_vmmain, vm, edx, opcode, unk2, limit, unk4);
+			
 		switch (result)
 		{
 		case 1:
@@ -116,27 +129,27 @@ namespace warcraft3::jdebug {
 		case 4:
 			break;
 		case 2:
-			show_error(vm, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+			show_error(vm, "³¬¹ýÁË×Ö½ÚÂëÏÞÖÆ");
 			break;
 		case 6:
 		{
 			jass::opcode* op = current_opcode(vm);
 			if (op->op == jass::OPTYPE_PUSH)
 			{
-				show_error(vm, fmt::format("Õ» [0x{:02X}] Ã»ï¿½Ð³ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½", op->r3));
+				show_error(vm, fmt::format("Õ» [0x{:02X}] Ã»ÓÐ³õÊ¼»¯¾ÍÊ¹ÓÃ", op->r3));
 			}
 			else
 			{
 				assert(op->op == jass::OPTYPE_MOVRV);
-				show_error(vm, fmt::format("ï¿½ï¿½ï¿½ï¿½ '{}' Ã»ï¿½Ð³ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½", jass::from_stringid(op->arg)));
+				show_error(vm, fmt::format("±äÁ¿ '{}' Ã»ÓÐ³õÊ¼»¯¾ÍÊ¹ÓÃ", jass::from_stringid(op->arg)));
 			}
 			break;
 		}
 		case 7:
-			show_error(vm, "Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½");
+			show_error(vm, "Ê¹ÓÃÁã×÷Îª³ýÊý");
 			break;
 		default:
-			show_error(vm, fmt::format("Î´Öªï¿½ï¿½ï¿½ï¿½ ({}).", result));
+			show_error(vm, fmt::format("Î´Öª´íÎó ({}).", result));
 			break;
 		}
 		return result;
@@ -180,6 +193,27 @@ namespace warcraft3::jdebug {
 		}
 	}
 
+	void EXOpcodeLimit(const char* mode) {
+		bool disable;
+		if (strcmp(mode, "enable") == 0)
+			disable = false;
+		else if (strcmp(mode, "disable") == 0)
+			disable = true;
+		else
+			return;
+		DWORD old;
+		VirtualProtect((LPVOID)real_jass_executed_opcode_add, 2, PAGE_EXECUTE_READWRITE, &old);
+		if (disable) {
+			(*(unsigned char*)(real_jass_executed_opcode_add)) = 0x90;			// NOP
+			(*(unsigned char*)(real_jass_executed_opcode_add + 1)) = 0xE9;		// jmp
+		}
+		else {
+			(*(unsigned char*)(real_jass_executed_opcode_add)) = 0x0F;
+			(*(unsigned char*)(real_jass_executed_opcode_add + 1)) = 0x8C;		// jl
+		}
+		VirtualProtect((LPVOID)real_jass_executed_opcode_add, 2, old, &old);
+	}
+
 	static uintptr_t RealGetLocalizedHotkey = 0;
 	uint32_t __cdecl FakeGetLocalizedHotkey(uint32_t s)
 	{
@@ -194,6 +228,9 @@ namespace warcraft3::jdebug {
 			else if (strncmp(str + 6, "leak:", 5) == 0) {
 				EXDebugLeak(str + 6 + 5);
 			}
+			else if (strncmp(str + 6, "opcodelimit:", 12) == 0) {
+				EXOpcodeLimit(str + 6 + 12);
+			}
 		}
 		return base::c_call<uint32_t>(RealGetLocalizedHotkey, s);
 	}
@@ -203,11 +240,12 @@ namespace warcraft3::jdebug {
 		ht::initialize();
 		warcraft3::jass::async_hook("GetLocalizedHotkey", &RealGetLocalizedHotkey, (uintptr_t)FakeGetLocalizedHotkey);
 		real_jass_vmmain = search_jass_vmmain();
+		real_jass_executed_opcode_add = search_jass_executed_opcode_add();
 		return base::hook::install(&real_jass_vmmain, (uintptr_t)fake_jass_vmmain);
 	}
 }
 
-void Initialize()
+extern "C" void Initialize()
 {
 	warcraft3::jdebug::initialize();
 }

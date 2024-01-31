@@ -6,9 +6,12 @@ namespace warcraft3::japi {
 	void InitializeAbilityState();
 	void InitializeItemState();
 	void InitializeEventDamageData();
-	void InitializeDisplayChat();
+	void InitializeMessage();
 	void InitializeDisableButtonBlp();
 	void InitializeEffect();
+	void InitializeTerrain();
+	void InitializeHashtable();
+	void InitializeBit();
 
 	void initialize()
 	{
@@ -16,8 +19,11 @@ namespace warcraft3::japi {
 		InitializeAbilityState();
 		InitializeItemState();
 		InitializeEventDamageData();
-		InitializeDisplayChat();
+		InitializeMessage();
 		InitializeDisableButtonBlp();
 		InitializeEffect();
+		InitializeTerrain();
+		InitializeHashtable();
+		InitializeBit();
 	}
 }

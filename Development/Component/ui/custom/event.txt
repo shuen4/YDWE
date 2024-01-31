@@ -1,0 +1,58 @@
+[TriggerRegisterPlayerMouseEventBJ]
+title = "Mouse Event [1.31]"
+description = "${player} issues ${button} event"
+comment = ""
+category = TC_PLAYER
+[[.args]]
+type = player
+default = "Player00"
+[[.args]]
+type = mouseeventtype
+default = "mouseeventtype0"
+
+[TriggerRegisterPlayerEvent]
+title = "TriggerRegisterPlayerEvent"
+description = "${player} ${event}"
+comment = ""
+category = TC_PLAYER
+[[.args]]
+type = player
+default = "Player00"
+[[.args]]
+type = playerevent
+
+[BlzTriggerRegisterFrameEvent]
+title = "BlzTriggerRegisterFrameEvent [1.31]"
+description = "call BlzTriggerRegisterFrameEvent(this,${frame},${eventId})"
+comment = ""
+category = TC_FRAME
+[[.args]]
+type = framehandle
+[[.args]]
+type = frameeventtype
+
+[BlzTriggerRegisterPlayerSyncEvent]
+title = "BlzTriggerRegisterPlayerSyncEvent [1.31]"
+description = "call BlzTriggerRegisterPlayerSyncEvent(this,${whichPlayer},${prefix},${fromServer})"
+comment = ""
+category = TC_PLAYER
+[[.args]]
+type = player
+[[.args]]
+type = string
+[[.args]]
+type = boolean
+
+[BlzTriggerRegisterPlayerKeyEvent]
+title = "BlzTriggerRegisterPlayerKeyEvent [1.31]"
+description = "call BlzTriggerRegisterPlayerKeyEvent(this,${whichPlayer},${key},${metaKey},${keyDown})"
+comment = ""
+category = TC_PLAYER
+[[.args]]
+type = player
+[[.args]]
+type = oskeytype
+[[.args]]
+type = metakey
+[[.args]]
+type = boolean

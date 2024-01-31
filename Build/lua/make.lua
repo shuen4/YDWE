@@ -1,5 +1,6 @@
 local configuration = arg[1] or 'Debug'
-local dev = arg[3] ~= nil
+local clean = arg[3] == "true" or false
+local dev = arg[4] ~= nil
 
 if type(arg[2]) == 'string' then
     local out = io.open(arg[2], 'w')
@@ -38,10 +39,14 @@ path.Development = path.Root / 'Development'
 path.Result = path.Development / 'Build' / 'bin' / configuration
 
 -- Step.2 清理
-fs.remove_all(path.Development / 'Build' / 'bin' / configuration)
-fs.remove_all(path.Development / 'Build' / 'obj' / configuration)
-fs.remove_all(path.Development / 'Build' / 'lib' / configuration)
-fs.remove_all(path.Build / 'publish' / configuration)
+if clean then
+	fs.remove_all(path.Development / 'Build' / 'bin' / configuration)
+	fs.remove_all(path.Development / 'Build' / 'obj' / configuration)
+	fs.remove_all(path.Development / 'Build' / 'bin' / configuration .. '-Extra')
+	fs.remove_all(path.Development / 'Build' / 'obj' / configuration .. '-Extra')
+	fs.remove_all(path.Development / 'Build' / 'lib' / configuration)
+	fs.remove_all(path.Build / 'publish' / configuration)
+end
 
 -- Step.3 版本信息
 local function split(str, p)
@@ -86,16 +91,20 @@ local gitlog = require 'gitlog'
 gitlog((path.Development / 'Component' / 'script' / 'common' / 'gitlog.lua'):string())
 
 -- Step.4 编译
-msvc:compile('rebuild', path.OpenSource / 'bee.lua' / 'bee.sln', {
+local action = 'build'
+if clean then
+	action = 'rebuild'
+end
+msvc:compile(action, path.OpenSource / 'bee.lua' / 'bee.sln', {
     Configuration = configuration,
     Platform = 'x86'
 })
-msvc:compile('rebuild', path.OpenSource / 'all.sln', {
+msvc:compile(action, path.OpenSource / 'all.sln', {
     Configuration = configuration,
     Platform = 'Win32'
 })
 if not dev then
-    msvc:compile('rebuild', path.Development / 'Core' / 'Solution' / 'YDWE.sln', {
+    msvc:compile(action, path.Development / 'Core' / 'Solution' / 'YDWE.sln', {
         Configuration = configuration,
         Platform = 'Win32'
     })

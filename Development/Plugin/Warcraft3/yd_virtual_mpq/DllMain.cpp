@@ -5,7 +5,7 @@
 #include <base/util/ini.h>
 #include <base/file/stream.h>
 
-void Initialize()
+extern "C" void Initialize()
 {
 	warcraft3::virtual_mpq::initialize(::GetModuleHandleW(L"Game.dll"));
 	fs::path ydwe_path = base::path::self().parent_path().parent_path().parent_path();

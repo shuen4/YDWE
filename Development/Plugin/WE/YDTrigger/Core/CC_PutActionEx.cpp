@@ -4,7 +4,7 @@
 BOOL g_bYDWEEnumUnitsInRangeMultipleFlag = FALSE;
 extern BOOL g_bDisableSaveLoadSystem;
 
-BOOL _fastcall  CC_PutAction_SearchVar(DWORD This, DWORD OutClass);
+int _fastcall	CC_PutAction_SearchVar(DWORD This, DWORD OutClass);
 void _fastcall  CC_PutActionEx(DWORD This, DWORD EDX, DWORD OutClass, char* name, DWORD Type, DWORD Endl);
 
 void _fastcall 

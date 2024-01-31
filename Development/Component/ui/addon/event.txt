@@ -1,0 +1,7 @@
+["Jass2Event"]
+title = "自定义代码"
+description = "代码: ${Jass代码}"
+comment = "输入一行Jass代码，变量t会自动替换为此触发器"
+category = TC_YDHIDE
+[[.args]]
+type = scriptcode

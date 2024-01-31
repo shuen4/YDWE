@@ -15,6 +15,7 @@ namespace warcraft3 {
 		uint32_t  get_version() const;
 		uint32_t  get_instance(uint32_t index);
 		uint32_t  get_gameui(uint32_t unk0, uint32_t unk1);
+		uint32_t  get_gamestate();
 		bool      is_gaming();
 		uintptr_t current_function(uintptr_t ptr);
 
@@ -22,11 +23,13 @@ namespace warcraft3 {
 		uint32_t  search_version() const;
 		uintptr_t search_get_instance() const;
 		uintptr_t search_get_gameui() const;
+		uintptr_t search_gamestate_ptr() const;
 
 	private:
 		uint32_t  version_;
 		uintptr_t get_instance_;
 		uintptr_t get_gameui_;
+		uintptr_t gamestate_ptr_;
 	};
 
 	struct objectid_64

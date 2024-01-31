@@ -848,6 +848,16 @@ namespace warcraft3::japi {
 		}
 	}
 
+	jass::jboolean_t _cdecl EXIsUnitInvulnerable(jass::jhandle_t unit)
+	{
+		uint32_t pUnit = handle_to_object(unit);
+
+		if (pUnit)
+			return *(uint32_t*)(pUnit + 0x20) & 0b00001000;
+
+		return false;
+	}
+
 	void InitializeUnitState()
 	{
 		jass::japi_hook("GetUnitState", &RealGetUnitState, (uintptr_t)FakeGetUnitState);
@@ -864,6 +874,7 @@ namespace warcraft3::japi {
 		jass::japi_add((uintptr_t)EXSetUnitCollisionType, "EXSetUnitCollisionType", "(BHunit;I)V");
 		jass::japi_add((uintptr_t)EXSetUnitMoveType,      "EXSetUnitMoveType",      "(Hunit;I)V");
 		jass::japi_add((uintptr_t)EXSetUnitFacing,        "EXSetUnitFacing",        "(Hunit;R)V");
+		jass::japi_add((uintptr_t)EXIsUnitInvulnerable,	  "EXIsUnitInvulnerable",   "(Hunit;)B");
 		//jass::japi_add((uintptr_t)EXGetObject, "EXGetObject", "(Hhandle;)I");
 	}
 }

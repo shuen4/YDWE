@@ -1,6 +1,6 @@
 #include "CC_Include.h"
 
-BOOL _fastcall CC_PutAction_SearchVar(DWORD This, DWORD OutClass)
+int _fastcall CC_PutAction_SearchVar(DWORD This, DWORD OutClass)
 {
 	DWORD nVarCount, i;
 	DWORD nVarClass;
@@ -10,17 +10,19 @@ BOOL _fastcall CC_PutAction_SearchVar(DWORD This, DWORD OutClass)
 	for (i = 0; i < nVarCount; i++)
 	{
 		if (0 == BLZSStrCmp((char*)&GetGUIVar_Value(This, i), "PlayerALL", 0xFFFFFFFF))
-			return TRUE;
+			return 1;
+		if (0 == BLZSStrCmp((char*)&GetGUIVar_Value(This, i), "PlayerALL1", 0xFFFFFFFF))
+			return 2;
 
 		nVarClass = GetGUIVar_Class(This, i);
 		if (nVarClass != 0)
 		{
-			if (CC_PutAction_SearchVar(nVarClass, OutClass))
-				return TRUE;
-		}    
+			if (int ret = CC_PutAction_SearchVar(nVarClass, OutClass))
+				return ret;
+		}
 	}
 
-	return FALSE;
+	return 0;
 }
 int _fastcall CC_PutEventRegister(DWORD This, DWORD EDX, DWORD OutClass, const char* triggername, const char* name, DWORD index)
 {
@@ -49,12 +51,10 @@ void _fastcall CC_PutEventRegisterEx(DWORD This, DWORD OutClass, const char* tri
 {
 	if (*(DWORD*)(This+0x13C) != 0)
 	{
-		BOOL bFlag = FALSE;
-		if (CC_PutAction_SearchVar(This, OutClass))
+		int ret = CC_PutAction_SearchVar(This, OutClass);
+		if (ret)
 		{
 			PUT_CONST("#define YDTRIGGER_COMMON_LOOP(n) ", 0);
-			
-			bFlag = TRUE;
 		}
 
 		if (0 != BLZSStrCmp((char*)(This+0x20), "YDWEDisableRegister", 0x7FFFFFFF))
@@ -62,9 +62,12 @@ void _fastcall CC_PutEventRegisterEx(DWORD This, DWORD OutClass, const char* tri
 			CC_PutEventRegister(This, 0, OutClass, triggername, name, index);
 		}
 
-		if (bFlag)
+		if (ret)
 		{
-			PUT_CONST("#define YDTRIGGER_COMMON_LOOP_LIMITS (0, 15)", 1);
+			if (ret == 1)
+				PUT_CONST("#define YDTRIGGER_COMMON_LOOP_LIMITS (0, 15)", 1);
+			else
+				PUT_CONST("#define YDTRIGGER_COMMON_LOOP_LIMITS (0, 27)", 1);
 			PUT_CONST("#include <YDTrigger/Common/loop.h>", 1);
 		}
 	}

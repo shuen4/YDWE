@@ -1,0 +1,2 @@
+[TriggerParams]
+PlayerStateObserver=0,playerstate,PLAYER_STATE_OBSERVER,"观察者 [AddOn]"

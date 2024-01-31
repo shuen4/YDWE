@@ -103,10 +103,12 @@ local function dummy_map_ar(dir)
             self._list_file = {}
             local len = #dir:string()
             for _, name in ipairs {'map', 'resource', 'scripts', 'sound', 'trigger', 'w3x2lni'} do
-                scan_dir(dir / name, function (path)
+                if not pcall(scan_dir, dir / name, function (path)
                     local name = path:string():sub(len+2):gsub('/', '\\')
                     self._list_file[#self._list_file+1] = name
-                end)
+                end) then
+					log.info('skiped: ' .. name)
+				end
             end
         end
         return self._list_file
@@ -148,7 +150,7 @@ return function (mappath)
         return
     end
 
-    log.info('Open Lni map', path)
+    log.info('Open Lni map', path:string())
     local dir = path:parent_path()
     dummy_map = dummy_map_ar(dir)
     storm.set_dummy_map(dummy_map)

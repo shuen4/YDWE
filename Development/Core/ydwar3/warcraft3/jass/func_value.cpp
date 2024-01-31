@@ -188,12 +188,32 @@ namespace warcraft3::jass {
 		return nullptr;
 	}
 
+	func_mapping undetected_natives;
 
 	func_value const* japi_func(const char* proc_name)
 	{
 		if (!proc_name)
 		{
 			return nullptr;
+		}
+
+		if (undetected_natives.empty()) {
+			uintptr_t ptr = get_war3_searcher().get_instance(5);
+			uintptr_t end = *(uintptr_t*)(ptr + 0x20) - 0x10;
+			uintptr_t start = *(uintptr_t*)(ptr + 0x24);
+			if (start && end) {
+				for (uintptr_t current = start; current != end; current = *(uintptr_t*)(current + 0x14))
+					undetected_natives.insert(std::make_pair(*(char**)(current + 0x18), func_value(*(char**)(current + 0x24), *(uintptr_t*)(current + 0x1C))));
+				for (auto& i : jass_function)
+					if (undetected_natives.find(i.first) != undetected_natives.end())
+						undetected_natives.erase(i.first);
+				for (auto& i : japi_function)
+					if (undetected_natives.find(i.first) != undetected_natives.end())
+						undetected_natives.erase(i.first);
+				// 都加好了， 懒得分类
+				jass_function.insert(undetected_natives.begin(), undetected_natives.end());
+				japi_function.insert(undetected_natives.begin(), undetected_natives.end());
+			}
 		}
 
 		auto it = japi_function.find(proc_name);
@@ -222,6 +242,13 @@ namespace warcraft3::jass {
 
 	bool japi_func_clean()
 	{
+		for (auto& i : undetected_natives) {
+			// 应该没必要检查是否存在
+			jass_function.erase(i.first);
+			// 下面的代码直接清空了
+			//japi_function.erase(i.first);
+		}
+		undetected_natives.clear();
 		japi_function.clear();
 		return true;
 	}

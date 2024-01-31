@@ -39,7 +39,7 @@ IDirect3D8* __stdcall Direct3DCreate8(UINT sdk_version)
 	return callFakeDirect3DCreate8(sdk_version);
 }
 
-void Initialize()
+extern "C" void Initialize()
 {
 	HMODULE gamedll = ::GetModuleHandleW(L"Game.dll");
 	base::hook::dyn_iat(gamedll, L"d3d8.dll", "Direct3DCreate8", 0, (uintptr_t)Direct3DCreate8);

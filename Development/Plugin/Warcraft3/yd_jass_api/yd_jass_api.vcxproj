@@ -21,14 +21,14 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -83,24 +83,27 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AbilityState.cpp" />
+    <ClCompile Include="Bit.cpp" />
     <ClCompile Include="DisableButtonBlp.cpp" />
     <ClCompile Include="DllMain.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="EventDamageData.cpp" />
+    <ClCompile Include="Hashtable.cpp" />
     <ClCompile Include="Initialize.cpp" />
     <ClCompile Include="ItemState.cpp" />
+    <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="UnitState.cpp" />
-    <ClCompile Include="DisplayChat.cpp" />
+    <ClCompile Include="Message.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="yd_jass_api.def" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="$(YDWE)\Core\ydbase\ydbase.vcxproj">
-      <Project>{75b04c07-94d9-41e7-bbfd-e67f79bff41a}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Core\BlpConv\BlpConv.vcxproj">
       <Project>{5a6944d1-71b9-4b21-952a-e2e78c1ebf52}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Core\ydbase\ydbase.vcxproj">
+      <Project>{75b04c07-94d9-41e7-bbfd-e67f79bff41a}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Core\ydwar3\ydwar3.vcxproj">
       <Project>{a0e0fbbf-af94-4132-be63-ab101e3af949}</Project>

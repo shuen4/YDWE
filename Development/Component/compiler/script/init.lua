@@ -1,6 +1,7 @@
 local inject_code = require "compiler.inject_code"
 local wave = require "compiler.wave"
 local template = require "compiler.template"
+local pre_wave_template = require "compiler.pre_wave_template"
 local jasshelper = require "compiler.jasshelper"
 local ev = require 'ev'
 
@@ -32,12 +33,21 @@ local function make_option(config, war3ver)
 	if save_type == 1 then
 		-- 固定旧版本
 		option.runtime_version = 20
+		option.JASS = 20
+		option.is_custom = false
 	elseif save_type == 2 then
 		-- 固定新版本
 		option.runtime_version = 24
+		option.JASS = 24
+		option.is_custom = false
+	elseif save_type == 3 then
+		option.runtime_version = 24 -- 兼容 24
+		option.is_custom = true
+		option.JASS = "custom"
 	else
 		-- 按照当前版本或者双份
 		option.runtime_version = war3ver
+		option.JASS = war3ver
 	end
 	return option
 end
@@ -68,15 +78,26 @@ function compiler:compile(map_path, config, war3ver)
                     end
                     compile_t.input = compile_t.output
                 end
-
+				
+				-- 预处理前 lua
+                compile_t.output = compile_t.log / "3_template.j"
+                if not pre_wave_template:compile(compile_t) then
+                    ev.emit('编译地图', false)
+                    collectgarbage 'collect'
+                    return
+                end
+                ev.emit('编译地图', true)
+                collectgarbage 'collect'
+                compile_t.input = compile_t.output
+				
                 -- Wave预处理
-                compile_t.output = compile_t.log / "3_wave.j"
+                compile_t.output = compile_t.log / "4_wave.j"
                 if not wave:compile(compile_t) then
                     return
                 end
                 compile_t.input = compile_t.output
-
-                compile_t.output = compile_t.log / "4_template.j"
+				-- 预处理后 lua
+                compile_t.output = compile_t.log / "5_template.j"
                 if not template:compile(compile_t) then
                     ev.emit('编译地图', false)
                     collectgarbage 'collect'

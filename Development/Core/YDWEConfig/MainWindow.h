@@ -37,6 +37,7 @@ public:
 	void DonePluginUI();
 	void InitFontUI();
 	void UpdateWarcraft3Directory();
+	void UpdateWarcraft3Directory1();
 
 private:
 	std::map<std::string, DuiLib::CCheckBoxUI*> m_controls;
@@ -55,6 +56,7 @@ private:
 	DuiLib::CVerticalLayoutUI* m_pWar3PatchList;
 	DuiLib::CVerticalLayoutUI* m_pWar3PluginList;
 	DuiLib::CLabelUI*          m_pWarcraft3Directory;
+	DuiLib::CLabelUI*		   m_pWarcraft3Directory1;
 	DuiLib::CCheckBoxUI*       m_pFontEnable;
 	DuiLib::CComboUI*          m_pFontName;
 	DuiLib::CComboUI*          m_pFontSize;

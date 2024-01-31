@@ -1,2 +1,1 @@
-call "%~dp0Build.bat" Debug Dev
-@PAUSE
+call "%~dp0Build.bat" Debug true Dev

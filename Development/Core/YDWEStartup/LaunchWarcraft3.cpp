@@ -10,11 +10,13 @@
 #include <bee/utility/unicode_win.h>
 #include <base/hook/injectdll.h>
 #include <base/hook/replacedll.h>
+#include <shlobj_core.h>
 
 #define YDWE_WAR3_INLINE
 #include <warcraft3/directory.h>
 #include <warcraft3/command_line.h>
 
+//#define SIMPLE_LAUNCHER
 static std::wstring get_test_map_path()
 {
 	std::wstring result = L"Maps\\Test\\WorldEditTestMap";
@@ -115,10 +117,15 @@ bool launch_warcraft3(warcraft3::command_line& cmd)
 		launch_taskbar_support(ydwe);
 
 		fs::path war3_path;
+		fs::path war3_path_old;
+#ifdef SIMPLE_LAUNCHER
+		war3_path = "..\\";
+#else
 		if (!warcraft3::directory::get(nullptr, war3_path))
 		{
 			return false;
 		}
+#endif
 
 		base::ini::table table;
 		table["MapTest"]["LaunchRenderingEngine"] = "Direct3D 8";
@@ -130,6 +137,13 @@ bool launch_warcraft3(warcraft3::command_line& cmd)
 			base::ini::read(table, buf.c_str());
 		}
 		catch (...) {
+		}
+		
+		bool custom_ver = table["MapSave"]["Option"] == "3";
+		if (custom_ver) {
+			bee::registry::key_w reg(L"HKEY_CURRENT_USER\\Software\\YDWE");
+			war3_path_old = war3_path;
+			war3_path = reg[L"DIR_custom"].get_string();
 		}
 
 		//
@@ -148,38 +162,62 @@ bool launch_warcraft3(warcraft3::command_line& cmd)
 				try {
 					cmd[L"loadfile"] = test_map_path.wstring();
 					if (!loadfile.is_absolute()) {
-						loadfile = war3_path / loadfile;
+						if (custom_ver)
+							loadfile = war3_path_old / loadfile;
+						else
+							loadfile = war3_path / loadfile;
+					}
+					std::wstring my_documents_folder;
+					if (custom_ver) {
+						WCHAR* my_documents = new WCHAR[65535];
+						HRESULT result = SHGetFolderPathW(NULL, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, my_documents);
+						if (result != S_OK) {
+							MessageBoxA(NULL, "无法获取\"文档\"文件夹", "错误", MB_OK);
+							delete[] my_documents;
+							return false;
+						}
+						my_documents_folder = my_documents;
+						delete[] my_documents;
 					}
 					if (cmd.has(L"closew2l")) {
-						fs::copy_file(loadfile, war3_path / test_map_path, fs::copy_options::overwrite_existing);
+						if (custom_ver) {
+							fs::copy_file(loadfile, my_documents_folder / fs::path("Warcraft III") / test_map_path, fs::copy_options::overwrite_existing);
+						}
+						else
+							fs::copy_file(loadfile, war3_path / test_map_path, fs::copy_options::overwrite_existing);
 					}
 					else {
-						map_build(ydwe, loadfile, war3_path / test_map_path, "0" != table["MapTest"]["EnableMapSlk"]);
+						if (custom_ver)
+							map_build(ydwe, loadfile, my_documents_folder / fs::path("Warcraft III") / test_map_path, "0" != table["MapTest"]["EnableMapSlk"]);
+						else
+							map_build(ydwe, loadfile, war3_path / test_map_path, "0" != table["MapTest"]["EnableMapSlk"]);
 					}
 				}
 				catch (...) {
 				}
 			}
 		}
-
-		war3_path = war3_path / L"war3.exe";
+		if (custom_ver)
+			war3_path = war3_path / L"Warcraft III.exe";
+		else
+			war3_path = war3_path / L"war3.exe";
 		fs::path inject_dll = ydwe / L"bin" / L"LuaEngine.dll";
 
+#ifdef SIMPLE_LAUNCHER
 		std::string name = table["MapTest"]["UserName"];
-		if (name != "")
+		if (!name.empty() && name != " ")
 		{
 			bee::registry::key_a key("HKEY_CURRENT_USER\\Software\\Blizzard Entertainment\\Warcraft III\\String");
 			key["userlocal"].set((const void*)name.c_str(), name.size());
 		}
+#endif
 
-		if ("OpenGL" == table["MapTest"]["LaunchRenderingEngine"])
-		{
-			cmd.add(L"opengl");
-		}
+		if (!custom_ver) {
+			if ("OpenGL" == table["MapTest"]["LaunchRenderingEngine"])
+				cmd.add(L"opengl");
 
-		if ("0" != table["MapTest"]["LaunchWindowed"])
-		{
-			cmd.add(L"window");
+			if ("0" != table["MapTest"]["LaunchWindowed"])
+				cmd.add(L"window");
 		}
 
 
@@ -188,40 +226,44 @@ bool launch_warcraft3(warcraft3::command_line& cmd)
 		bee::subprocess::spawn spawn;
 		spawn.suspended();
 
-		if (fs::exists(inject_dll))
-		{
-			cmd.add(L"ydwe", ydwe.wstring());
-		}
+		if (!custom_ver)
+			if (fs::exists(inject_dll))
+				cmd.add(L"ydwe", ydwe.wstring());
 		cmd.app(war3_path.wstring());
 		cmd.del(L"war3");
 		cmd.del(L"closew2l");
-		if (!spawn.exec(cmd.args(), 0)) {
+		if (custom_ver)
+			cmd.add(L"launch"); // 1.32以上
+		if (!spawn.exec(cmd.args(), 0))
 			return false;
-		}
 
 		bee::subprocess::process process(spawn);
-		try {
-			if (table["War3Patch"]["Option"] == "2")
-			{
-				fs::path stormdll = ydwe / L"share" / L"patch" / table["War3Patch"]["DirName"] / L"Storm.dll";
-				if (fs::exists(stormdll))
+		if (!custom_ver)
+			try {
+				if (table["War3Patch"]["Option"] == "2")
 				{
-					base::hook::replacedll(process.info(), "Storm.dll", stormdll.string().c_str());
+					fs::path stormdll = ydwe / L"share" / L"patch" / table["War3Patch"]["DirName"] / L"Storm.dll";
+					if (fs::exists(stormdll))
+					{
+						base::hook::replacedll(process.info(), "Storm.dll", stormdll.string().c_str());
+					}
 				}
 			}
-		}
-		catch (...) {
-		}
-		if (fs::exists(inject_dll))
-		{
-			base::hook::injectdll(process.info(), inject_dll.wstring(), std::wstring());
-		}
+			catch (...) {}
+		if (!custom_ver)
+			if (fs::exists(inject_dll))
+			{
+				base::hook::injectdll(process.info(), inject_dll.wstring(), std::wstring());
+			}
 		process.resume();
+#ifdef SIMPLE_LAUNCHER
+		process.wait();
+#endif
 		return true;
 		
 	}
 	catch (...) {
 	}
-
+	
 	return false;
 }

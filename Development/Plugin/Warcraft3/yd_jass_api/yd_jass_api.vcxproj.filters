@@ -24,7 +24,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DllMain.cpp" />
-    <ClCompile Include="DisplayChat.cpp">
+    <ClCompile Include="Message.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ItemState.cpp">
@@ -37,6 +37,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Effect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Hashtable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

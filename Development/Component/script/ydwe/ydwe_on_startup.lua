@@ -21,6 +21,10 @@ local function initialize_reg()
 		-- 启动时不创建新地图
 		reg["New Map On Startup"] = { registry.REG_DWORD, 0 }
 	end
+	if reg["Tool Windows"]:sub(1, 4) == "\1\0\0\0" then
+		-- 修复使用新版WE后启动YDWE崩溃 (未严格测试有效性)
+		reg["Tool Windows"] = { registry.REG_BINARY, "\0\0\0\0" .. reg["Tool Windows"]:sub(9) }
+	end
 	-- 某些UI的颜色
 	local reg = registry.open [[HKEY_CURRENT_USER\Software\Blizzard Entertainment\WorldEdit\Trigger Display Colors]]
 	reg["TC_YDHIDE"] = { registry.REG_DWORD, 0xffff0000 }
