@@ -135,7 +135,7 @@ fs.copy_file(path.OpenSource / 'bee.lua' / 'build' / 'msbuild' / 'bin' / ('x86_'
 fs.copy_file(path.OpenSource / 'bee.lua' / 'build' / 'msbuild' / 'bin' / ('x86_' .. configuration) / 'bee.dll', path.Result / 'bin' / 'bee.dll', true)
 fs.copy_file(path.OpenSource / 'StormLib' / 'bin' / 'Win32' / configuration / 'StormLib.dll', path.Result / 'bin' / 'StormLib.dll', true)
 fs.copy_file(path.OpenSource / 'minizip' / 'bin' / configuration / 'minizip.dll', path.Result / 'bin' / 'minizip.dll', true)
-fs.copy_file(path.OpenSource / 'sfmpq' / 'bin' / configuration / 'sfmpq.dll', path.Result / 'compiler' / 'jasshelper' / 'sfmpq.dll', true)
+--fs.copy_file(path.OpenSource / 'sfmpq' / 'bin' / configuration / 'sfmpq.dll', path.Result / 'compiler' / 'jasshelper' / 'sfmpq.dll', true)
 fs.copy_file(path.OpenSource / 'sfmpq' / 'bin' / configuration / 'sfmpq.dll', path.Result / 'compiler' / 'jasshelper' / 'bin' / 'sfmpq.dll', true)
 copy_directory(path.Development / 'Component', path.Result)
 
