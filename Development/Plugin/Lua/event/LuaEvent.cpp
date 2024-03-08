@@ -12,6 +12,7 @@
 #include <base/com/guard.h>	 
 #include <base/util/pinyin.h>
 #include <lua.hpp>
+#include <base/util/memory.h>
 
 #include "YDWEEvent.h"
 #include "YDWELogger.h"
@@ -39,6 +40,76 @@ namespace NYDWE {
 	HWND  gWeMainWindowHandle;
 	HMENU gWeMainMenuHandle;
 
+	int blockSetTriggerEditorScriptModified = 0;
+	BOOL WINAPI DetourTESHSendMessageA(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam) {
+		//blockSetTriggerEditorScriptModified = false;
+		if (Msg == WM_SETTEXT) {
+			std::string oldText;
+			int length = GetWindowTextLengthA(hWnd);
+			if (length) {
+				oldText.resize(length + 1);  // 包括 \0
+				if (GetWindowTextA(hWnd, oldText.data(), oldText.size()) == length) {
+					oldText.resize(oldText.size() - 1); // 不包括 \0
+					std::string newText((char*)lParam/*, wParam 是错误的长度 */);
+					size_t oldTextTESHDataEnd = oldText.find('\n', oldText.find('\n') + 1);
+					size_t newTextTESHDataEnd = newText.find('\n', newText.find('\n') + 1);
+					if (oldTextTESHDataEnd != std::string::npos && newTextTESHDataEnd != std::string::npos) {
+						oldText = oldText.substr(oldTextTESHDataEnd + 1);
+						newText = newText.substr(newTextTESHDataEnd + 1);
+						if (oldText == newText)
+							blockSetTriggerEditorScriptModified = 2;
+					}
+				}
+			}
+		}
+		return SendMessageA(hWnd, Msg, wParam, lParam);
+	}
+
+	bool isTESHPatched = false;
+	uintptr_t pgTrueShowWindow;
+	BOOL WINAPI DetourWeTrueShowWindowA(HWND hWnd, int nCmdShow) {
+		if (!isTESHPatched) {
+			std::string s, s1;
+			s.resize(0xFF); s1.resize(0xFF); // 应该足够了
+			if (base::fast_call<bool>(0x4EEC00, "WESTRING_MODULE_SCRIPTS", s.data(), s.size(), 1 /* 不显示丢失字符串 */)) {
+				if (GetWindowTextA(hWnd, s1.data(), s1.size()) > 0) {
+					s = bee::u2a(s);
+					s = s.substr(0, s.find('\0'));
+					s1 = s1.substr(0, s1.find('\0'));
+					if (s == s1) { // 触发编辑器
+						uintptr_t hModule = (uintptr_t)GetModuleHandleA("tesh.dll");
+						if (hModule) {
+							DWORD old = 0;
+							if (VirtualProtect((void*)(hModule + 1 + 0xCA338), 4, 0x40, &old)) {
+								*(uint32_t*)(hModule + 1 + 0xCA338) = (uint32_t)DetourTESHSendMessageA - (hModule + 0xCA338) - 5;
+								isTESHPatched = true;
+								VirtualProtect((void*)(hModule + 1 + 0xCA338), 4, old, &old);
+							};
+						}
+					}
+				}
+			}
+		}
+		return base::std_call<BOOL>(pgTrueShowWindow, hWnd, nCmdShow);
+	}
+
+	bool isWeSetTriggerEditorFolderScriptModifiedHookInstalled = false;
+	uintptr_t pgTrueWeSetTriggerEditorFolderScriptModified;
+	uint32_t __fastcall DetourWeSetTriggerEditorFolderScriptModified(int _this, int edx, int a2) {
+		if (!blockSetTriggerEditorScriptModified)
+			return base::this_call<uint32_t>(pgTrueWeSetTriggerEditorFolderScriptModified, _this, a2);
+
+		uint32_t currentState = ReadMemory(_this + 0x95C);
+		uint32_t ret = base::this_call<uint32_t>(pgTrueWeSetTriggerEditorFolderScriptModified, _this, a2);
+
+		if (blockSetTriggerEditorScriptModified) {
+			WriteMemory(_this + 0x95C, currentState);
+			blockSetTriggerEditorScriptModified--;
+		}
+
+		return ret;
+	}
+
 	bool isWeWinMainHookInstalled;
 	uintptr_t pgTrueWeWinMain;
 	int32_t WINAPI DetourWeWinMain(HINSTANCE instance, HINSTANCE prevInstance, LPSTR commandLine, int32_t showCommand)
@@ -51,6 +122,7 @@ namespace NYDWE {
 		event_array[EVENT_WE_START]([&](lua_State* L, int idx){
 		});
 
+		pgTrueShowWindow = base::hook::iat(::GetModuleHandleW(NULL), "user32.dll", "ShowWindow", (uintptr_t)DetourWeTrueShowWindowA);
 		int32_t result = base::std_call<int32_t>(pgTrueWeWinMain, instance, prevInstance, commandLine, showCommand);
 
 		event_array[EVENT_WE_EXIT]([&](lua_State* L, int idx){
@@ -529,7 +601,10 @@ namespace NYDWE {
 		INSTALL_INLINE_HOOK(WeWinMain);
 
 		pgTrueWeNewObjectId = (uintptr_t)0x005B645A;
-		INSTALL_INLINE_HOOK(WeNewObjectId)
+		INSTALL_INLINE_HOOK(WeNewObjectId);
+
+		pgTrueWeSetTriggerEditorFolderScriptModified = (uintptr_t)0x5CB320;
+		INSTALL_INLINE_HOOK(WeSetTriggerEditorFolderScriptModified);
 
 		pgTrueMssRIBLoadProviderLibrary = (uintptr_t)GetProcAddress(GetModuleHandleA(MSSDLLNAME), "RIB_load_provider_library");
 		INSTALL_INLINE_HOOK(MssRIBLoadProviderLibrary);

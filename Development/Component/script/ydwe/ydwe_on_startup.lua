@@ -216,7 +216,7 @@ function event.EVENT_WE_START(event_data)
 	local suc, gitlog = pcall(require, 'gitlog')
 	if suc then
 		log.debug("commit: " .. gitlog.commit)
-		log.debug("data: " .. gitlog.date)
+		log.debug("date: " .. gitlog.date)
 	end
 	
 	-- 刷新配置数据	
