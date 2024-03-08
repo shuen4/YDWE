@@ -93,6 +93,23 @@ namespace NYDWE {
 		return base::std_call<BOOL>(pgTrueShowWindow, hWnd, nCmdShow);
 	}
 
+	bool isWeSetTriggerEditorMainScriptModifiedHookInstalled = false;
+	uintptr_t pgTrueWeSetTriggerEditorMainScriptModified;
+	uint32_t __fastcall DetourWeSetTriggerEditorMainScriptModified(int _this, int edx, int a2) {
+		if (!blockSetTriggerEditorScriptModified)
+			return base::this_call<uint32_t>(pgTrueWeSetTriggerEditorMainScriptModified, _this, a2);
+
+		uint32_t currentState = ReadMemory(_this + 0x84C);
+		uint32_t ret = base::this_call<uint32_t>(pgTrueWeSetTriggerEditorMainScriptModified, _this, a2);
+
+		if (blockSetTriggerEditorScriptModified) {
+			WriteMemory(_this + 0x84C, currentState);
+			blockSetTriggerEditorScriptModified--;
+		}
+
+		return ret;
+	}
+
 	bool isWeSetTriggerEditorFolderScriptModifiedHookInstalled = false;
 	uintptr_t pgTrueWeSetTriggerEditorFolderScriptModified;
 	uint32_t __fastcall DetourWeSetTriggerEditorFolderScriptModified(int _this, int edx, int a2) {
@@ -602,6 +619,9 @@ namespace NYDWE {
 
 		pgTrueWeNewObjectId = (uintptr_t)0x005B645A;
 		INSTALL_INLINE_HOOK(WeNewObjectId);
+
+		pgTrueWeSetTriggerEditorMainScriptModified = (uintptr_t)0x5206B0;
+		INSTALL_INLINE_HOOK(WeSetTriggerEditorMainScriptModified);
 
 		pgTrueWeSetTriggerEditorFolderScriptModified = (uintptr_t)0x5CB320;
 		INSTALL_INLINE_HOOK(WeSetTriggerEditorFolderScriptModified);
