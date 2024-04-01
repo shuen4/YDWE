@@ -302,6 +302,7 @@ namespace warcraft3 {
 			uint32_t    array_;
 			uint32_t    type_;
 			uint32_t    value_;
+			uint32_t	unk9;
 		};
 
 		struct variable_table
@@ -452,22 +453,23 @@ namespace warcraft3 {
 		jass::opcode*                opcode;                // 0x20
 		char                         unk1[0x10];
 		uint32_t                     has_sleep;             // 0x34
-		char                         unk2[0x2818];
-		uint32_t                     index;                 //0x2850
-		uint32_t                     unk3;
-		symbol_table_t*              symbol_table;          //0x2858
-		hashtable::variable_table*   global_table;          //0x285C
+		char                         unk2[0x18];
+		hashtable::variable_node	 registers[256];		// 0x50
+		uint32_t                     index;                 // 0x2850
 		uint32_t                     unk4;
+		symbol_table_t*              symbol_table;          // 0x2858
+		hashtable::variable_table*   global_table;          // 0x285C
 		uint32_t                     unk5;
-		stackframe_t*                stackframe;            //0x2868
 		uint32_t                     unk6;
+		stackframe_t*                stackframe;            // 0x2868
 		uint32_t                     unk7;
-		hashtable::string_fasttable* string_table;		    //0x2874
-		char                         unk8[0x10];
-		code_table_t*                code_table;		    //0x2888
-		char                         unk9[0x14];
-		uintptr_t                    set_handle_reference;	//0x28A0
-		handle_table_t**             handle_table;	        //0x28A4
+		uint32_t                     unk8;
+		hashtable::string_fasttable* string_table;		    // 0x2874
+		char                         unk9[0x10];
+		code_table_t*                code_table;		    // 0x2888
+		char                         unk10[0x14];
+		uintptr_t                    set_handle_reference;	// 0x28A0
+		handle_table_t**             handle_table;	        // 0x28A4
 	};
 
 	_WAR3_API jass_vm_t*                    get_jass_vm(int index = 1);

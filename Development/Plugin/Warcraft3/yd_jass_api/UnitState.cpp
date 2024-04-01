@@ -862,19 +862,19 @@ namespace warcraft3::japi {
 	{
 		jass::japi_hook("GetUnitState", &RealGetUnitState, (uintptr_t)FakeGetUnitState);
 		jass::japi_hook("SetUnitState", &RealSetUnitState, (uintptr_t)FakeSetUnitState);
-		jass::japi_add((uintptr_t)EXGetUnitString,        "EXGetUnitString",        "(II)S");
-		jass::japi_add((uintptr_t)EXSetUnitString,        "EXSetUnitString",        "(IIS)B");
-		jass::japi_add((uintptr_t)EXGetUnitReal,          "EXGetUnitReal",          "(II)R");
-		jass::japi_add((uintptr_t)EXSetUnitReal,          "EXSetUnitReal",          "(IIR)B");  
-		jass::japi_add((uintptr_t)EXGetUnitInteger,       "EXGetUnitInteger",       "(II)I");
-		jass::japi_add((uintptr_t)EXSetUnitInteger,       "EXSetUnitInteger",       "(III)B");   
-		jass::japi_add((uintptr_t)EXGetUnitArrayString,   "EXGetUnitArrayString",   "(III)S");
-		jass::japi_add((uintptr_t)EXSetUnitArrayString,   "EXSetUnitArrayString",   "(IIIS)B");
-		jass::japi_add((uintptr_t)EXPauseUnit,            "EXPauseUnit",            "(Hunit;B)V");
-		jass::japi_add((uintptr_t)EXSetUnitCollisionType, "EXSetUnitCollisionType", "(BHunit;I)V");
-		jass::japi_add((uintptr_t)EXSetUnitMoveType,      "EXSetUnitMoveType",      "(Hunit;I)V");
-		jass::japi_add((uintptr_t)EXSetUnitFacing,        "EXSetUnitFacing",        "(Hunit;R)V");
-		jass::japi_add((uintptr_t)EXIsUnitInvulnerable,	  "EXIsUnitInvulnerable",   "(Hunit;)B");
+		jass::japi_add((uintptr_t)EXGetUnitString,			"EXGetUnitString",			"(II)S");
+		jass::japi_add((uintptr_t)EXSetUnitString,			"EXSetUnitString",			"(IIS)B");
+		jass::japi_add((uintptr_t)EXGetUnitReal,			"EXGetUnitReal",			"(II)R");
+		jass::japi_add((uintptr_t)EXSetUnitReal,			"EXSetUnitReal",			"(IIR)B");  
+		jass::japi_add((uintptr_t)EXGetUnitInteger,			"EXGetUnitInteger",			"(II)I");
+		jass::japi_add((uintptr_t)EXSetUnitInteger,			"EXSetUnitInteger",			"(III)B");   
+		jass::japi_add((uintptr_t)EXGetUnitArrayString,		"EXGetUnitArrayString",		"(III)S");
+		jass::japi_add((uintptr_t)EXSetUnitArrayString,		"EXSetUnitArrayString",		"(IIIS)B");
+		jass::japi_add((uintptr_t)EXPauseUnit,				"EXPauseUnit",				"(Hunit;B)V");
+		jass::japi_add((uintptr_t)EXSetUnitCollisionType,	"EXSetUnitCollisionType",	"(BHunit;I)V");
+		jass::japi_add((uintptr_t)EXSetUnitMoveType,		"EXSetUnitMoveType",		"(Hunit;I)V");
+		jass::japi_add((uintptr_t)EXSetUnitFacing,			"EXSetUnitFacing",			"(Hunit;R)V");
+		jass::japi_add((uintptr_t)EXIsUnitInvulnerable,		"EXIsUnitInvulnerable",		"(Hunit;)B");
 		//jass::japi_add((uintptr_t)EXGetObject, "EXGetObject", "(Hhandle;)I");
 	}
 }

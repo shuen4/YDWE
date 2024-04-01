@@ -4,6 +4,7 @@
 #include <base/hook/fp_call.h>
 #include <base/util/memory.h>
 #include <string>
+#include <warcraft3/version.h>
 
 #define M_PI       3.14159265358979323846   // pi
 
@@ -150,6 +151,75 @@ namespace warcraft3::japi {
 		ptr = convert_function(ptr);
 
 		return ptr;
+	}
+
+	struct SetSpriteAnimationByNameAddress {
+		uintptr_t GetAnimationDataFromJassString;
+		uintptr_t SetSpriteAnimation;
+	};
+
+	SetSpriteAnimationByNameAddress searchSetSpriteAnimation() {
+		SetSpriteAnimationByNameAddress ret{};
+		uintptr_t ptr;
+
+		//=========================================
+		// (1)
+		//
+		// push		"()V"
+		// mov		edx, "SetUnitAnimation"
+		// mov		ecx, [SetUnitAnimation函数的地址] <----
+		// call		BindNative
+		//=========================================
+		ptr = get_war3_searcher().search_string("SetUnitAnimation");
+		ptr = *(uintptr_t*)(ptr + 0x05);
+
+		//=========================================
+		// (2)
+		//  SetUnitAnimation:
+		//    call		CUnit::SetAnimation		      <----
+		//=========================================
+		ptr = next_opcode(ptr, 0xE8, 5);
+		ptr = convert_function(ptr);
+
+		//=========================================
+		// (3)
+		//  CUnit::SetAnimation:
+		//	  ...
+		//    call		ConvertHandle
+		//    ...
+		//    call      CUnit::GetSprite
+		//    ...
+		//    call		GetAnimationDataFromJassString <---
+		//    ...
+		//    call      unk1
+		//    ...
+		//    call      unk2
+		//    ...
+		//    call      unk3
+		//    ...
+		//    call      unk4
+		//    ...
+		//    call      SetSpriteAnimation            <---
+		//=========================================
+		ptr = next_opcode(ptr, 0xE8, 5);
+		ptr += 5;
+		ptr = next_opcode(ptr, 0xE8, 5);
+		ptr += 5;
+		ptr = next_opcode(ptr, 0xE8, 5);
+		ret.GetAnimationDataFromJassString = convert_function(ptr);
+		ptr += 5;
+		ptr = next_opcode(ptr, 0xE8, 5);
+		ptr += 5;
+		ptr = next_opcode(ptr, 0xE8, 5);
+		ptr += 5;
+		ptr = next_opcode(ptr, 0xE8, 5);
+		ptr += 5;
+		ptr = next_opcode(ptr, 0xE8, 5);
+		ptr += 5;
+		ptr = next_opcode(ptr, 0xE8, 5);
+		ret.SetSpriteAnimation = convert_function(ptr);
+
+		return ret;
 	}
 
 	jass::jnothing_t __cdecl EXSetEffectXY(jass::jhandle_t effect, jass::jreal_t* px, jass::jreal_t* py)
@@ -459,6 +529,47 @@ namespace warcraft3::japi {
 			base::this_call<void>(SmartPos_SetLocation, pSmartPos, &vec3);
 	}
 
+	// flag:
+	//		none(set)			0
+	//		queue				1 << 1
+	//		RARITY_FREQUENT		1 << 4
+	//		RARITY_RARE			1 << 5
+	jass::jboolean_t __cdecl EXSetEffectAnimationEx(jass::jhandle_t effect, jass::jstring_t animName, jass::jinteger_t flag) {
+		static SetSpriteAnimationByNameAddress addr = searchSetSpriteAnimation();
+
+		uintptr_t obj = handle_to_object(effect);
+		if (!obj)
+			return jass::jfalse;
+
+		uint32_t pSprite = *(uint32_t*)(obj + 0x28);
+		if (!pSprite)
+			return jass::jfalse;
+
+		uint32_t AnimData[4] = {0, 0, 0, 0};
+
+		if (get_war3_searcher().get_version() == version_126) {
+			_asm {
+				mov ecx, animName;
+				lea edi, AnimData;
+				call addr.GetAnimationDataFromJassString;
+			}
+		}
+		else {
+			// 其他版本未测试
+			base::c_call<void>(addr.GetAnimationDataFromJassString, animName, AnimData);
+		}
+		
+		if (!AnimData[1])
+			return jass::jfalse;
+
+		base::fast_call<void>(addr.SetSpriteAnimation, pSprite, AnimData[2], AnimData[1], flag);
+		return jass::jtrue;
+	}
+
+	jass::jboolean_t __cdecl EXSetEffectAnimation(jass::jhandle_t effect, jass::jstring_t animName) {
+		return EXSetEffectAnimationEx(effect, animName, 0);
+	}
+
 	void InitializeEffect()
 	{
 		jass::japi_add((uintptr_t)EXSetEffectXY,					"EXSetEffectXY",				"(Heffect;RR)V");
@@ -486,5 +597,7 @@ namespace warcraft3::japi {
 		jass::japi_add((uintptr_t)EXGetEffectAlpha,					"EXGetEffectAlpha",				"(Heffect;)I");
 		jass::japi_add((uintptr_t)EXSetEffectTeamColor,				"EXSetEffectTeamColor",			"(Heffect;Hplayercolor;)V");
 		jass::japi_add((uintptr_t)EXUpdateEffectSmartPosition,		"EXUpdateEffectSmartPosition",	"(Heffect;)V");
+		jass::japi_add((uintptr_t)EXSetEffectAnimation,				"EXSetEffectAnimation",			"(Heffect;S)B");
+		jass::japi_add((uintptr_t)EXSetEffectAnimationEx,			"EXSetEffectAnimationEx",		"(Heffect;SI)B");
 	}
 }

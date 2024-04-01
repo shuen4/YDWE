@@ -125,10 +125,10 @@ void __cdecl EXSetMessage(uint32_t message, jass::jreal_t* duration, uint32_t wh
 
 void InitializeMessage()
 {
-	jass::japi_add((uintptr_t)EXDisplayChat, "EXDisplayChat", "(Hplayer;IS)V");
-	jass::japi_add((uintptr_t)EXGetColor, "EXGetColor", "(IIII)I");
-	jass::japi_add((uintptr_t)EXDisplayMessage, "EXDisplayMessage", "(SRII)V");
-	jass::japi_add((uintptr_t)EXClearMessage, "EXClearMessage", "(I)V");
-	jass::japi_add((uintptr_t)EXSetMessage, "EXSetMessage", "(SRII)V");
+	jass::japi_add((uintptr_t)EXDisplayChat,		"EXDisplayChat",		"(Hplayer;IS)V");
+	jass::japi_add((uintptr_t)EXGetColor,			"EXGetColor",			"(IIII)I");
+	jass::japi_add((uintptr_t)EXDisplayMessage,		"EXDisplayMessage",		"(SRII)V");
+	jass::japi_add((uintptr_t)EXClearMessage,		"EXClearMessage",		"(I)V");
+	jass::japi_add((uintptr_t)EXSetMessage,			"EXSetMessage",			"(SRII)V");
 }
 }

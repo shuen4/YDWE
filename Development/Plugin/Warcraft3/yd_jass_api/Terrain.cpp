@@ -46,6 +46,6 @@ namespace warcraft3::japi {
 
 	void InitializeTerrain()
 	{
-		jass::japi_add((uintptr_t)EXGetTerrainZ, "EXGetTerrainZ", "(RR)R");
+		jass::japi_add((uintptr_t)EXGetTerrainZ,		"EXGetTerrainZ",		"(RR)R");
 	}
 }

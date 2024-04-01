@@ -26,9 +26,9 @@ namespace warcraft3::japi {
 
 	void InitializeBit()
 	{
-		jass::japi_add((uintptr_t)EXBitAnd, "EXBitAnd", "(II)I");
-		jass::japi_add((uintptr_t)EXBitOr, "EXBitOr", "(II)I");
-		jass::japi_add((uintptr_t)EXBitXor, "EXBitXor", "(II)I");
-		jass::japi_add((uintptr_t)EXIsBitSet, "EXIsBitSet", "(II)B");
+		jass::japi_add((uintptr_t)EXBitAnd,			"EXBitAnd",		"(II)I");
+		jass::japi_add((uintptr_t)EXBitOr,			"EXBitOr",		"(II)I");
+		jass::japi_add((uintptr_t)EXBitXor,			"EXBitXor",		"(II)I");
+		jass::japi_add((uintptr_t)EXIsBitSet,		"EXIsBitSet",	"(II)B");
 	}
 }
