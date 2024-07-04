@@ -233,7 +233,8 @@ bool __cdecl EXTriggerRegisterAnyUnitDamagedEvent(jass::jhandle_t trig) {
 uintptr_t real_RunUnitDamagedEventTrigger = 0;
 uint32_t __fastcall fake_RunUnitDamagedEventTrigger(uint32_t pUnit, uint32_t edx, float* amount, uint32_t pSrcUnit) {
     unitDamagedEvent.push_back(UnitDamagedEvent(pUnit, *amount, pSrcUnit));
-    for (auto i = unitDamagedTriggers.begin(); i != unitDamagedTriggers.end(); i++)
+    auto unitDamagedTriggers_copy = unitDamagedTriggers;
+    for (auto i = unitDamagedTriggers_copy.begin(); i != unitDamagedTriggers_copy.end(); i++)
         if (jass::call("IsTriggerEnabled", *i))
             if (jass::call("TriggerEvaluate", *i))
                 jass::call("TriggerExecute", *i);
