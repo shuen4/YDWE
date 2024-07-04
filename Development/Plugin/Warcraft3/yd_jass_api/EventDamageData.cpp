@@ -1,10 +1,12 @@
-
+#include <warcraft3/event.h>
 #include <warcraft3/war3_searcher.h>
 #include <warcraft3/version.h>
 #include <warcraft3/jass/hook.h>
 #include <warcraft3/jass.h>
 #include <base/hook/replace_pointer.h>
+#include <base/hook/inline.h>
 #include <base/hook/fp_call.h>
+#include <base/util/memory.h>
 #include <deque>
 
 namespace warcraft3::japi {
@@ -24,6 +26,17 @@ uintptr_t searchUnitDamageFunc()
 	}
 
 	return 0;
+}
+uintptr_t searchRunUnitDamagedEventTrigger() {
+    war3_searcher& s = get_war3_searcher();
+
+    for (uintptr_t ptr = s.search_int_in_text(524852 /* 事件ID */); ptr; ptr = s.search_int_in_text(524852, ptr + 1)) {
+        if (ReadMemory<uint8_t>(ptr - 1) == 0x68) { // push 0x80234
+            return s.current_function(ptr);
+        }
+    }
+
+    return 0;
 }
 
 uintptr_t getUnitDamageFunc()
@@ -200,11 +213,91 @@ bool __cdecl EXSetEventDamage(uint32_t value)
 	return true;
 }
 
+struct UnitDamagedEvent {
+    uint32_t pUnit;
+    float amount;
+    uint32_t pSrcUnit;
+    UnitDamagedEvent(uint32_t pUnit, float amount, uint32_t pSrcUnit) :pUnit(pUnit), amount(amount), pSrcUnit(pSrcUnit) {}
+};
+std::deque<UnitDamagedEvent> unitDamagedEvent;
+
+std::vector<jass::jhandle_t> unitDamagedTriggers;
+bool __cdecl EXTriggerRegisterAnyUnitDamagedEvent(jass::jhandle_t trig) {
+    for (auto i = unitDamagedTriggers.begin(); i != unitDamagedTriggers.end(); i++)
+        if (*i == trig)
+            return false;
+    unitDamagedTriggers.push_back(trig);
+    return true;
+}
+
+uintptr_t real_RunUnitDamagedEventTrigger = 0;
+uint32_t __fastcall fake_RunUnitDamagedEventTrigger(uint32_t pUnit, uint32_t edx, float* amount, uint32_t pSrcUnit) {
+    unitDamagedEvent.push_back(UnitDamagedEvent(pUnit, *amount, pSrcUnit));
+    for (auto i = unitDamagedTriggers.begin(); i != unitDamagedTriggers.end(); i++)
+        if (jass::call("IsTriggerEnabled", *i))
+            if (jass::call("TriggerEvaluate", *i))
+                jass::call("TriggerExecute", *i);
+    unitDamagedEvent.pop_back();
+
+    return base::fast_call<uint32_t>(real_RunUnitDamagedEventTrigger, pUnit, edx, amount, pSrcUnit);
+}
+
+uint32_t __cdecl EXGetEventDamage() {
+    // 不在任意单位接受伤害事件
+    if (unitDamagedEvent.empty())
+        return 0;
+
+    // g_edd 和 unitDamagedEvent 的数量调用时应始终相同
+    if (g_edd.size() != unitDamagedEvent.size())
+        return jass::to_real(unitDamagedEvent.back().amount);
+
+    event_damage_data& edd = g_edd.back();
+
+    // 伤害已更改
+    if (edd.change)
+        return edd.new_amount;
+
+    return jass::to_real(unitDamagedEvent.back().amount);
+}
+
+uint32_t __cdecl EXGetEventDamageTarget() {
+    return unitDamagedEvent.empty() ? 0 : object_to_handle(unitDamagedEvent.back().pUnit);
+}
+
+uint32_t __cdecl EXGetEventDamageSource() {
+    return unitDamagedEvent.empty() ? 0 : object_to_handle(unitDamagedEvent.back().pSrcUnit);
+}
+
+void __cdecl EXTriggerRemoveAnyUnitDamagedEvent(jass::jhandle_t trig) {
+    unitDamagedTriggers.erase(std::remove(unitDamagedTriggers.begin(), unitDamagedTriggers.end(), trig), unitDamagedTriggers.end());
+}
+
+uintptr_t real_DestroyTrigger = 0;
+void __cdecl fake_DestroyTrigger(jass::jhandle_t trig) {
+    EXTriggerRemoveAnyUnitDamagedEvent(trig);
+    base::c_call<void>(real_DestroyTrigger, trig);
+}
+
 void InitializeEventDamageData()
 {
 	RealUnitDamageFunc = base::hook::replace_pointer(getUnitDamageFunc(), (uintptr_t)FakeUnitDamageFunc);
 	jass::japi_hook("GetEventDamage", &RealGetEventDamage, (uintptr_t)FakeGetEventDamage);
-	jass::japi_add((uintptr_t)EXGetEventDamageData, "EXGetEventDamageData", "(I)I");
-	jass::japi_add((uintptr_t)EXSetEventDamage,     "EXSetEventDamage",     "(R)B");
+	jass::japi_add((uintptr_t)EXGetEventDamageData,                     "EXGetEventDamageData",                 "(I)I");
+	jass::japi_add((uintptr_t)EXSetEventDamage,                         "EXSetEventDamage",                     "(R)B");
+
+    // 任意单位接受伤害事件
+    real_RunUnitDamagedEventTrigger = searchRunUnitDamagedEventTrigger();
+    base::hook::install(&real_RunUnitDamagedEventTrigger, (uintptr_t)fake_RunUnitDamagedEventTrigger);
+    jass::japi_hook("DestroyTrigger", &real_DestroyTrigger, (uintptr_t)fake_DestroyTrigger);
+    jass::japi_add((uintptr_t)EXTriggerRegisterAnyUnitDamagedEvent,     "EXTriggerRegisterAnyUnitDamagedEvent", "(Htrigger;)B");
+    jass::japi_add((uintptr_t)EXTriggerRemoveAnyUnitDamagedEvent,       "EXTriggerRemoveAnyUnitDamagedEvent",   "(Htrigger;)V");
+    // 任意单位接受伤害事件 - 获取触发数据
+    // 直接 hook 魔兽的 JAPI 可能会出现问题
+    jass::japi_add((uintptr_t)EXGetEventDamage,                         "EXGetEventDamage",                     "()R");
+    jass::japi_add((uintptr_t)EXGetEventDamageTarget,                   "EXGetEventDamageTarget",               "()Hunit;");
+    jass::japi_add((uintptr_t)EXGetEventDamageSource,                   "EXGetEventDamageSource",               "()Hunit;");
+    event_game_reset([]() {
+        unitDamagedTriggers.clear();
+    });
 }
 }

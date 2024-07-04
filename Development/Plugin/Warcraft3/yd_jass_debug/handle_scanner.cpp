@@ -125,6 +125,7 @@ namespace handles {
 		ref += h.hashtable_reference.size();
 
 		fs << fmt::format("handle: 0x{:08X}", h.handle) << std::endl;
+		fs << fmt::format("  指针: 0x{:08X}", handle_to_object(h.handle)) << std::endl;
 		fs << fmt::format("  引用: {}/{}", ref, h.reference) << std::endl;
 		if (h.object) {
 			uint32_t type = get_object_type(h.object);
