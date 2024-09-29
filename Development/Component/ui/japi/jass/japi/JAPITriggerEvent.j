@@ -1,6 +1,7 @@
 #ifndef JAPITriggerEventIncluded
 #define JAPITriggerEventIncluded
 
+#include "japi/EXTriggerRegisterPlayerUnitDamagedEvent.j"
 //===========================================================================  
 //===========================================================================  
 //自定义事件 
@@ -15,11 +16,6 @@ globals
     private trigger array DamageEventQueue
     private integer DamageEventNumber = 0
 endglobals
-
-#ifndef EXTriggerRegisterPlayerUnitDamagedEventIncluded
-#define EXTriggerRegisterPlayerUnitDamagedEventIncluded
-native EXTriggerRegisterPlayerUnitDamagedEvent takes trigger whichTrigger, player whichPlayer returns event
-#endif
 	
 //===========================================================================  
 //任意单位伤害事件 
@@ -53,4 +49,4 @@ endfunction
 
 endlibrary 
 
-#endif /// JAPITriggerEventIncluded
+#endif // JAPITriggerEventIncluded
