@@ -49,10 +49,13 @@ namespace warcraft3 {
 	uintptr_t war3_searcher::current_function(uintptr_t ptr)
 	{
 		static uint32_t nop = get_version() > version_121b ? 0xCCCCCCCC : 0x90909090;
-		for (; nop != *(uint32_t*)ptr; --ptr)
-			;
-		ptr += 4;
-		return ptr;
+        while (1) {
+            if (nop == *(uint32_t*)ptr)
+                return ptr + 4;
+            else if (0xEC8B55C3 == *(uint32_t*)ptr) // ret; push ebp; mov ebp, esp
+                return ptr + 1;
+            ptr--;
+        }
 	}
 	
 	uint32_t war3_searcher::search_version() const

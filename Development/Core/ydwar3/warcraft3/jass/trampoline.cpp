@@ -39,7 +39,7 @@ uintptr_t get_conver_func_addr()
 }
 
 //将指定jass函数地址转换为code id
-int conver_code_id(uintptr_t func_addr)
+int convert_code_id(uintptr_t func_addr)
 {
 	static uintptr_t addr = get_conver_func_addr();
 	uintptr_t jvm = (uintptr_t)warcraft3::get_jass_vm();
@@ -58,6 +58,6 @@ namespace warcraft3 { namespace jass {
 	uintptr_t trampoline::code() const
 	{
 		uintptr_t address = (uintptr_t)this;
-		return conver_code_id(address);
+		return convert_code_id(address);
 	}
 }}

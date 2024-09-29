@@ -1,3 +1,5 @@
+[TriggerCategories]
+TC_JAPIET=[JAPI 事件],ReplaceableTextures\CommandButtons\BTNFeedBack.blp
 
 [TriggerTypes]
 MoveType=0,0,0,移动类型,integer

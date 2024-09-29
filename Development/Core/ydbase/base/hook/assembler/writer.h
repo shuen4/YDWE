@@ -22,10 +22,10 @@ namespace hook { namespace assembler {
 		inline void emit(T val) 
 		{
 			static_assert(std::is_integral<T>::value, "emit's param must be integer.");
-			assert((size() + sizeof T) <= BufSizeT);
+			assert((size() + sizeof(T)) <= BufSizeT);
 
 			*reinterpret_cast<T*>(cur_) = val;
-			cur_ += sizeof T;
+			cur_ += sizeof(T);
 		}
 
 		void emit_operand(reg r, const operand& adr) 

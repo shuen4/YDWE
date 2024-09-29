@@ -10,9 +10,9 @@ namespace warcraft3::jass {
 		typedef opcode_writer<16> mybase;
 
 	public:
-		trampoline();
+        trampoline();
 		trampoline(trampoline const&);
-		uintptr_t code() const;
+        uintptr_t code() const;
 
 	private:
 		uint64_t                trampoline_;
@@ -20,3 +20,4 @@ namespace warcraft3::jass {
 	};
 }
 
+_WAR3_API int convert_code_id(uintptr_t func_addr);

@@ -137,6 +137,16 @@ namespace warcraft3::jass {
 			emit(OPTYPE_MOVRLITERAL, reg_num, (uint8_t)var_type, 0, value);
 		}
 
+        void movrr(uint8_t in_reg_num, uint8_t out_reg_num)
+        {
+            emit(OPTYPE_MOVRR, out_reg_num, in_reg_num);
+        }
+
+        void equal(uint8_t in_reg_num, uint8_t test_reg_num1, uint8_t test_reg_num2)
+        {
+            emit(OPTYPE_EQUAL, in_reg_num, test_reg_num1, test_reg_num2);
+        }
+
 		void ret()
 		{
 			emit(OPTYPE_RETURN);
