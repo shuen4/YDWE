@@ -1,0 +1,9 @@
+#ifndef EXTriggerRegisterPlayerUnitDamagingEventIncluded
+#define EXTriggerRegisterPlayerUnitDamagingEventIncluded
+
+native EXTriggerRegisterPlayerUnitDamagingEvent takes trigger whichTrigger, player whichPlayer returns event
+native EXSetEventAttackType takes attacktype Type returns boolean
+native EXSetEventDamageType takes damagetype Type returns boolean
+native EXSetEventWeaponType takes weapontype Type returns boolean
+
+#endif  // EXTriggerRegisterPlayerUnitDamagingEventIncluded

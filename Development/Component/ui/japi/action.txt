@@ -396,3 +396,27 @@ default = "GetTriggerUnit"
 [[.args]]
 type = CollisionType
 default = "CollisionType01"
+
+[EXSetEventAttackType]
+title = "设置攻击类型 [JAPI]"
+description = "设置攻击类型为 ${攻击类型}"
+comment = "修改伤害事件里的攻击类型，不能在等待之后使用。"
+category = TC_UNIT
+[[.args]]
+type = attacktype
+
+[EXSetEventDamageType]
+title = "设置伤害类型 [JAPI]"
+description = "设置伤害类型为 ${伤害类型}"
+comment = "修改伤害事件里的伤害类型，不能在等待之后使用。"
+category = TC_UNIT
+[[.args]]
+type = damagetype
+
+[EXSetEventWeaponType]
+title = "设置武器类型 [JAPI]"
+description = "设置武器类型为 ${武器类型}"
+comment = "修改伤害事件里的武器类型，不能在等待之后使用。"
+category = TC_UNIT
+[[.args]]
+type = weapontype
