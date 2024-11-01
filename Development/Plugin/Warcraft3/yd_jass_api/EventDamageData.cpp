@@ -249,33 +249,9 @@ uint32_t __cdecl FakeGetEventDamage()
 	return base::fast_call<uint32_t>(RealGetEventDamage);
 }
 
-uintptr_t RealUnitDamageDoneFunc = 0;
-uint32_t __fastcall FakeUnitDamageDoneFunc(uint32_t _this, uint32_t _edx, uint32_t* damage1, uint32_t* damage2)
-{
-	if (!g_edd.empty())
-	{
-		event_damage_data& edd = g_edd.back();
-		if (edd.change)
-		{
-			edd.change = false;
-			float d = jass::from_real(edd.new_amount);
-			uint32_t new_damage1 = jass::to_real(d);
-			uint32_t new_damage2 = jass::to_real(-d);
-			return base::fast_call<uint32_t>(RealUnitDamageDoneFunc, _this, _edx, &new_damage1, &new_damage2);
-		}
-	}
-
-	return base::fast_call<uint32_t>(RealUnitDamageDoneFunc, _this, _edx, damage1, damage2);
-}
-
 uintptr_t RealUnitDamageFunc = 0;
 uint32_t __fastcall FakeUnitDamageFunc(uint32_t _this, uint32_t _edx, uint32_t a2, war3_event_damage_data* ptr, uint32_t is_physical, uint32_t source_unit)
 {
-	if ((uintptr_t)FakeUnitDamageDoneFunc != *(uintptr_t*)(*(uint32_t*)_this + 296))
-	{
-		RealUnitDamageDoneFunc = base::hook::replace_pointer(*(uint32_t*)_this + 296, (uintptr_t)FakeUnitDamageDoneFunc);
-	}
-
 	g_edd.push_back(event_damage_data(is_physical, ptr));
 	uint32_t retval = base::fast_call<uint32_t>(RealUnitDamageFunc, _this, _edx, a2, ptr, is_physical, source_unit);
 	g_edd.pop_back();
@@ -375,7 +351,13 @@ uint32_t __fastcall fake_CUnit_RunDamagedEvent(uint32_t pUnit, uint32_t edx, flo
         base::this_call<uint32_t>(executePlayerUnitEvent.pDispatchPlayerUnitEvent, pOwningPlayer, 524800 + EVENT_PLAYER_UNIT_DAMAGED, pPlayerUnitEventDataBase);
         reference_free_ptr((uint32_t**)&pPlayerUnitEventDataBase);
     }
-    return base::this_call<uint32_t>(real_CUnit_RunDamagedEvent, pUnit, amount, pSrcUnit);
+    uint32_t ret = base::this_call<uint32_t>(real_CUnit_RunDamagedEvent, pUnit, amount, pSrcUnit);
+    if (!g_edd.empty()) {
+        event_damage_data& edd = g_edd.back();
+        if (edd.change)
+            *amount = *(float*)&edd.new_amount; // 不用管 C6011:取消NULL指针引用
+    }
+    return ret;
 }
 
 uint32_t __cdecl EXTriggerRegisterPlayerUnitDamagedEvent(jass::jhandle_t trigger, jass::jhandle_t player) {
