@@ -3,6 +3,7 @@
 #include <warcraft3/hashtable.h>
 #include <base/util/singleton.h>
 #include <base/hook/fp_call.h>
+#include <base/util/memory.h>
 
 namespace warcraft3 {
 
@@ -12,7 +13,10 @@ namespace warcraft3 {
 		, get_instance_(search_get_instance())
 		, get_gameui_(search_get_gameui())
 		, gamestate_ptr_(search_gamestate_ptr())
-	{ }
+	{
+        search_create_object_by_type_id();
+        search_create_handle();
+    }
 	
 	war3_searcher::war3_searcher(HMODULE hGameDll)
 		: _Mybase(hGameDll)
@@ -20,7 +24,10 @@ namespace warcraft3 {
 		, get_instance_(search_get_instance())
 		, get_gameui_(search_get_gameui())
 		, gamestate_ptr_(search_gamestate_ptr())
-	{ }
+    {
+        search_create_object_by_type_id();
+        search_create_handle();
+    }
 	
 	uint32_t war3_searcher::get_version() const
 	{
@@ -32,9 +39,9 @@ namespace warcraft3 {
 		return ((uint32_t(_fastcall*)(uint32_t))get_instance_)(index);
 	}
 	
-	uint32_t war3_searcher::get_gameui(uint32_t unk0, uint32_t unk1)
+	uint32_t war3_searcher::get_gameui(uint32_t createAndInitIfNotExist, uint32_t remove)
 	{
-		return ((uint32_t(_fastcall*)(uint32_t, uint32_t))get_gameui_)(unk0, unk1);
+		return ((uint32_t(_fastcall*)(uint32_t, uint32_t))get_gameui_)(createAndInitIfNotExist, remove);
 	}
 
 	uint32_t war3_searcher::get_gamestate() {
@@ -200,6 +207,99 @@ namespace warcraft3 {
 
 		return gamestate_ptr;
 	}
+
+    void war3_searcher::search_create_object_by_type_id() {
+        uintptr_t ptr = 0;
+
+        // 搜索 运行玩家单位被攻击 的函数
+        for (ptr = search_int_in_text(524818 /* 事件ID */); ptr; ptr = search_int_in_text(524818, ptr + 1)) {
+            if (ReadMemory<uint8_t>(ptr - 1) == 0x68) { // push 0x80212
+                ptr = current_function(ptr);
+                break;
+            }
+        }
+
+        //=========================================
+        //  CPlayer_RunUnitAttackedEvent:
+        //      ...
+        //      call CPlayerUnitEventDataBase_GetTypeId
+        //      ...
+        //  if not inlined
+        //      call CreateAgileTypeDataByTypeId
+        //  else
+        //      call reference_copy_ptr(&local_var, 0) // 实际动作只是把local_var设置0
+        //      ...
+        //      mov ebx, pAgileTypeData
+        //      ...
+        //      call CreateAgileTypeDataByTypeId_subfunc1
+        //      ...
+        //      call CreateAgileTypeDataByTypeId_subfunc2
+        //  endif
+        //      ...
+        //      call pInitAgent
+        //      ...
+        //      call CreateAgentAbs
+        //=========================================
+
+        ptr = next_opcode(ptr, 0xE8, 5);
+        ptr += 5;
+        ptr = next_opcode(ptr, 0xE8, 5);
+        ptr += 5;
+        ptr = next_opcode(ptr, 0xE8, 5);
+        if (get_version() >= version_127a) {
+            create_obj.pCreateAgileTypeDataByTypeId = convert_function(ptr);
+        }
+        else {
+            ptr += 5;
+            ptr = next_opcode(ptr, 0x8B, 6);
+            create_obj.inlined.pAgileTypeData = ReadMemory<uint32_t>(ptr + 2);
+            ptr = next_opcode(ptr, 0xE8, 5);
+            create_obj.inlined.pCreateAgileTypeDataByTypeIdFunc1 = convert_function(ptr);
+            ptr += 5;
+            ptr = next_opcode(ptr, 0xE8, 5);
+            create_obj.inlined.pCreateAgileTypeDataByTypeIdFunc2 = convert_function(ptr);
+        }
+        ptr += 5;
+        ptr = next_opcode(ptr, 0xE8, 5);
+        create_obj.pInitAgent = convert_function(ptr);
+        ptr += 5;
+        ptr = next_opcode(ptr, 0xE8, 5);
+        create_obj.pCreateAgentAbs = convert_function(ptr);
+    }
+
+    void war3_searcher::search_create_handle() {
+        uintptr_t ptr;
+
+        //=========================================
+        // (1)
+        //
+        // push		"()V"
+        // mov		edx, "Player"
+        // mov		ecx, [Player函数的地址] <----
+        // call		BindNative
+        //=========================================
+        ptr = search_string("Player");
+        ptr = *(uintptr_t*)(ptr + 0x05);
+
+        //=========================================
+        // (2)
+        //  Player:
+        //      ...
+        //      call GetCPlayerById
+        //      ...
+        //      call GetDataNode
+        //      ...
+        //      call CreateOrGetHandleId
+        //=========================================
+
+        ptr = warcraft3::next_opcode(ptr, 0xE8, 5);
+        ptr += 5;
+        ptr = warcraft3::next_opcode(ptr, 0xE8, 5);
+        create_handle.GetDataNode = convert_function(ptr);
+        ptr += 5;
+        ptr = warcraft3::next_opcode(ptr, 0xE8, 5);
+        create_handle.CreateOrGetHandleId = convert_function(ptr);
+    }
 
 	war3_searcher& get_war3_searcher()
 	{
@@ -387,4 +487,62 @@ namespace warcraft3 {
 		}
 		return 0;
 	}
+
+    uint32_t** reference_copy_ptr(uint32_t** _this, uint32_t* a2) {
+        if (_this[0] != a2) {
+            if (_this[0])
+                if (_this[0][1]-- == 1)
+                    base::this_call<void>(ReadMemory<uint32_t>(_this[0][0]), _this[0]);
+            if (a2)
+                a2[1]++;
+            _this[0] = a2;
+        }
+        return _this;
+    }
+
+    void reference_free_ptr(uint32_t** _this) {
+        if (_this[0]) {
+            --_this[0][1];
+            if (!_this[0][1])
+                base::this_call<void>(ReadMemory<uint32_t>(_this[0][0]), _this[0]);
+            _this[0] = 0;
+        }
+    }
+
+    uint32_t create_by_typeid(uint32_t typeID) {
+        static auto create_obj = get_war3_searcher().create_obj;
+        uint32_t pAgileTypeData;
+        if (get_war3_searcher().get_version() >= version_127a)
+            pAgileTypeData = base::this_call<uint32_t>(create_obj.pCreateAgileTypeDataByTypeId, typeID);
+        else
+            pAgileTypeData = base::this_call<uint32_t>(create_obj.inlined.pCreateAgileTypeDataByTypeIdFunc2, ReadMemory(create_obj.inlined.pAgileTypeData) + 0xC, base::this_call<uint32_t>(create_obj.inlined.pCreateAgileTypeDataByTypeIdFunc1, &typeID), &typeID);
+        uint32_t agent[11];
+        base::fast_call<uint32_t>(create_obj.pInitAgent, agent, typeID, ReadMemory(pAgileTypeData + 0x70));
+        agent[9] = 0xFFFFFFFF;
+        uint32_t pCAgentAbs = base::fast_call<uint32_t>(create_obj.pCreateAgentAbs, agent, 1, 1);
+        uint32_t pObj = 0;
+        reference_copy_ptr((uint32_t**)&pObj, ReadMemory<uint32_t*>(pCAgentAbs + 0x54));
+        return pObj;
+    }
+
+    uint32_t create_handle(uint32_t pObject) {
+        static auto& searcher = get_war3_searcher();
+        return base::this_call<uint32_t>(
+            searcher.create_handle.CreateOrGetHandleId,
+            base::this_call<uint32_t>(
+                searcher.create_handle.GetDataNode,
+                searcher.get_gamestate()
+            ),
+            pObject,
+            0
+        );
+    }
+
+    uint32_t GetObjectByHash(uint32_t a, uint32_t b) {
+        uint32_t obj = find_objectid_64(objectid_64(a, b));
+        if (obj && !ReadMemory<uint32_t>(obj + 0x20))
+            return ReadMemory<uint32_t>(obj + 0x54);
+        else
+            return 0;
+    }
 }

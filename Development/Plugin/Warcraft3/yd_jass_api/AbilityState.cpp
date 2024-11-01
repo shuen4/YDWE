@@ -880,8 +880,8 @@ namespace warcraft3::japi {
 		jass::japi_add((uintptr_t)EXSetAbilityDataString,  "EXSetAbilityDataString",  "(Hability;IIS)B");
 		jass::japi_add((uintptr_t)EXSetAbilityAEmeDataA,   "EXSetAbilityAEmeDataA",   "(Hability;I)B");
 		jass::japi_add((uintptr_t)EXGetBuffDataString,     "EXGetBuffDataString",     "(II)S");
-		jass::japi_add((uintptr_t)EXSetBuffDataString,     "EXSetBuffDataString",     "(IIS)B"); 
+		jass::japi_add((uintptr_t)EXSetBuffDataString,     "EXSetBuffDataString",     "(IIS)B");
 		jass::japi_add((uintptr_t)EXGetAbilityString,      "EXGetAbilityString",      "(III)S");
-		jass::japi_add((uintptr_t)EXSetAbilityString,      "EXSetAbilityString",      "(IIIS)B");	
+		jass::japi_add((uintptr_t)EXSetAbilityString,      "EXSetAbilityString",      "(IIIS)B");
 	}
 }

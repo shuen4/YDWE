@@ -77,8 +77,14 @@ namespace base {
 	template <typename R, typename F, typename This, typename ... Args>
 	inline R this_call(F f, This t, Args ... args)
 	{
-		return (reinterpret_cast<R(__fastcall *)(typename call_::cast_type<This>::type, void*, typename call_::cast_type<Args>::type ... args)>(f))(call_::cast(t), 0, call_::cast(args)...);
+		return (reinterpret_cast<R(__thiscall*)(typename call_::cast_type<This>::type, typename call_::cast_type<Args>::type ... args)>(f))(call_::cast(t), call_::cast(args)...);
 	}
+
+    template <typename R, typename This, typename ... Args>
+    inline R this_call_vf(This t, uint32_t off, Args ... args)
+    {
+        return (reinterpret_cast<R(__thiscall*)(typename call_::cast_type<This>::type, typename call_::cast_type<Args>::type ... args)>(*(uint32_t*)(*(uint32_t*)t + off)))(call_::cast(t), call_::cast(args)...);
+    }
 }
 
 #else

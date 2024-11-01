@@ -556,7 +556,7 @@ namespace warcraft3::japi {
 		}
 		else {
 			// ∆‰À˚∞Ê±æŒ¥≤‚ ‘
-			base::c_call<void>(addr.GetAnimationDataFromJassString, animName, AnimData);
+			base::fast_call<void>(addr.GetAnimationDataFromJassString, animName, AnimData);
 		}
 		
 		if (!AnimData[1])
@@ -569,6 +569,27 @@ namespace warcraft3::japi {
 	jass::jboolean_t __cdecl EXSetEffectAnimation(jass::jhandle_t effect, jass::jstring_t animName) {
 		return EXSetEffectAnimationEx(effect, animName, 0);
 	}
+
+    jass::jnothing_t __cdecl EXHideEffect(jass::jhandle_t effect, jass::jboolean_t hide) {
+        uintptr_t obj = handle_to_object(effect);
+        if (!obj)
+            return;
+
+        uint32_t flag = ReadMemory(obj + 0x20);
+        if (hide)
+            flag |= 0b1;
+        else
+            flag &= ~0b1;
+        WriteMemory(obj + 0x20, flag);
+    }
+
+    jass::jboolean_t __cdecl EXRemoveEffect(jass::jhandle_t effect) {
+        uint32_t pEffect = handle_to_object(effect);
+        if (!pEffect)
+            return jass::jfalse;
+        base::this_call_vf<void>(pEffect, 0x5C);
+        return jass::jtrue;
+    }
 
 	void InitializeEffect()
 	{
@@ -599,5 +620,7 @@ namespace warcraft3::japi {
 		jass::japi_add((uintptr_t)EXUpdateEffectSmartPosition,		"EXUpdateEffectSmartPosition",	"(Heffect;)V");
 		jass::japi_add((uintptr_t)EXSetEffectAnimation,				"EXSetEffectAnimation",			"(Heffect;S)B");
 		jass::japi_add((uintptr_t)EXSetEffectAnimationEx,			"EXSetEffectAnimationEx",		"(Heffect;SI)B");
+        jass::japi_add((uintptr_t)EXHideEffect,                     "EXHideEffect",                 "(Heffect;B)V");
+        jass::japi_add((uintptr_t)EXRemoveEffect,                   "EXRemoveEffect",               "(Heffect;)B");
 	}
 }

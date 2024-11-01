@@ -397,16 +397,19 @@ namespace warcraft3 {
 			uint32_t max_size_;
 			uint32_t array_;
 
-			uint32_t get(uint32_t idx)
-			{
-				uint32_t result = 0;
-				if (idx < max_size_)
-				{
-					result = array_ + 0x10 * idx;
-					++*(uint32_t*)(result + 0xC);
-				}
-				return result;
+			uint32_t get_no_ref(uint32_t idx) {
+                if (idx < max_size_)
+                    return array_ + 0x10 * idx;
+                else
+                    return 0;
 			}
+
+            uint32_t get(uint32_t idx)
+            {
+                uint32_t result = get_no_ref(idx);
+                ++*(uint32_t*)(idx + 0xC);
+                return result;
+            }
 		};
 	}
 

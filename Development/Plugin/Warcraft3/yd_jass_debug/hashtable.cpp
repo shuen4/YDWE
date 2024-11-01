@@ -86,17 +86,6 @@ namespace ht {
 		return objectToHandle(hts, object);
 	}
 
-	static uintptr_t searchCreateHandle() {
-		uintptr_t ptr = warcraft3::get_war3_searcher().search_string("Player");
-		ptr = *(uintptr_t*)(ptr + 0x05);
-		ptr = warcraft3::next_opcode(ptr, 0xE8, 5);
-		ptr += 5;
-		ptr = warcraft3::next_opcode(ptr, 0xE8, 5);
-		ptr += 5;
-		ptr = warcraft3::next_opcode(ptr, 0xE8, 5);
-		return warcraft3::convert_function(ptr);
-	}
-
 	std::map<uint32_t, std::vector<warcraft3::jass::opcode*>> handlepos;
 
 	uintptr_t realCreateHandle = 0;
@@ -119,7 +108,7 @@ namespace ht {
 	}
 
 	void initialize() {
-		realCreateHandle = searchCreateHandle();
+		realCreateHandle = warcraft3::get_war3_searcher().create_handle.CreateOrGetHandleId;
 		base::hook::install(&realCreateHandle, (uintptr_t)fakeCreateHandle);
 	}
 }

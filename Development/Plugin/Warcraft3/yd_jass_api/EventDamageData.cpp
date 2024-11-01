@@ -75,99 +75,25 @@ uintptr_t searchCUnit_GetOwner() {
     return ptr;
 }
 
-uintptr_t searchCPlayer_RunUnitAttackedEvent() {
+struct ExecutePlayerUnitEvent {
+    uint32_t pCObserver_IsEventRegistered;
+    uint32_t pDispatchPlayerUnitEvent;
+};
+ExecutePlayerUnitEvent searchExecutePlayerUnitEvent() {
+    ExecutePlayerUnitEvent ret{};
     war3_searcher& s = get_war3_searcher();
 
     for (uintptr_t ptr = s.search_int_in_text(524818 /* 事件ID */); ptr; ptr = s.search_int_in_text(524818, ptr + 1)) {
         if (ReadMemory<uint8_t>(ptr - 1) == 0x68) { // push 0x80212
-            return s.current_function(ptr);
+            ret.pCObserver_IsEventRegistered = convert_function(next_opcode(ptr, 0xE8, 5));
+            ptr = s.search_int_in_text(524818, ptr + 1);
+            if (ReadMemory<uint8_t>(ptr - 1) == 0x68) { // push 0x80212
+                ret.pDispatchPlayerUnitEvent = convert_function(next_opcode(ptr, 0xE8, 5));
+                return ret;
+            }
         }
     }
 
-    return 0;
-}
-
-struct ExecutePlayerUnitEvent {
-    uint32_t pCObserver_IsEventRegistered;
-    union {
-        uint32_t pCreateAgileTypeDataByTypeId;
-        struct {
-            uint32_t pAgileTypeData;
-            uint32_t pCreateAgileTypeDataByTypeIdFunc1;
-            uint32_t pCreateAgileTypeDataByTypeIdFunc2;
-        } inlined;
-    };
-    uint32_t pInitAgent;
-    uint32_t pCreateAgentAbs;
-    uint32_t pDispatchPlayerUnitEvent;
-};
-ExecutePlayerUnitEvent searchExecutePlayerUnitEvent() {
-    ExecutePlayerUnitEvent ret = {};
-    uintptr_t ptr;
-
-    //=========================================
-    //  CPlayer_RunUnitAttackedEvent:
-    //      ...
-    //      call CObserver_IsEventRegistered
-    //      ...
-    //      call CPlayerUnitEventDataBase_GetTypeId
-    //      ...
-    //  if inlined
-    //      call CreateAgileTypeDataByTypeId
-    //  else
-    //      call reference_copy_ptr(&local_var, 0) // 实际动作只是把local_var设置0
-    //      ...
-    //      mov ebx, pAgileTypeData
-    //      ...
-    //      call CreateAgileTypeDataByTypeId_subfunc1
-    //      ...
-    //      call CreateAgileTypeDataByTypeId_subfunc2
-    //  endif
-    //      ...
-    //      call pInitAgent
-    //      ...
-    //      call CreateAgentAbs
-    //      ...
-    //      call DispatchPlayerUnitEvent
-    //=========================================
-
-    ptr = searchCPlayer_RunUnitAttackedEvent();
-    ptr = next_opcode(ptr, 0xE8, 5);
-    ret.pCObserver_IsEventRegistered = convert_function(ptr);
-    ptr += 5;
-    ptr = next_opcode(ptr, 0xE8, 5);
-    ptr += 5;
-    ptr = next_opcode(ptr, 0xE8, 5);
-    if (get_war3_searcher().get_version() >= version_127a) {
-        ret.pCreateAgileTypeDataByTypeId = convert_function(ptr);
-    }
-    else {
-        ptr += 5;
-        ptr = next_opcode(ptr, 0x8B, 6);
-        ret.inlined.pAgileTypeData = ReadMemory<uint32_t>(ptr + 2);
-        ptr = next_opcode(ptr, 0xE8, 5);
-        ret.inlined.pCreateAgileTypeDataByTypeIdFunc1 = convert_function(ptr);
-        ptr += 5;
-        ptr = next_opcode(ptr, 0xE8, 5);
-        ret.inlined.pCreateAgileTypeDataByTypeIdFunc2 = convert_function(ptr);
-    }
-    ptr += 5;
-    ptr = next_opcode(ptr, 0xE8, 5);
-    ret.pInitAgent = convert_function(ptr);
-    ptr += 5;
-    ptr = next_opcode(ptr, 0xE8, 5);
-    ret.pCreateAgentAbs = convert_function(ptr);
-    ptr += 5;
-    ptr = next_opcode(ptr, 0xE8, 5);
-    ptr += 5;
-    ptr = next_opcode(ptr, 0xE8, 5);
-    ptr += 5;
-    ptr = next_opcode(ptr, 0xE8, 5);
-    ptr += 5;
-    ptr = next_opcode(ptr, 0xE8, 5);
-    ptr += 5;
-    ptr = next_opcode(ptr, 0xE8, 5);
-    ret.pDispatchPlayerUnitEvent = convert_function(ptr);
     return ret;
 }
 struct GetEventDataBase {
@@ -202,45 +128,6 @@ GetEventDataBase searchGetEventDataBase() {
     ptr += 5;
     ptr = next_opcode(ptr, 0xE8, 5);
     ret.GetDataBase = convert_function(ptr);
-    return ret;
-}
-struct CreateHandle {
-    uint32_t GetDataNode;
-    uint32_t CreateOrGetHandleId;
-};
-CreateHandle searchCreateHandle() {
-    CreateHandle ret = {};
-    uintptr_t ptr;
-
-    //=========================================
-    // (1)
-    //
-    // push		"()V"
-    // mov		edx, "GetEventDamageSource"
-    // mov		ecx, [GetEventDamageSource函数的地址] <----
-    // call		BindNative
-    //=========================================
-    ptr = warcraft3::get_war3_searcher().search_string("Player");
-    ptr = *(uintptr_t*)(ptr + 0x05);
-
-    //=========================================
-    // (2)
-    //  Player:
-    //      ...
-    //      call GetCPlayerById
-    //      ...
-    //      call GetDataNode
-    //      ...
-    //      call CreateOrGetHandleId
-    //=========================================
-
-    ptr = warcraft3::next_opcode(ptr, 0xE8, 5);
-    ptr += 5;
-    ptr = warcraft3::next_opcode(ptr, 0xE8, 5);
-    ret.GetDataNode = convert_function(ptr);
-    ptr += 5;
-    ptr = warcraft3::next_opcode(ptr, 0xE8, 5);
-    ret.CreateOrGetHandleId = convert_function(ptr);
     return ret;
 }
 
@@ -455,25 +342,6 @@ bool __cdecl EXSetEventDamage(uint32_t value)
 	return true;
 }
 
-uint32_t** reference_copy_ptr(uint32_t** _this, uint32_t* a2) {
-    if (_this[0] != a2) {
-        if (_this[0])
-            if (_this[0][1]-- == 1)
-                base::this_call<void>(ReadMemory<uint32_t>(_this[0][0]), _this[0]);
-        if (a2)
-            a2[1]++;
-        _this[0] = a2;
-    }
-    return _this;
-}
-void reference_free_ptr(uint32_t** _this) {
-    if (_this[0]) {
-        --_this[0][1];
-        if (!_this[0][1])
-            base::this_call<void>(ReadMemory<uint32_t>(ReadMemory<uint32_t>((uint32_t)_this[0])), _this[0]);
-        _this[0] = 0;
-    }
-}
 uintptr_t real_CUnit_RunDamagedEvent = 0;
 uint32_t __fastcall fake_CUnit_RunDamagedEvent(uint32_t pUnit, uint32_t edx, float* amount, uint32_t pSrcUnit) {
     (void)edx;
@@ -481,45 +349,36 @@ uint32_t __fastcall fake_CUnit_RunDamagedEvent(uint32_t pUnit, uint32_t edx, flo
     uint32_t pOwningPlayer = base::this_call<uint32_t>(CUnit_GetOwner, pUnit);
     static ExecutePlayerUnitEvent executePlayerUnitEvent = searchExecutePlayerUnitEvent();
     if (base::this_call<uint32_t>(executePlayerUnitEvent.pCObserver_IsEventRegistered, pOwningPlayer, 524800 + EVENT_PLAYER_UNIT_DAMAGED)) {
-        uint32_t typeId = 'pued'; // CPlayerUnitEventDataBase 没必要特地去创建自定义事件数据库 因为可以用GetTriggerEventId获取触发事件id 然后做判断
-        uint32_t pAgileTypeData = 0;
-        if (get_war3_searcher().get_version() >= version_127a) 
-            pAgileTypeData = base::this_call<uint32_t>(executePlayerUnitEvent.pCreateAgileTypeDataByTypeId, typeId);
-        else 
-            pAgileTypeData = base::this_call<uint32_t>(executePlayerUnitEvent.inlined.pCreateAgileTypeDataByTypeIdFunc2, ReadMemory(executePlayerUnitEvent.inlined.pAgileTypeData) + 0xC, base::this_call<uint32_t>(executePlayerUnitEvent.inlined.pCreateAgileTypeDataByTypeIdFunc1, &typeId), &typeId);
-        uint32_t agent[11];
-        base::fast_call<uint32_t>(executePlayerUnitEvent.pInitAgent, agent, typeId, ReadMemory(pAgileTypeData + 0x70));
-        agent[9] = (uint32_t) - 1;
-        uint32_t pCAgentAbs = base::fast_call<uint32_t>(executePlayerUnitEvent.pCreateAgentAbs, agent, 1, 1);
-        uint32_t* pPlayerUnitEventDataBase = 0;
-        reference_copy_ptr(&pPlayerUnitEventDataBase, ReadMemory<uint32_t*>(pCAgentAbs + 0x54));
-        // CPlayerUnitEventDataBase 只能修改 0x20 - 0x43 (36字节)
+        uint32_t pPlayerUnitEventDataBase = create_by_typeid('pued');
+        // sizeof(CAgent/* base */) 0x20 (32字节)
+        // sizeof(CPlayerUnitEventDataBase) 0x44 (68字节)
+        // 0x20 ~ (0x44 - 1)
         if (amount)
             // damage amount
-            WriteMemory<float>((uint32_t)pPlayerUnitEventDataBase + 0x28, *amount);
+            WriteMemory<float>(pPlayerUnitEventDataBase + 0x28, *amount);
         if (pUnit) {
             uint32_t pAgent = find_objectid_64({ ReadMemory<uint32_t>((uint32_t)pUnit + 0xC), ReadMemory<uint32_t>((uint32_t)pUnit + 0x10) });
             if (pAgent && ReadMemory<uint32_t>((uint32_t)pAgent + 0xC) == '+agl') {
                 // trigger unit
-                WriteMemory<uint32_t>((uint32_t)pPlayerUnitEventDataBase + 0x2C, ReadMemory<uint32_t>((uint32_t)pAgent + 0x14));
-                WriteMemory<uint32_t>((uint32_t)pPlayerUnitEventDataBase + 0x30, ReadMemory<uint32_t>((uint32_t)pAgent + 0x18));
+                WriteMemory<uint32_t>(pPlayerUnitEventDataBase + 0x2C, ReadMemory<uint32_t>((uint32_t)pAgent + 0x14));
+                WriteMemory<uint32_t>(pPlayerUnitEventDataBase + 0x30, ReadMemory<uint32_t>((uint32_t)pAgent + 0x18));
             }
         }
         if (pSrcUnit) {
             uint32_t pAgent = find_objectid_64({ ReadMemory<uint32_t>((uint32_t)pSrcUnit + 0xC), ReadMemory<uint32_t>((uint32_t)pSrcUnit + 0x10) });
             if (pAgent && ReadMemory<uint32_t>((uint32_t)pAgent + 0xC) == '+agl') {
                 // damage source 0x34 0x38
-                WriteMemory<uint32_t>((uint32_t)pPlayerUnitEventDataBase + 0x34, ReadMemory<uint32_t>((uint32_t)pAgent + 0x14));
-                WriteMemory<uint32_t>((uint32_t)pPlayerUnitEventDataBase + 0x38, ReadMemory<uint32_t>((uint32_t)pAgent + 0x18));
+                WriteMemory<uint32_t>(pPlayerUnitEventDataBase + 0x34, ReadMemory<uint32_t>((uint32_t)pAgent + 0x14));
+                WriteMemory<uint32_t>(pPlayerUnitEventDataBase + 0x38, ReadMemory<uint32_t>((uint32_t)pAgent + 0x18));
             }
         }
         base::this_call<uint32_t>(executePlayerUnitEvent.pDispatchPlayerUnitEvent, pOwningPlayer, 524800 + EVENT_PLAYER_UNIT_DAMAGED, pPlayerUnitEventDataBase);
-        reference_free_ptr(&pPlayerUnitEventDataBase);
+        reference_free_ptr((uint32_t**)&pPlayerUnitEventDataBase);
     }
     return base::this_call<uint32_t>(real_CUnit_RunDamagedEvent, pUnit, amount, pSrcUnit);
 }
 
-uint32_t EXTriggerRegisterPlayerUnitDamagedEvent(jass::jhandle_t trigger, jass::jhandle_t player) {
+uint32_t __cdecl EXTriggerRegisterPlayerUnitDamagedEvent(jass::jhandle_t trigger, jass::jhandle_t player) {
     static auto s = searchTriggerRegisterPlayerUnitEvent_JumpIfInvalidEventId();
     uint16_t p1 = ReadMemory<uint16_t>(s.p1);
     uint16_t p2 = ReadMemory<uint16_t>(s.p2);
@@ -534,29 +393,18 @@ uint32_t EXTriggerRegisterPlayerUnitDamagedEvent(jass::jhandle_t trigger, jass::
     return hEvent;
 }
 
-uint32_t GetObjectByHash(uint32_t a, uint32_t b) {
-    uint32_t obj = find_objectid_64(objectid_64(a, b));
-    if (obj && !ReadMemory<uint32_t>(obj + 0x20))
-        return ReadMemory<uint32_t>(obj + 0x54);
-    else
-        return 0;
-}
-
 uint32_t real_GetTriggerUnit;
-uint32_t fake_GetTriggerUnit() {
+uint32_t __cdecl fake_GetTriggerUnit() {
     if (jass::call("GetTriggerEventId") == EVENT_PLAYER_UNIT_DAMAGED) {
         static auto getEventDataBase = searchGetEventDataBase();
         if (base::c_call<uint32_t>(getEventDataBase.IsValid)) {
-            static auto createHandle = searchCreateHandle();
-            return base::this_call<uint32_t>(
-                createHandle.CreateOrGetHandleId,
-                base::this_call<uint32_t>(
-                    createHandle.GetDataNode, 
-                    get_war3_searcher().get_gamestate()), 
+            return create_handle(
                 GetObjectByHash(
-                    ReadMemory<uint32_t>(base::c_call<uint32_t>(getEventDataBase.GetDataBase) + 0x2C),
-                    ReadMemory<uint32_t>(base::c_call<uint32_t>(getEventDataBase.GetDataBase) + 0x30)),
-                0);
+                    ReadMemory<uint32_t>(
+                        base::c_call<uint32_t>(getEventDataBase.GetDataBase) + 0x2C), 
+                    ReadMemory<uint32_t>(base::c_call<uint32_t>(getEventDataBase.GetDataBase) + 0x30)
+                )
+            );
         }
     }
     return base::c_call<uint32_t>(real_GetTriggerUnit);

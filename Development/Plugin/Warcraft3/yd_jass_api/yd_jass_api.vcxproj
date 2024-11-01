@@ -84,10 +84,13 @@
   <ItemGroup>
     <ClCompile Include="AbilityState.cpp" />
     <ClCompile Include="Bit.cpp" />
+    <ClCompile Include="Buff.cpp" />
+    <ClCompile Include="Cast.cpp" />
     <ClCompile Include="DisableButtonBlp.cpp" />
     <ClCompile Include="DllMain.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="EventDamageData.cpp" />
+    <ClCompile Include="FixCallNative.cpp" />
     <ClCompile Include="Hashtable.cpp" />
     <ClCompile Include="Initialize.cpp" />
     <ClCompile Include="ItemState.cpp" />

@@ -12,6 +12,9 @@
     <Filter Include="Resource Files">
       <UniqueIdentifier>{6e64550e-1de8-4c58-97b0-144898ce8817}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fix">
+      <UniqueIdentifier>{9b5d19ac-a0ec-414a-8f5d-e1dab0ba3743}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnitState.cpp">
@@ -47,6 +50,15 @@
     </ClCompile>
     <ClCompile Include="Bit.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Buff.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Cast.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FixCallNative.cpp">
+      <Filter>Fix</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

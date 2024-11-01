@@ -12,6 +12,10 @@ namespace warcraft3::japi {
 	void InitializeTerrain();
 	void InitializeHashtable();
 	void InitializeBit();
+    void InitializeBuff();
+    void InitializeCast();
+
+    void FixCallNative();
 
 	void initialize()
 	{
@@ -25,5 +29,9 @@ namespace warcraft3::japi {
 		InitializeTerrain();
 		InitializeHashtable();
 		InitializeBit();
+        InitializeBuff();
+        InitializeCast();
+
+        FixCallNative();
 	}
 }

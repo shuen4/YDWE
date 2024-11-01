@@ -19,11 +19,31 @@ namespace warcraft3 {
 		bool      is_gaming();
 		uintptr_t current_function(uintptr_t ptr);
 
+    public:
+        struct CreateObjectByTypeID {
+            union {
+                uint32_t pCreateAgileTypeDataByTypeId;
+                struct {
+                    uint32_t pAgileTypeData;
+                    uint32_t pCreateAgileTypeDataByTypeIdFunc1;
+                    uint32_t pCreateAgileTypeDataByTypeIdFunc2;
+                } inlined;
+            };
+            uint32_t pInitAgent;
+            uint32_t pCreateAgentAbs;
+        } create_obj;
+        struct CreateHandle {
+            uint32_t GetDataNode;
+            uint32_t CreateOrGetHandleId;
+        } create_handle;
+
 	private:
 		uint32_t  search_version() const;
 		uintptr_t search_get_instance() const;
 		uintptr_t search_get_gameui() const;
 		uintptr_t search_gamestate_ptr() const;
+        void search_create_object_by_type_id();
+        void search_create_handle();
 
 	private:
 		uint32_t  version_;
@@ -55,4 +75,9 @@ namespace warcraft3 {
 	_WAR3_API uint32_t    get_object_type(uintptr_t ptr);
 	_WAR3_API uintptr_t   handle_to_object(uint32_t handle);
 	_WAR3_API uint32_t    object_to_handle(uintptr_t obj);
+    _WAR3_API uint32_t**  reference_copy_ptr(uint32_t** _this, uint32_t* a2);
+    _WAR3_API void        reference_free_ptr(uint32_t** _this);
+    _WAR3_API uint32_t    create_by_typeid(uint32_t typeID);
+    _WAR3_API uint32_t    create_handle(uint32_t pObject);
+    _WAR3_API uint32_t    GetObjectByHash(uint32_t a, uint32_t b);
 }

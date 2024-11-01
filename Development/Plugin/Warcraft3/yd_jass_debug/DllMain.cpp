@@ -9,6 +9,7 @@
 #include <base/util/console.h>
 #include <fmt/format.h>
 #include <base/path/ydwe.h>
+#include <base/util/memory.h>
 #include <bee/utility/unicode_win.h>
 #include <iostream>
 #include <ctype.h>
@@ -235,10 +236,30 @@ namespace warcraft3::jdebug {
 		return base::c_call<uint32_t>(RealGetLocalizedHotkey, s);
 	}
 
+    // 不准确
+    uint32_t EXDebugPointerCounter(uint32_t ptr) {
+        if (IsBadReadPtr((void*)ptr, 0xC)) // 检查指针
+            return -1;
+        uint32_t pFunc = ReadMemory(ptr); // 第一个函数
+        auto& searcher = get_war3_searcher();
+        if (pFunc <= searcher.base() && pFunc >= searcher.base() + searcher.size())  // 检查函数是否在game.dll内存范围内
+            return -1;
+        if (IsBadReadPtr((void*)pFunc, 0x4)) // 检查函数是否指向可执行内存
+            return -1;
+        return ReadMemory(ptr + 0x4);
+    }
+
+    uint32_t _cdecl EXGetPointer(uint32_t unit_handle)
+    {
+        return handle_to_object(unit_handle);
+    }
+
 	bool initialize()
 	{
 		ht::initialize();
 		warcraft3::jass::async_hook("GetLocalizedHotkey", &RealGetLocalizedHotkey, (uintptr_t)FakeGetLocalizedHotkey);
+        jass::japi_add((uintptr_t)EXDebugPointerCounter, "EXDebugPointerCounter", "(I)I");
+        jass::japi_add((uintptr_t)EXGetPointer, "EXGetPointer", "(Hhandle;)I");
 		real_jass_vmmain = search_jass_vmmain();
 		real_jass_executed_opcode_add = search_jass_executed_opcode_add();
 		return base::hook::install(&real_jass_vmmain, (uintptr_t)fake_jass_vmmain);
