@@ -15,6 +15,9 @@
     <Filter Include="Fix">
       <UniqueIdentifier>{9b5d19ac-a0ec-414a-8f5d-e1dab0ba3743}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ObjectEditor">
+      <UniqueIdentifier>{bc886c8e-5cbd-469b-ae7e-5e1dc265eb6e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnitState.cpp">
@@ -59,6 +62,9 @@
     </ClCompile>
     <ClCompile Include="FixCallNative.cpp">
       <Filter>Fix</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectEditorChannelFlags.cpp">
+      <Filter>ObjectEditor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

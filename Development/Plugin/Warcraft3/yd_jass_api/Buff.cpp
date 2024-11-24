@@ -561,7 +561,7 @@ namespace warcraft3::japi {
             // BNrf
             // 移速增加(%) 攻速增加(%) 模型放大比例(%)
             do_if('Bblo', 0x35C, pTargetUnit, duration, pSrcUnit, data1, data2, data3);
-            // 移速增加(%) 攻速增加(%) 模型放大比例(%, 无效?)
+            // 移速增加(%) 攻速增加(%) 模型放大比例(%, 仅缩放选择圈)
             do_if('Bfzy', 0x35C, pTargetUnit, duration, pSrcUnit, data1, data2, data3);
             // 每秒伤害 未知(1)
             // do_if('BNbf', 0x0, pTargetUnit, pSrcUnit, duration, data1, 1);

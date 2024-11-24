@@ -171,6 +171,18 @@ TriggerRegisterPlayerUnitEvent_JumpIfInvalidEventId searchTriggerRegisterPlayerU
     return ret;
 }
 
+uintptr_t searchCPlayerWar3_Save()
+{
+    uint32_t ptr = get_vfn_ptr(".?AVCPlayerWar3@@");
+    return ReadMemory(ptr + 0x38); // vftable + 0x38
+}
+
+uintptr_t searchCPlayerWar3_Load()
+{
+    uint32_t ptr = get_vfn_ptr(".?AVCPlayerWar3@@");
+    return ReadMemory(ptr + 0x3C); // vftable + 0x3C
+}
+
 struct war3_event_damage_data
 {
 	uint32_t source_unit;
@@ -446,25 +458,41 @@ uint32_t __cdecl fake_GetTriggerUnit() {
     return base::c_call<uint32_t>(real_GetTriggerUnit);
 }
 
-bool EXSetEventAttackType(uint32_t type) {
+bool __cdecl EXSetEventAttackType(uint32_t type) {
     if (type > 6 || g_edd.empty())
         return false;
     g_edd.back().data->attack_type = type;
     return true;
 }
 
-bool EXSetEventDamageType(uint32_t type) {
+bool __cdecl EXSetEventDamageType(uint32_t type) {
     if (type > 26 || g_edd.empty() || type == 1 || type == 2 || type == 3 || type == 6 || type == 7)
         return false;
     g_edd.back().data->damage_type = 1 << type;
     return true;
 }
 
-bool EXSetEventWeaponType(uint32_t type) {
+bool __cdecl EXSetEventWeaponType(uint32_t type) {
     if (type > 23 || g_edd.empty())
         return false;
     g_edd.back().data->weapon_type = type;
     return true;
+}
+
+uint32_t real_CPlayerWar3_Save;
+void __fastcall fake_CPlayerWar3_Save(uint32_t _this, uint32_t edx, uint32_t pSaveGame) {
+    edx;
+    base::this_call_vf<void>(_this, 0x50, pSaveGame, 524800 + EVENT_PLAYER_UNIT_DAMAGED, 1024);
+    base::this_call_vf<void>(_this, 0x50, pSaveGame, 524800 + EVENT_PLAYER_UNIT_DAMAGING, 1024);
+    base::this_call<void>(real_CPlayerWar3_Save, _this, pSaveGame);
+}
+
+uint32_t real_CPlayerWar3_Load;
+void __fastcall fake_CPlayerWar3_Load(uint32_t _this, uint32_t edx, uint32_t pSaveGame) {
+    edx;
+    base::this_call_vf<void>(_this, 0x54, pSaveGame, 524800 + EVENT_PLAYER_UNIT_DAMAGED, 1024);
+    base::this_call_vf<void>(_this, 0x54, pSaveGame, 524800 + EVENT_PLAYER_UNIT_DAMAGING, 1024);
+    base::this_call<void>(real_CPlayerWar3_Load, _this, pSaveGame);
 }
 
 void InitializeEventDamageData() {
@@ -480,10 +508,15 @@ void InitializeEventDamageData() {
     jass::japi_hook("GetTriggerUnit", &real_GetTriggerUnit, (uintptr_t)fake_GetTriggerUnit);
 
     // 玩家单位接受伤害事件 (计算护甲前)
-    base::hook::install(&real_CUnit_RunDamagedEvent, (uintptr_t)fake_CUnit_RunDamagedEvent);
     jass::japi_add((uintptr_t)EXTriggerRegisterPlayerUnitDamagingEvent, "EXTriggerRegisterPlayerUnitDamagingEvent", "(Htrigger;Hplayer;)Hevent;");
     jass::japi_add((uintptr_t)EXSetEventAttackType,                     "EXSetEventAttackType",                     "(Hattacktype;)B");
     jass::japi_add((uintptr_t)EXSetEventDamageType,                     "EXSetEventDamageType",                     "(Hdamagetype;)B");
     jass::japi_add((uintptr_t)EXSetEventWeaponType,                     "EXSetEventWeaponType",                     "(Hweapontype;)B");
+
+    // 添加 JAPI的玩家单位事件 进保存的游戏
+    real_CPlayerWar3_Save = searchCPlayerWar3_Save();
+    base::hook::install(&real_CPlayerWar3_Save, (uintptr_t)fake_CPlayerWar3_Save);
+    real_CPlayerWar3_Load = searchCPlayerWar3_Load();
+    base::hook::install(&real_CPlayerWar3_Load, (uintptr_t)fake_CPlayerWar3_Load);
 }
 }

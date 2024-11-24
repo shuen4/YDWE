@@ -98,17 +98,29 @@ namespace warcraft3::japi {
             tmp = (*i);
             _asm push tmp;
         }
+
+        /*
         tmp = nf->param_num_ * 4;
         ((uint32_t(__cdecl*)())(nf->func_address_))();
         _asm {
             add esp, tmp;
             mov tmp, eax;
         }
+        */
+
+        _asm mov tmp, esp; // return bug 可能会修改函数指针为调用stdcall函数, 这边先计算并保存一下stack指针
+        tmp += nf->param_num_ * 4;
+        ((uint32_t(__cdecl*)())(nf->func_address_))();
+        _asm {
+            mov esp, tmp;
+            mov tmp, eax;
+        }
+
         return tmp;
     }
 
     // 原生只支持15个参数, 大于15会造成缓冲区溢出
-    void FixCallNative() {
+    void InitializeFixCallNative() {
         uint32_t real_JassVM_CallNative = getJassVM_CallNative();
         base::hook::install(&real_JassVM_CallNative, (uintptr_t)fake_JassVM_CallNative);
     }

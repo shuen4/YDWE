@@ -15,7 +15,9 @@ namespace warcraft3::japi {
     void InitializeBuff();
     void InitializeCast();
 
-    void FixCallNative();
+    void InitializeFixCallNative();
+
+    void InitializeObjectEditorChannelFlags();
 
 	void initialize()
 	{
@@ -32,6 +34,8 @@ namespace warcraft3::japi {
         InitializeBuff();
         InitializeCast();
 
-        FixCallNative();
+        InitializeFixCallNative();
+
+        InitializeObjectEditorChannelFlags();
 	}
 }

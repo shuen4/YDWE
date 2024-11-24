@@ -7,11 +7,11 @@
 
 namespace warcraft3::japi {
 
-    uint32_t EXCastI2R(uint32_t value) {
+    uint32_t __cdecl EXCastI2R(uint32_t value) {
         return value;
     }
 
-    uint32_t EXCastR2I(float* value) {
+    uint32_t __cdecl EXCastR2I(float* value) {
         return ReadMemory((uint32_t)value);
     }
 
