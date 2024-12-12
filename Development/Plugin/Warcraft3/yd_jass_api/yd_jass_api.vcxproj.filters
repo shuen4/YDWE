@@ -66,6 +66,9 @@
     <ClCompile Include="ObjectEditorChannelFlags.cpp">
       <Filter>ObjectEditor</Filter>
     </ClCompile>
+    <ClCompile Include="JassVM.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="yd_jass_api.def">

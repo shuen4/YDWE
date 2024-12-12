@@ -75,17 +75,6 @@ namespace warcraft3::jdebug {
 
 	uintptr_t real_jass_vmmain = 0;
 
-	uintptr_t search_jass_executed_opcode_add() {
-		uintptr_t ptr = search_jass_vmmain();
-		while (*(unsigned char*)(ptr + 1) != 0x8C) {
-			ptr += 6;
-			ptr = next_opcode(ptr, 0x0F, 6);
-		}
-		return ptr;
-	}
-
-	uintptr_t real_jass_executed_opcode_add = 0;
-
 	struct jass::opcode* current_opcode(warcraft3::jass_vm_t* vm)
 	{
 		return vm->opcode - 1;
@@ -194,27 +183,6 @@ namespace warcraft3::jdebug {
 		}
 	}
 
-	void EXOpcodeLimit(const char* mode) {
-		bool disable;
-		if (strcmp(mode, "enable") == 0)
-			disable = false;
-		else if (strcmp(mode, "disable") == 0)
-			disable = true;
-		else
-			return;
-		DWORD old;
-		VirtualProtect((LPVOID)real_jass_executed_opcode_add, 2, PAGE_EXECUTE_READWRITE, &old);
-		if (disable) {
-			(*(unsigned char*)(real_jass_executed_opcode_add)) = 0x90;			// NOP
-			(*(unsigned char*)(real_jass_executed_opcode_add + 1)) = 0xE9;		// jmp
-		}
-		else {
-			(*(unsigned char*)(real_jass_executed_opcode_add)) = 0x0F;
-			(*(unsigned char*)(real_jass_executed_opcode_add + 1)) = 0x8C;		// jl
-		}
-		VirtualProtect((LPVOID)real_jass_executed_opcode_add, 2, old, &old);
-	}
-
 	static uintptr_t RealGetLocalizedHotkey = 0;
 	uint32_t __cdecl FakeGetLocalizedHotkey(uint32_t s)
 	{
@@ -228,9 +196,6 @@ namespace warcraft3::jdebug {
 			}
 			else if (strncmp(str + 6, "leak:", 5) == 0) {
 				EXDebugLeak(str + 6 + 5);
-			}
-			else if (strncmp(str + 6, "opcodelimit:", 12) == 0) {
-				EXOpcodeLimit(str + 6 + 12);
 			}
 		}
 		return base::c_call<uint32_t>(RealGetLocalizedHotkey, s);
@@ -261,7 +226,6 @@ namespace warcraft3::jdebug {
         jass::japi_add((uintptr_t)EXDebugPointerCounter, "EXDebugPointerCounter", "(I)I");
         jass::japi_add((uintptr_t)EXGetPointer, "EXGetPointer", "(Hhandle;)I");
 		real_jass_vmmain = search_jass_vmmain();
-		real_jass_executed_opcode_add = search_jass_executed_opcode_add();
 		return base::hook::install(&real_jass_vmmain, (uintptr_t)fake_jass_vmmain);
 	}
 }

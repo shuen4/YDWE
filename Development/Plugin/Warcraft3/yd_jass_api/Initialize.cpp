@@ -14,6 +14,7 @@ namespace warcraft3::japi {
 	void InitializeBit();
     void InitializeBuff();
     void InitializeCast();
+    void InitializeJassVM();
 
     void InitializeFixCallNative();
 
@@ -33,6 +34,7 @@ namespace warcraft3::japi {
 		InitializeBit();
         InitializeBuff();
         InitializeCast();
+        InitializeJassVM();
 
         InitializeFixCallNative();
 

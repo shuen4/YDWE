@@ -42,6 +42,7 @@ namespace warcraft3::japi {
     }
 
     void InitializeObjectEditorChannelFlags() {
-        real_CAbilityChannel_GetFlag = base::hook::replace_pointer(searchCAbilityChannel_GetFlag(), (uint32_t)fake_CAbilityChannel_GetFlag);
+        real_CAbilityChannel_GetFlag = searchCAbilityChannel_GetFlag();
+        base::hook::install(&real_CAbilityChannel_GetFlag, (uint32_t)fake_CAbilityChannel_GetFlag);
     }
 }
