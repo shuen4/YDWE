@@ -222,6 +222,24 @@ namespace warcraft3::japi {
 		return ret;
 	}
 
+    uintptr_t searchCAgentTimer_Start() {
+        war3_searcher& s = get_war3_searcher();
+        uintptr_t str = s.search_string_ptr("EffectDeathTime", sizeof("EffectDeathTime"));
+
+        for (uintptr_t ptr = s.search_int_in_text(str); ptr; ptr = s.search_int_in_text(str, ptr + 1)) {
+            uintptr_t func = s.current_function(ptr);
+            if (ptr - func > 0x10) {
+                ptr += 4;
+                ptr = next_opcode(ptr, 0xE8, 5);
+                ptr += 5;
+                ptr = next_opcode(ptr, 0xE8, 5);
+                return convert_function(ptr);
+            }
+        }
+
+        return 0;
+    }
+
 	jass::jnothing_t __cdecl EXSetEffectXY(jass::jhandle_t effect, jass::jreal_t* px, jass::jreal_t* py)
 	{
 		uintptr_t obj = handle_to_object(effect);
@@ -591,6 +609,24 @@ namespace warcraft3::japi {
         return jass::jtrue;
     }
 
+    jass::jboolean_t __cdecl EXRemoveEffectTimed(jass::jhandle_t effect, jass::jreal_t duration) {
+        uint32_t pEffect = handle_to_object(effect);
+        if (!pEffect)
+            return jass::jfalse;
+        uint32_t dontRemove = 0;
+        uint32_t pAgentAbsBase = find_objectid_64(objectid_64(ReadMemory(pEffect + 0xC), ReadMemory(pEffect + 0x10)));
+        if (pAgentAbsBase &&                                // agent 存在
+            ReadMemory(pAgentAbsBase + 0xC) == '+agl' &&    // 目标类型是 agent
+            !ReadMemory(pAgentAbsBase + 0x20) &&            // 已被删除
+            ReadMemory<int>(pAgentAbsBase + 0x14) < 0       // 无效 id
+        ) // 上面的检查是复制魔兽的逻辑
+            dontRemove = 1;
+
+        static uint32_t pAgentTimer_Start = searchCAgentTimer_Start();
+        base::this_call<void>(pAgentTimer_Start, pEffect + 0x2C, duration, 0xD01C4, pEffect, 0 /* 是否循环? */, dontRemove /* 回调的第二参数? */);
+        return jass::jtrue;
+    }
+
 	void InitializeEffect()
 	{
 		jass::japi_add((uintptr_t)EXSetEffectXY,					"EXSetEffectXY",				"(Heffect;RR)V");
@@ -622,5 +658,6 @@ namespace warcraft3::japi {
 		jass::japi_add((uintptr_t)EXSetEffectAnimationEx,			"EXSetEffectAnimationEx",		"(Heffect;SI)B");
         jass::japi_add((uintptr_t)EXHideEffect,                     "EXHideEffect",                 "(Heffect;B)V");
         jass::japi_add((uintptr_t)EXRemoveEffect,                   "EXRemoveEffect",               "(Heffect;)B");
+        jass::japi_add((uintptr_t)EXRemoveEffectTimed,              "EXRemoveEffectTimed",          "(Heffect;R)B");
 	}
 }
