@@ -251,17 +251,17 @@ namespace warcraft3 {
         ptr += 5;
         ptr = next_opcode(ptr, 0xE8, 5);
         if (get_version() >= version_127a) {
-            create_obj.pCreateAgileTypeDataByTypeId = convert_function(ptr);
+            create_obj.pGetAgileTypeDataByTypeId = convert_function(ptr);
         }
         else {
             ptr += 5;
             ptr = next_opcode(ptr, 0x8B, 6);
             create_obj.inlined.pAgileTypeData = ReadMemory<uint32_t>(ptr + 2);
             ptr = next_opcode(ptr, 0xE8, 5);
-            create_obj.inlined.pCreateAgileTypeDataByTypeIdFunc1 = convert_function(ptr);
+            create_obj.inlined.pGetAgileTypeDataByTypeIdFunc1 = convert_function(ptr);
             ptr += 5;
             ptr = next_opcode(ptr, 0xE8, 5);
-            create_obj.inlined.pCreateAgileTypeDataByTypeIdFunc2 = convert_function(ptr);
+            create_obj.inlined.pGetAgileTypeDataByTypeIdFunc2 = convert_function(ptr);
         }
         ptr += 5;
         ptr = next_opcode(ptr, 0xE8, 5);
@@ -492,34 +492,93 @@ namespace warcraft3 {
 		return 0;
 	}
 
+    bool type_check(uint32_t childTypeID, uint32_t parentTypeID) {
+        if (childTypeID == parentTypeID)
+            return true;
+        static auto create_obj = get_war3_searcher().create_obj;
+        uint32_t pAgileTypeData;
+        while (true) {
+            if (get_war3_searcher().get_version() >= version_127a)
+                pAgileTypeData = base::this_call<uint32_t>(create_obj.pGetAgileTypeDataByTypeId, childTypeID);
+            else
+                pAgileTypeData = base::this_call<uint32_t>(create_obj.inlined.pGetAgileTypeDataByTypeIdFunc2, ReadMemory(create_obj.inlined.pAgileTypeData) + 0xC, base::this_call<uint32_t>(create_obj.inlined.pGetAgileTypeDataByTypeIdFunc1, &childTypeID), &childTypeID);
+            if (!pAgileTypeData)
+                return false;
+            childTypeID = ReadMemory(pAgileTypeData + 0x78); // 父类型ID
+            if (childTypeID == parentTypeID)
+                return true;
+        }
+    }
+
+#pragma warning (push)
+#pragma warning (disable:26429) // 你要让我用gsl::not_null<T> 然后还要自己下载gsl库 ?
+#pragma warning (disable:26481)
+
     uint32_t** reference_copy_ptr(uint32_t** _this, uint32_t* a2) {
+        // 是否相同
         if (_this[0] != a2) {
+            // 已有数值
             if (_this[0])
+                // 计数 - 1
                 if (_this[0][1]-- == 1)
+                    // 计数 0 则调用解构函数
                     base::this_call<void>(ReadMemory<uint32_t>(_this[0][0]), _this[0]);
+            // 复制来源是否不空
             if (a2)
+                // 计数 + 1
                 a2[1]++;
+            // 复制指针地址
             _this[0] = a2;
         }
         return _this;
     }
 
-    void reference_free_ptr(uint32_t** _this) {
+    uint32_t** reference_copy_ptr_typesafe(uint32_t** _this, uint32_t* a2, uint32_t typeID) {
+        // 是否相同
+        if (_this[0] != a2) {
+            // 已有数值
+            if (_this[0])
+                // 计数 - 1
+                if (_this[0][1]-- == 1)
+                    // 计数 0 则调用解构函数
+                    base::this_call<void>(ReadMemory<uint32_t>(_this[0][0]), _this[0]);
+            // 复制来源是否不空
+            if (a2)
+                // 计数 + 1
+                a2[1]++;
+            // 检查类型 左边为要检查的类型 右边为兼容的类型
+            // 用 JASS 简单说明就是: type 左 extends 右
+            if (type_check(get_object_type((uint32_t)a2), typeID))
+                // 复制指针地址
+                _this[0] = a2;
+            else
+                // 清空
+                _this[0] = 0;
+        }
+        return _this;
+    }
+
+    void reference_free_ptr(uint32_t** _this, uint32_t offset) {
+        // 已有数值
         if (_this[0]) {
+            // 计数 - 1
             --_this[0][1];
             if (!_this[0][1])
-                base::this_call<void>(ReadMemory<uint32_t>(_this[0][0]), _this[0]);
+                // 计数 0 则调用解构函数
+                base::this_call<void>(ReadMemory<uint32_t>(_this[0][offset]), _this[0]);
+            // 清空
             _this[0] = 0;
         }
     }
+#pragma warning(pop)
 
     uint32_t create_by_typeid(uint32_t typeID) {
         static auto create_obj = get_war3_searcher().create_obj;
         uint32_t pAgileTypeData;
         if (get_war3_searcher().get_version() >= version_127a)
-            pAgileTypeData = base::this_call<uint32_t>(create_obj.pCreateAgileTypeDataByTypeId, typeID);
+            pAgileTypeData = base::this_call<uint32_t>(create_obj.pGetAgileTypeDataByTypeId, typeID);
         else
-            pAgileTypeData = base::this_call<uint32_t>(create_obj.inlined.pCreateAgileTypeDataByTypeIdFunc2, ReadMemory(create_obj.inlined.pAgileTypeData) + 0xC, base::this_call<uint32_t>(create_obj.inlined.pCreateAgileTypeDataByTypeIdFunc1, &typeID), &typeID);
+            pAgileTypeData = base::this_call<uint32_t>(create_obj.inlined.pGetAgileTypeDataByTypeIdFunc2, ReadMemory(create_obj.inlined.pAgileTypeData) + 0xC, base::this_call<uint32_t>(create_obj.inlined.pGetAgileTypeDataByTypeIdFunc1, &typeID), &typeID);
         uint32_t agent[11];
         base::fast_call<uint32_t>(create_obj.pInitAgent, agent, typeID, ReadMemory(pAgileTypeData + 0x70));
         agent[9] = 0xFFFFFFFF;
@@ -529,6 +588,8 @@ namespace warcraft3 {
         return pObj;
     }
 
+    // 差不多跟 object_to_handle 一样
+    // 不同的就是 如果目标不存在于表内 会加进去然后返回handle id
     uint32_t create_handle(uint32_t pObject) {
         static auto& searcher = get_war3_searcher();
         return base::this_call<uint32_t>(

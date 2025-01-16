@@ -3,65 +3,9 @@
 #include <warcraft3/war3_searcher.h>
 #include <base/hook/fp_call.h>
 #include <base/util/memory.h>
-#include <string>
 #include <warcraft3/version.h>
 
-#define M_PI       3.14159265358979323846   // pi
-
-
-template <typename T>
-class qmatrix
-{
-public:
-	typedef T value_type[3][3];
-
-public:
-	qmatrix(T* data)
-		: data_(data)
-	{ }
-
-	qmatrix<T>& operator =(const value_type& r)
-	{
-		value_type& m = *(value_type*)data_;
-		for (size_t i = 0; i < 3; ++i)
-		{
-			for (size_t j = 0; j < 3; ++j)
-			{
-				m[i][j] = r[i][j];
-			}
-		}
-		return *this;
-	}
-
-	qmatrix<T>& operator *=(const value_type& r)
-	{
-		value_type& m = *(value_type*)data_;
-		value_type l;
-		for (size_t i = 0; i < 3; ++i)
-		{
-			for (size_t j = 0; j < 3; ++j)
-			{
-				l[i][j] = m[i][j];
-			}
-		}
-		for (size_t i = 0; i < 3; ++i)
-		{
-			for (size_t j = 0; j < 3; ++j)
-			{
-				T n(0);
-				for (size_t k = 0; k < 3; ++k)
-				{
-					n += l[i][k] * r[k][j];
-				}
-				m[i][j] = n;
-			}
-		}
-		return *this;
-	}
-
-private:
-	T* data_;
-};
+#include "qmatrix.h"
 
 namespace warcraft3::japi {
 
@@ -221,6 +165,35 @@ namespace warcraft3::japi {
 
 		return ret;
 	}
+
+    uint32_t searchSetSpriteAnimationByIndex() {
+        //=========================================
+        // (1)
+        //
+        // push		"()V"
+        // mov		edx, "SetUnitAnimationByIndex"
+        // mov		ecx, [SetUnitAnimationByIndex∫Ø ˝µƒµÿ÷∑] <----
+        // call		BindNative
+        //=========================================
+        uint32_t ptr = get_war3_searcher().search_string("SetUnitAnimationByIndex");
+        ptr = *(uintptr_t*)(ptr + 0x05);
+
+        //=========================================
+        // (2)
+        //  SetUnitAnimationByIndex:
+		//    call		ConvertHandle
+		//    ...
+		//    call      CUnit::GetSprite
+		//    ...
+		//    call		CSprite_SetAnimation <---
+        //=========================================
+        ptr = next_opcode(ptr, 0xE8, 5);
+        ptr += 5;
+        ptr = next_opcode(ptr, 0xE8, 5);
+        ptr += 5;
+        ptr = next_opcode(ptr, 0xE8, 5);
+        return convert_function(ptr);
+    }
 
     uintptr_t searchCAgentTimer_Start() {
         war3_searcher& s = get_war3_searcher();
@@ -392,8 +365,8 @@ namespace warcraft3::japi {
 		if (!obj) {
 			return;
 		}
-		uintptr_t eff = *(uintptr_t*)(obj + 0x28);
-		base::this_call<void>(*(uintptr_t*)(*(uintptr_t*)eff + 0x28), eff, jass::from_real(*pspeed));
+		uintptr_t pSprite = *(uintptr_t*)(obj + 0x28);
+        base::this_call_vf<void>(pSprite, 0x28, *pspeed);
 	}
 
 	void UpdateSpriteColor(uint32_t pSprite) {
@@ -580,13 +553,36 @@ namespace warcraft3::japi {
 		if (!AnimData[1])
 			return jass::jfalse;
 
-		base::fast_call<void>(addr.SetSpriteAnimation, pSprite, AnimData[2], AnimData[1], flag);
+		base::fast_call<double>(addr.SetSpriteAnimation, pSprite, AnimData[2], AnimData[1], flag);
 		return jass::jtrue;
 	}
 
 	jass::jboolean_t __cdecl EXSetEffectAnimation(jass::jhandle_t effect, jass::jstring_t animName) {
 		return EXSetEffectAnimationEx(effect, animName, 0);
 	}
+
+    // flag:
+    //		none(set)			0
+    //		queue				1 << 1
+    //		RARITY_FREQUENT		1 << 4
+    //		RARITY_RARE			1 << 5
+    jass::jboolean_t __cdecl EXSetEffectAnimationByIndexEx(jass::jhandle_t effect, jass::jinteger_t index, jass::jinteger_t flag) {
+        uintptr_t obj = handle_to_object(effect);
+        if (!obj)
+            return jass::jfalse;
+
+        uint32_t pSprite = ReadMemory(obj + 0x28);
+        if (!pSprite)
+            return jass::jfalse;
+
+        static uint32_t pSetSpriteAnimationByIndex = searchSetSpriteAnimationByIndex();
+        base::fast_call<double>(pSetSpriteAnimationByIndex, pSprite, index, flag);
+        return jass::jtrue;
+    }
+
+    jass::jboolean_t __cdecl EXSetEffectAnimationByIndex(jass::jhandle_t effect, jass::jinteger_t index) {
+        return EXSetEffectAnimationByIndexEx(effect, index, 0);
+    }
 
     jass::jnothing_t __cdecl EXHideEffect(jass::jhandle_t effect, jass::jboolean_t hide) {
         uintptr_t obj = handle_to_object(effect);
@@ -641,7 +637,8 @@ namespace warcraft3::japi {
 		jass::japi_add((uintptr_t)EXEffectMatRotateZ,				"EXEffectMatRotateZ",			"(Heffect;R)V");
 		jass::japi_add((uintptr_t)EXEffectMatScale,					"EXEffectMatScale",				"(Heffect;RRR)V");
 		jass::japi_add((uintptr_t)EXEffectMatReset,					"EXEffectMatReset",				"(Heffect;)V");
-		jass::japi_add((uintptr_t)EXSetEffectSpeed,					"EXSetEffectSpeed",				"(Heffect;R)V");
+		jass::japi_add((uintptr_t)EXSetEffectSpeed,					"EXSetEffectSpeed",				"(Heffect;R)V");    // ºÊ»›
+		jass::japi_add((uintptr_t)EXSetEffectSpeed,					"EXSetEffectTimeScale",			"(Heffect;R)V");
 		jass::japi_add((uintptr_t)EXSetEffectColorRed,				"EXSetEffectColorRed",			"(Heffect;I)V");
 		jass::japi_add((uintptr_t)EXSetEffectColorGreen,			"EXSetEffectColorGreen",		"(Heffect;I)V");
 		jass::japi_add((uintptr_t)EXSetEffectColorBlue,				"EXSetEffectColorBlue",			"(Heffect;I)V");
@@ -656,6 +653,8 @@ namespace warcraft3::japi {
 		jass::japi_add((uintptr_t)EXUpdateEffectSmartPosition,		"EXUpdateEffectSmartPosition",	"(Heffect;)V");
 		jass::japi_add((uintptr_t)EXSetEffectAnimation,				"EXSetEffectAnimation",			"(Heffect;S)B");
 		jass::japi_add((uintptr_t)EXSetEffectAnimationEx,			"EXSetEffectAnimationEx",		"(Heffect;SI)B");
+		jass::japi_add((uintptr_t)EXSetEffectAnimationByIndex,      "EXSetEffectAnimationByIndex",	"(Heffect; S)B");
+		jass::japi_add((uintptr_t)EXSetEffectAnimationByIndexEx,    "EXSetEffectAnimationByIndexEx","(Heffect;SI)B");
         jass::japi_add((uintptr_t)EXHideEffect,                     "EXHideEffect",                 "(Heffect;B)V");
         jass::japi_add((uintptr_t)EXRemoveEffect,                   "EXRemoveEffect",               "(Heffect;)B");
         jass::japi_add((uintptr_t)EXRemoveEffectTimed,              "EXRemoveEffectTimed",          "(Heffect;R)B");

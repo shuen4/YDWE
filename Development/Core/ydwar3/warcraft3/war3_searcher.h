@@ -22,11 +22,11 @@ namespace warcraft3 {
     public:
         struct CreateObjectByTypeID {
             union {
-                uint32_t pCreateAgileTypeDataByTypeId;
+                uint32_t pGetAgileTypeDataByTypeId;
                 struct {
                     uint32_t pAgileTypeData;
-                    uint32_t pCreateAgileTypeDataByTypeIdFunc1;
-                    uint32_t pCreateAgileTypeDataByTypeIdFunc2;
+                    uint32_t pGetAgileTypeDataByTypeIdFunc1;
+                    uint32_t pGetAgileTypeDataByTypeIdFunc2;
                 } inlined;
             };
             uint32_t pInitAgent;
@@ -75,8 +75,10 @@ namespace warcraft3 {
 	_WAR3_API uint32_t    get_object_type(uintptr_t ptr);
 	_WAR3_API uintptr_t   handle_to_object(uint32_t handle);
 	_WAR3_API uint32_t    object_to_handle(uintptr_t obj);
+    _WAR3_API bool        type_check(uint32_t childTypeID, uint32_t parentTypeID);
     _WAR3_API uint32_t**  reference_copy_ptr(uint32_t** _this, uint32_t* a2);
-    _WAR3_API void        reference_free_ptr(uint32_t** _this);
+    _WAR3_API uint32_t**  reference_copy_ptr_typesafe(uint32_t** _this, uint32_t* a2, uint32_t typeID);
+    _WAR3_API void        reference_free_ptr(uint32_t** _this, uint32_t offset = 0);
     _WAR3_API uint32_t    create_by_typeid(uint32_t typeID);
     _WAR3_API uint32_t    create_handle(uint32_t pObject);
     _WAR3_API uint32_t    GetObjectByHash(uint32_t a, uint32_t b);

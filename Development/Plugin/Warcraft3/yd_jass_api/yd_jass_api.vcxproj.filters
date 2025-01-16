@@ -72,6 +72,9 @@
     <ClCompile Include="Timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="yd_jass_api.def">
@@ -88,7 +91,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PasButton.h">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="qmatrix.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

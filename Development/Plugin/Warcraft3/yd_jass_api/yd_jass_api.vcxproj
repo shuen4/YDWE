@@ -96,6 +96,7 @@
     <ClCompile Include="ItemState.cpp" />
     <ClCompile Include="JassVM.cpp" />
     <ClCompile Include="ObjectEditorChannelFlags.cpp" />
+    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="UnitState.cpp" />
@@ -120,6 +121,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PasButton.h" />
+    <ClInclude Include="qmatrix.h" />
     <ClInclude Include="StringPool.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

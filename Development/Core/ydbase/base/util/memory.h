@@ -18,3 +18,7 @@ void WriteMemoryEx(uint32_t addr, t value) {
     VirtualProtect((void*)addr, sizeof(t), old, &old);
     FlushInstructionCache(GetCurrentProcess(), (void*)addr, sizeof(t)); // 安全起见还是加上好了
 }
+template<class t>
+inline void PatchCallRelative(uint32_t addr, t func) {
+    WriteMemoryEx(addr + 1, (uint32_t)func - addr - 5);
+}
