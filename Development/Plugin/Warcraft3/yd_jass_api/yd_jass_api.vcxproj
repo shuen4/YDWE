@@ -86,6 +86,7 @@
     <ClCompile Include="Bit.cpp" />
     <ClCompile Include="Buff.cpp" />
     <ClCompile Include="Cast.cpp" />
+    <ClCompile Include="Destructable.cpp" />
     <ClCompile Include="DisableButtonBlp.cpp" />
     <ClCompile Include="DllMain.cpp" />
     <ClCompile Include="Effect.cpp" />

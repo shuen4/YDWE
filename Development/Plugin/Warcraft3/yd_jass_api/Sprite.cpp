@@ -95,6 +95,12 @@ namespace warcraft3::japi {
     if (GetSpriteType(pSprite) == SpriteType::INVALID)                                                  \
         return false
 
+    uint32_t __cdecl EXGetSpriteGeosetCount(uint32_t pSprite) {
+        if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
+            return ReadMemory(pModelComplex + 0xC);
+        return 0;
+    }
+
     bool __cdecl EXSetSpriteX(uint32_t pSprite, float* x) {
         setupOffset(0x88, 0xC0);
         WriteMemory(pSprite + offset, *x);
@@ -223,21 +229,9 @@ namespace warcraft3::japi {
         return ReadMemory(pSprite + offset);
     }
 
-    void UpdateSpriteColor(uint32_t pSprite);
-    //  A   R   G   B
-    //  3   2   1   0
-    template <uint32_t partOffset>
-    bool __cdecl EXSetSpriteColorPart(uint32_t pSprite, uint32_t color) {
-        setupOffset(0, 0x148);
-        WriteMemory<uint8_t>(pSprite + offset + partOffset, color & 0xFF);
-        UpdateSpriteColor(pSprite);
-        return true;
-    }
-
     bool __cdecl EXSetSpriteColor(uint32_t pSprite, uint32_t color) {
-        setupOffset(0, 0x148);
-        WriteMemory(pSprite + offset, color & 0xFFFFFF);
-        UpdateSpriteColor(pSprite);
+        checkValid();
+        base::this_call_vf<void>(pSprite, 0x30, color & 0xFFFFFF);
         return true;
     }
 
@@ -247,22 +241,62 @@ namespace warcraft3::japi {
         return true;
     }
 
-    //  A   R   G   B
-    //  3   2   1   0
-    template <uint32_t partOffset>
-    uint32_t __cdecl EXGetSpriteColorPart(uint32_t pSprite) {
-        setupOffset(0, 0x148);
-        return ReadMemory<uint8_t>(pSprite + offset + partOffset);
-    }
-
     uint32_t __cdecl EXGetSpriteColor(uint32_t pSprite) {
-        setupOffset(0, 0x148);
-        return ReadMemory(pSprite + offset) & 0xFFFFFF;
+        if (GetSpriteType(pSprite) != SpriteType::INVALID)
+            if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
+                if (ReadMemory(pModelComplex + 0xC)) // Geoset 数量
+                    if (uint32_t pUnk = ReadMemory(pModelComplex + 0x20))
+                        return ReadMemory(pUnk + 0x4) & 0xFFFFFF;
+        return 0xFF;
     }
 
     uint32_t __cdecl EXGetSpriteAlpha(uint32_t pSprite) {
-        setupOffset(0, 0x1B0);
-        return ReadMemory<uint8_t>(pSprite + offset);
+        if (GetSpriteType(pSprite) != SpriteType::INVALID)
+            if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
+                if (ReadMemory(pModelComplex + 0xC)) // Geoset 数量
+                    if (uint32_t pUnk = ReadMemory(pModelComplex + 0x20))
+                        return (uint8_t)(ReadMemory<float>(pUnk + 0xC) * 255.f);
+        return 0xFF;
+    }
+
+    bool __cdecl EXSetSpriteGeosetColor(uint32_t pSprite, uint32_t index, uint32_t value) {
+        if (GetSpriteType(pSprite) != SpriteType::INVALID)
+            if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
+                if (ReadMemory(pModelComplex + 0xC) > index) // Geoset 数量
+                    if (uint32_t pUnk = ReadMemory(pModelComplex + 0x20)) {
+                        WriteMemory(pUnk + 0x4 + index * 0x10, ReadMemory<uint8_t>(pUnk + 0x7 + index * 0x10) | (value & 0xFFFFFF));
+                        return true;
+                    }
+        return false;
+    }
+
+    bool __cdecl EXSetSpriteGeosetAlpha(uint32_t pSprite, uint32_t index, uint32_t value) {
+        if (GetSpriteType(pSprite) != SpriteType::INVALID)
+            if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
+                if (ReadMemory(pModelComplex + 0xC) > index) // Geoset 数量
+                    if (uint32_t pUnk = ReadMemory(pModelComplex + 0x20)) {
+                        WriteMemory(pUnk + 0xC + index * 0x10, (float)(value & 0xFF) / 255.f);
+                        return true;
+                    }
+        return false;
+    }
+
+    uint32_t __cdecl EXGetSpriteGeosetColor(uint32_t pSprite, uint32_t index) {
+        if (GetSpriteType(pSprite) != SpriteType::INVALID)
+            if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
+                if (ReadMemory(pModelComplex + 0xC) > index) // Geoset 数量
+                    if (uint32_t pUnk = ReadMemory(pModelComplex + 0x20))
+                        return ReadMemory(pUnk + 0x4 + index * 0x10) & 0xFFFFFF;
+        return 0xFF;
+    }
+
+    uint32_t __cdecl EXGetSpriteGeosetAlpha(uint32_t pSprite, uint32_t index) {
+        if (GetSpriteType(pSprite) != SpriteType::INVALID)
+            if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
+                if (ReadMemory(pModelComplex + 0xC) > index) // Geoset 数量
+                    if (uint32_t pUnk = ReadMemory(pModelComplex + 0x20))
+                        return (uint8_t)(ReadMemory<float>(pUnk + 0xC + index * 0x10) * 255.f);
+        return 0xFF;
     }
 
     bool __cdecl EXSetSpriteReplaceableTexture(uint32_t pSprite, uint32_t path, uint32_t replaceableID) {
@@ -333,11 +367,12 @@ namespace warcraft3::japi {
         jass::japi_add((uint32_t)EXWar3ImageGetSprite,              "EXUnitGetSprite",                  "(Hunit;)I");                // CSpriteUber
         jass::japi_add((uint32_t)EXWar3ImageGetSprite,              "EXEffectGetSprite",                "(Heffect;)I");              // CSpriteUber
         jass::japi_add((uint32_t)EXWar3ImageGetSprite,              "EXTrackableGetSprite",             "(Htrackable;)I");           // CSpriteUber
-        jass::japi_add((uint32_t)EXWar3ImageGetSprite,              "EXItemGetSprite",                  "(Hitem;)I");                // CSpriteMini
-        jass::japi_add((uint32_t)EXWar3ImageGetSprite,              "EXDestructableGetSprite",          "(Hdestructable;)I");        // CSpriteMini
+        jass::japi_add((uint32_t)EXWar3ImageGetSprite,              "EXItemGetSprite",                  "(Hitem;)I");                // CSpriteMini, 无法用Sprite接口设置颜色(实际上是会设置回去)
+        jass::japi_add((uint32_t)EXWar3ImageGetSprite,              "EXDestructableGetSprite",          "(Hdestructable;)I");        // CSpriteMini, 无法用Sprite接口设置颜色(实际上是会设置回去)
 
         jass::japi_add((uint32_t)EXIsSpriteValid,                   "EXIsSpriteValid",                  "(I)B");
         jass::japi_add((uint32_t)EXGetSpriteType,                   "EXGetSpriteType",                  "(I)I");
+        jass::japi_add((uint32_t)EXGetSpriteGeosetCount,            "EXGetSpriteGeosetCount",           "(I)I");
         
         jass::japi_add((uint32_t)EXSetSpriteX,                      "EXSetSpriteX",                     "(IR)B");
         jass::japi_add((uint32_t)EXGetSpriteX,                      "EXGetSpriteX",                     "(I)R");
@@ -360,18 +395,17 @@ namespace warcraft3::japi {
 		jass::japi_add((uint32_t)EXSetSpriteTimeScale,              "EXSetSpriteTimeScale",				"(IR)B");
 		jass::japi_add((uint32_t)EXGetSpriteTimeScale,              "EXGetSpriteTimeScale",				"(I)R");
         
-		jass::japi_add((uint32_t)EXSetSpriteColorPart<2>,           "EXSetSpriteColorRed",			    "(II)B");
-		jass::japi_add((uint32_t)EXSetSpriteColorPart<1>,           "EXSetSpriteColorGreen",		    "(II)B");
-		jass::japi_add((uint32_t)EXSetSpriteColorPart<0>,           "EXSetSpriteColorBlue",			    "(II)B");
 		jass::japi_add((uint32_t)EXSetSpriteColor,                  "EXSetSpriteColor",				    "(II)B");
 		jass::japi_add((uint32_t)EXSetSpriteAlpha,                  "EXSetSpriteAlpha",				    "(II)B");
 		
-		jass::japi_add((uint32_t)EXGetSpriteColorPart<2>,           "EXGetSpriteColorRed",              "(I)I");                     // 仅 CSpriteUber
-		jass::japi_add((uint32_t)EXGetSpriteColorPart<1>,           "EXGetSpriteColorGreen",            "(I)I");                     // 仅 CSpriteUber
-		jass::japi_add((uint32_t)EXGetSpriteColorPart<0>,           "EXGetSpriteColorBlue",             "(I)I");                     // 仅 CSpriteUber 
-		jass::japi_add((uint32_t)EXGetSpriteColor,                  "EXGetSpriteColor",                 "(I)I");                     // 仅 CSpriteUber
-		jass::japi_add((uint32_t)EXGetSpriteAlpha,                  "EXGetSpriteAlpha",                 "(I)I");                     // 仅 CSpriteUber
+		jass::japi_add((uint32_t)EXGetSpriteColor,                  "EXGetSpriteColor",                 "(I)I");        // 等效于EXGetSpriteGeosetColor, index 0
+		jass::japi_add((uint32_t)EXGetSpriteAlpha,                  "EXGetSpriteAlpha",                 "(I)I");        // 等效于EXGetSpriteGeosetAlpha, index 0
         
+		jass::japi_add((uint32_t)EXSetSpriteGeosetColor,            "EXSetSpriteGeosetColor",			"(III)B");      // index 始于 0
+		jass::japi_add((uint32_t)EXSetSpriteGeosetAlpha,            "EXSetSpriteGeosetAlpha",			"(III)B");      // index 始于 0
+		jass::japi_add((uint32_t)EXGetSpriteGeosetColor,            "EXGetSpriteGeosetColor",           "(II)I");       // index 始于 0
+		jass::japi_add((uint32_t)EXGetSpriteGeosetAlpha,            "EXGetSpriteGeosetAlpha",           "(II)I");       // index 始于 0
+
 		jass::japi_add((uint32_t)EXSetSpriteReplaceableTexture,     "EXSetSpriteReplaceableTexture",    "(ISI)B");
         
 		jass::japi_add((uint32_t)EXSetSpriteAnimation,              "EXSetSpriteAnimation",             "(IS)B");

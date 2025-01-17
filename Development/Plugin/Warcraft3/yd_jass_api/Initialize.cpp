@@ -17,6 +17,7 @@ namespace warcraft3::japi {
     void InitializeJassVM();
     void InitializeTimer();
     void InitializeSprite();
+    void InitializeDestructable();
 
     void InitializeFixCallNative();
 
@@ -39,6 +40,7 @@ namespace warcraft3::japi {
         InitializeJassVM();
         InitializeTimer();
         InitializeSprite();
+        InitializeDestructable();
 
         InitializeFixCallNative();
 
