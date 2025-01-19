@@ -4,7 +4,6 @@
 #include <base/hook/fp_call.h>
 #include <base/util/memory.h>
 #include <warcraft3/version.h>
-#include <string>
 
 #include "qmatrix.h"
 
@@ -34,8 +33,10 @@ namespace warcraft3::japi {
         return convert_function(ptr);
     }
 
+    bool isSpriteFrame(uint32_t pSpriteFrame);
+
     uint32_t __cdecl EXSpriteFrameGetSprite(uint32_t pSpriteFrame) {
-        if (ReadMemory(pSpriteFrame + 0x174))
+        if (isSpriteFrame(pSpriteFrame) && ReadMemory(pSpriteFrame + 0x174))
             return ReadMemory(ReadMemory(pSpriteFrame + 0x178));
         else
             return 0;
