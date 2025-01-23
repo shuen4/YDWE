@@ -18,6 +18,9 @@
     <Filter Include="ObjectEditor">
       <UniqueIdentifier>{bc886c8e-5cbd-469b-ae7e-5e1dc265eb6e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MiniLib">
+      <UniqueIdentifier>{230d5912-78d6-4eae-8db6-94cd05a5d1fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnitState.cpp">
@@ -81,6 +84,12 @@
     <ClCompile Include="Frame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Group.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TriggerEvent.cpp">
+      <Filter>MiniLib</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="yd_jass_api.def">
@@ -101,6 +110,9 @@
     </ClInclude>
     <ClInclude Include="qmatrix.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TriggerEvent.h">
+      <Filter>MiniLib</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

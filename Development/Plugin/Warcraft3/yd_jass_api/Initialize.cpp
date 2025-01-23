@@ -19,6 +19,7 @@ namespace warcraft3::japi {
     void InitializeSprite();
     void InitializeDestructable();
     void InitializeFrame();
+    void InitializeGroup();
 
     void InitializeFixCallNative();
 
@@ -43,6 +44,7 @@ namespace warcraft3::japi {
         InitializeSprite();
         InitializeDestructable();
         InitializeFrame();
+        InitializeGroup();
 
         InitializeFixCallNative();
 

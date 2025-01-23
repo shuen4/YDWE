@@ -105,7 +105,7 @@ namespace warcraft3::japi {
 
 		uint32_t table = handle_to_object(hTable);
 		if (table) {
-			uint32_t ptr = ReadMemory(get_war3_searcher().get_gamestate() + 0x404);
+			uint32_t ptr = ReadMemory(get_war3_searcher().get_gamewar3() + 0x404);
 			if (ptr)
 				return base::this_call<uint32_t>(LoadHandleId, ptr, ReadMemory(table + 0x24), parentKey, childKey);
 		}
@@ -125,7 +125,7 @@ namespace warcraft3::japi {
 
 		uint32_t table = handle_to_object(hTable);
 		if (table) {
-			uint32_t ptr = ReadMemory(get_war3_searcher().get_gamestate() + 0x404);
+			uint32_t ptr = ReadMemory(get_war3_searcher().get_gamewar3() + 0x404);
 			if (ptr)
 				return base::this_call<uint32_t>(SaveHandleId, ptr, ReadMemory(table + 0x24), parentKey, childKey, handleId, type);
 		}

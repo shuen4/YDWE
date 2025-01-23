@@ -15,7 +15,7 @@ namespace warcraft3 {
 		uint32_t  get_version() const;
 		uint32_t  get_instance(uint32_t index);
 		uint32_t  get_gameui(uint32_t unk0, uint32_t unk1);
-		uint32_t  get_gamestate();
+		uint32_t  get_gamewar3();
 		bool      is_gaming();
 		uintptr_t current_function(uintptr_t ptr);
 
@@ -49,7 +49,7 @@ namespace warcraft3 {
 		uint32_t  version_;
 		uintptr_t get_instance_;
 		uintptr_t get_gameui_;
-		uintptr_t gamestate_ptr_;
+		uintptr_t gamewar3_ptr_;
 	};
 
 	struct objectid_64

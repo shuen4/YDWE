@@ -12,7 +12,7 @@ namespace warcraft3 {
 		, version_(search_version())
 		, get_instance_(search_get_instance())
 		, get_gameui_(search_get_gameui())
-		, gamestate_ptr_(search_gamestate_ptr())
+		, gamewar3_ptr_(search_gamestate_ptr())
 	{
         search_create_object_by_type_id();
         search_create_handle();
@@ -23,7 +23,7 @@ namespace warcraft3 {
 		, version_(search_version())
 		, get_instance_(search_get_instance())
 		, get_gameui_(search_get_gameui())
-		, gamestate_ptr_(search_gamestate_ptr())
+		, gamewar3_ptr_(search_gamestate_ptr())
     {
         search_create_object_by_type_id();
         search_create_handle();
@@ -44,8 +44,8 @@ namespace warcraft3 {
 		return ((uint32_t(_fastcall*)(uint32_t, uint32_t))get_gameui_)(createAndInitIfNotExist, remove);
 	}
 
-	uint32_t war3_searcher::get_gamestate() {
-		return *(uint32_t*)gamestate_ptr_;
+	uint32_t war3_searcher::get_gamewar3() {
+		return *(uint32_t*)gamewar3_ptr_;
 	}
 	
 	bool war3_searcher::is_gaming()
@@ -421,23 +421,25 @@ namespace warcraft3 {
 		return nullptr;
 	}
 
-	uintptr_t get_vfn_ptr(const char* name)
-	{
-		war3_searcher& s = get_war3_searcher();
-		uintptr_t ptr = s.search_string_ptr(name, strlen(name));
-		if (!ptr)
-			return 0;
-		ptr -= 0x08;
-		ptr = s.search_int_in_rdata(ptr);
-		if (!ptr)
-			return 0;
-		ptr -= 0x0C;
-		ptr = s.search_int_in_rdata(ptr);
-		if (!ptr)
-			return 0;
-		ptr += 0x04;
-		return ptr;
-	}
+    uintptr_t get_vfn_ptr(const char* name)
+    {
+        war3_searcher& s = get_war3_searcher();
+        uintptr_t ptr = s.search_string_ptr(name, strlen(name));
+        if (!ptr)
+            return 0;
+        ptr -= 0x08;
+        for (uint32_t ptr1 = s.search_int_in_rdata(ptr); ptr1; ptr1 = s.search_int_in_rdata(ptr, ptr1 + 1)) {
+            uint32_t ptr2 = ptr1 - 0x0C;
+            ptr2 = s.search_int_in_rdata(ptr2);
+            if (!ptr2)
+                continue;
+            ptr2 += 0x04;
+            if (IsBadCodePtr((FARPROC)ptr2))
+                continue;
+            return ptr2;
+        }
+        return 0;
+    }
 
 	uint32_t get_object_type(uintptr_t ptr)
 	{
@@ -596,7 +598,7 @@ namespace warcraft3 {
             searcher.create_handle.CreateOrGetHandleId,
             base::this_call<uint32_t>(
                 searcher.create_handle.GetDataNode,
-                searcher.get_gamestate()
+                searcher.get_gamewar3()
             ),
             pObject,
             0

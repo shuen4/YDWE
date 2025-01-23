@@ -93,6 +93,7 @@
     <ClCompile Include="EventDamageData.cpp" />
     <ClCompile Include="FixCallNative.cpp" />
     <ClCompile Include="Frame.cpp" />
+    <ClCompile Include="Group.cpp" />
     <ClCompile Include="Hashtable.cpp" />
     <ClCompile Include="Initialize.cpp" />
     <ClCompile Include="ItemState.cpp" />
@@ -101,6 +102,7 @@
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="TriggerEvent.cpp" />
     <ClCompile Include="UnitState.cpp" />
     <ClCompile Include="Message.cpp" />
   </ItemGroup>
@@ -125,6 +127,7 @@
     <ClInclude Include="PasButton.h" />
     <ClInclude Include="qmatrix.h" />
     <ClInclude Include="StringPool.h" />
+    <ClInclude Include="TriggerEvent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
