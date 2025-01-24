@@ -21,12 +21,12 @@
     <Filter Include="MiniLib">
       <UniqueIdentifier>{230d5912-78d6-4eae-8db6-94cd05a5d1fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Event">
+      <UniqueIdentifier>{98fb2e8d-df99-402c-8827-9778c03c6754}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnitState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EventDamageData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AbilityState.cpp">
@@ -89,6 +89,12 @@
     </ClCompile>
     <ClCompile Include="TriggerEvent.cpp">
       <Filter>MiniLib</Filter>
+    </ClCompile>
+    <ClCompile Include="EventDamageData.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitEvent.cpp">
+      <Filter>Event</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -140,6 +140,34 @@ namespace warcraft3::japi::TriggerEvent {
         uint32_t ptr = get_vfn_ptr(".?AVCPlayerWar3@@");
         return ReadMemory(ptr + 0x3C); // vftable + 0x3C
     }
+    uintptr_t searchCUnit_GetOwner() {
+        uintptr_t ptr;
+
+        //=========================================
+        // (1)
+        //
+        // push		"()V"
+        // mov		edx, "GetOwningPlayer"
+        // mov		ecx, [GetOwningPlayer函数的地址] <----
+        // call		BindNative
+        //=========================================
+        ptr = get_war3_searcher().search_string("GetOwningPlayer");
+        ptr = *(uintptr_t*)(ptr + 0x05);
+
+        //=========================================
+        // (2)
+        //  GetOwningPlayer:
+        //      ...
+        //      call ConvertHandle
+        //      ...
+        //      call CUnit_GetOwner
+        //=========================================
+        ptr = next_opcode(ptr, 0xE8, 5);
+        ptr += 5;
+        ptr = next_opcode(ptr, 0xE8, 5);
+        ptr = convert_function(ptr);
+        return ptr;
+    }
     struct CDataAllocator {
         uint32_t PreAllocInstanceSize;
         uint32_t PreAllocInstanceCount;
@@ -288,6 +316,7 @@ namespace warcraft3::japi::TriggerEvent {
         unk4 = 0;
     }
     // 注册触发数据
+    // 0x81000 - 0x81FFF 似乎安全
     void RegisterTriggerEventData(uint32_t typeID, Type parentTypeID, std::vector<uint32_t> eventID, uint32_t size, uint32_t batchAllocCount, void(*ctor)(uint32_t)) {
         if (Generator.find(typeID) == Generator.end()) {
             if (Generator.size() == 0) {
@@ -365,10 +394,32 @@ namespace warcraft3::japi::TriggerEvent {
         return base::this_call<bool>(pCObserver_IsEventRegistered, pObserver, TRIGGER_EVENT_ID_BASE + eventID);
     }
 
+    uint32_t GetUnitOwner(uint32_t pUnit) {
+        static uint32_t CUnit_GetOwner = searchCUnit_GetOwner();
+        return base::this_call<uint32_t>(CUnit_GetOwner, pUnit);
+    }
     // 运行事件
-    void FirePlayerUnitEvent(CPlayerUnitEventDataBase* pPlayerUnitEvent, uint32_t pPlayerWar3, uint32_t eventID) {
+    void FirePlayerUnitEvent(CPlayerUnitEventDataBase* pPlayerUnitEvent, uint32_t pUnit, uint32_t pUnit2, uint32_t eventID) {
+        uint32_t pOwningPlayer = GetUnitOwner(pUnit);
+
+        uint32_t pAgent = find_objectid_64({ ReadMemory<uint32_t>((uint32_t)pOwningPlayer + 0xC), ReadMemory<uint32_t>((uint32_t)pOwningPlayer + 0x10) });
+        if (pAgent && ReadMemory<uint32_t>((uint32_t)pAgent + 0xC) == '+agl') {
+            pPlayerUnitEvent->player = objectid_64(ReadMemory<uint32_t>((uint32_t)pAgent + 0x14), ReadMemory<uint32_t>((uint32_t)pAgent + 0x18));
+        }
+
+        pAgent = find_objectid_64({ ReadMemory<uint32_t>((uint32_t)pUnit + 0xC), ReadMemory<uint32_t>((uint32_t)pUnit + 0x10) });
+        if (pAgent && ReadMemory<uint32_t>((uint32_t)pAgent + 0xC) == '+agl') {
+            pPlayerUnitEvent->triggerUnit = objectid_64(ReadMemory<uint32_t>((uint32_t)pAgent + 0x14), ReadMemory<uint32_t>((uint32_t)pAgent + 0x18));
+        }
+
+        if (pUnit2) {
+            pAgent = find_objectid_64({ ReadMemory<uint32_t>(pUnit2 + 0xC), ReadMemory<uint32_t>(pUnit2 + 0x10) });
+            if (pAgent && ReadMemory<uint32_t>((uint32_t)pAgent + 0xC) == '+agl') {
+                pPlayerUnitEvent->filterUnit = objectid_64(ReadMemory<uint32_t>((uint32_t)pAgent + 0x14), ReadMemory<uint32_t>((uint32_t)pAgent + 0x18));
+            }
+        }
         static uint32_t pDispatchPlayerUnitEvent = searchDispatchPlayerUnitEvent();
-        base::this_call<uint32_t>(pDispatchPlayerUnitEvent, pPlayerWar3, TRIGGER_EVENT_ID_BASE + eventID, pPlayerUnitEvent);
+        base::this_call<uint32_t>(pDispatchPlayerUnitEvent, pOwningPlayer, TRIGGER_EVENT_ID_BASE + eventID, pPlayerUnitEvent);
         reference_free_ptr((uint32_t**)&pPlayerUnitEvent);
     }
 }

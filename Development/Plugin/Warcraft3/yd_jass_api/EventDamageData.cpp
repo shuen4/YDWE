@@ -48,35 +48,6 @@ uintptr_t searchCUnit_RunDamagedEvent() {
     return 0;
 }
 
-uintptr_t searchCUnit_GetOwner() {
-    uintptr_t ptr;
-
-    //=========================================
-    // (1)
-    //
-    // push		"()V"
-    // mov		edx, "GetOwningPlayer"
-    // mov		ecx, [GetOwningPlayer函数的地址] <----
-    // call		BindNative
-    //=========================================
-    ptr = get_war3_searcher().search_string("GetOwningPlayer");
-    ptr = *(uintptr_t*)(ptr + 0x05);
-
-    //=========================================
-    // (2)
-    //  GetOwningPlayer:
-    //      ...
-    //      call ConvertHandle
-    //      ...
-    //      call CUnit_GetOwner
-    //=========================================
-    ptr = next_opcode(ptr, 0xE8, 5);
-    ptr += 5;
-    ptr = next_opcode(ptr, 0xE8, 5);
-    ptr = convert_function(ptr);
-    return ptr;
-}
-
 struct war3_event_damage_data
 {
 	uint32_t source_unit;
@@ -134,24 +105,7 @@ struct event_damage_data
 	}
 };
 
-TriggerEvent::CPlayerUnitEventDataBase_vtable* JAPI_PlayerUnitDamageEventData_vtable;
-class JAPI_PlayerUnitDamageEventData : public TriggerEvent::CPlayerUnitEventDataBase {
-public:
-    uint32_t amount;
-    uint32_t GetTypeID() {
-        return 'pumd';
-    }
-    const char* GetTypeName() {
-        return "JAPI_PlayerUnitDamagedEventData";
-    }
-    uint32_t GetFilterUnit() {
-        return 0; // 禁用
-    }
-    static void ctor(uint32_t _this) {
-        ((CPlayerUnitEventDataBase*)_this)->ctor();
-        ((JAPI_PlayerUnitDamageEventData*)_this)->vtable = JAPI_PlayerUnitDamageEventData_vtable;
-    }
-};
+defineEventData(JAPI_PlayerUnitDamageEventData, 'pumd', 0, uint32_t amount;);
 
 std::deque<event_damage_data> g_edd;
 
@@ -198,31 +152,12 @@ uint32_t __fastcall FakeUnitDamageFunc(uint32_t _this, uint32_t _edx, uint32_t a
 {
 	g_edd.push_back(event_damage_data(is_physical, ptr));
 
-    static uint32_t CUnit_GetOwner = searchCUnit_GetOwner();
-    uint32_t pOwningPlayer = base::this_call<uint32_t>(CUnit_GetOwner, _this);
-    if (TriggerEvent::IsEventRegistered(pOwningPlayer, EVENT_PLAYER_UNIT_DAMAGING)) {
+    if (TriggerEvent::IsEventRegistered(TriggerEvent::GetUnitOwner(_this), EVENT_PLAYER_UNIT_DAMAGING)) {
         JAPI_PlayerUnitDamageEventData* pPlayerUnitDamageEventData = (JAPI_PlayerUnitDamageEventData*)create_by_typeid('pumd');
-
-        uint32_t pAgent = find_objectid_64({ ReadMemory<uint32_t>((uint32_t)pOwningPlayer + 0xC), ReadMemory<uint32_t>((uint32_t)pOwningPlayer + 0x10) });
-        if (pAgent && ReadMemory<uint32_t>((uint32_t)pAgent + 0xC) == '+agl') {
-            pPlayerUnitDamageEventData->player = objectid_64(ReadMemory<uint32_t>((uint32_t)pAgent + 0x14), ReadMemory<uint32_t>((uint32_t)pAgent + 0x18));
-        }
-
-        pAgent = find_objectid_64({ ReadMemory<uint32_t>((uint32_t)_this + 0xC), ReadMemory<uint32_t>((uint32_t)_this + 0x10) });
-        if (pAgent && ReadMemory<uint32_t>((uint32_t)pAgent + 0xC) == '+agl') {
-            pPlayerUnitDamageEventData->triggerUnit = objectid_64(ReadMemory<uint32_t>((uint32_t)pAgent + 0x14), ReadMemory<uint32_t>((uint32_t)pAgent + 0x18));
-        }
-
-        if (ptr->source_unit) {
-            pAgent = find_objectid_64({ ReadMemory<uint32_t>((uint32_t)ptr->source_unit + 0xC), ReadMemory<uint32_t>((uint32_t)ptr->source_unit + 0x10) });
-            if (pAgent && ReadMemory<uint32_t>((uint32_t)pAgent + 0xC) == '+agl') {
-                pPlayerUnitDamageEventData->filterUnit = objectid_64(ReadMemory<uint32_t>((uint32_t)pAgent + 0x14), ReadMemory<uint32_t>((uint32_t)pAgent + 0x18));
-            }
-        }
 
         pPlayerUnitDamageEventData->amount = ptr->amount;
 
-        TriggerEvent::FirePlayerUnitEvent(pPlayerUnitDamageEventData, pOwningPlayer, EVENT_PLAYER_UNIT_DAMAGING);
+        TriggerEvent::FirePlayerUnitEvent(pPlayerUnitDamageEventData, _this, ptr->source_unit, EVENT_PLAYER_UNIT_DAMAGING);
     }
 
     if (g_edd.back().change)
@@ -297,34 +232,15 @@ bool __cdecl EXSetEventDamage(uint32_t value)
 }
 
 uintptr_t real_CUnit_RunDamagedEvent = 0;
-uint32_t __fastcall fake_CUnit_RunDamagedEvent(uint32_t pUnit, uint32_t, float* amount, uint32_t pSrcUnit) {
-    static uint32_t CUnit_GetOwner = searchCUnit_GetOwner();
-    uint32_t pOwningPlayer = base::this_call<uint32_t>(CUnit_GetOwner, pUnit);
-    if (TriggerEvent::IsEventRegistered(pOwningPlayer, EVENT_PLAYER_UNIT_DAMAGED)) {
+uint32_t __fastcall fake_CUnit_RunDamagedEvent(uint32_t _this, uint32_t, float* amount, uint32_t pSrcUnit) {
+    if (TriggerEvent::IsEventRegistered(TriggerEvent::GetUnitOwner(_this), EVENT_PLAYER_UNIT_DAMAGED)) {
         JAPI_PlayerUnitDamageEventData* pPlayerUnitDamageEventData = (JAPI_PlayerUnitDamageEventData*)create_by_typeid('pumd');
-
-        uint32_t pAgent = find_objectid_64({ ReadMemory<uint32_t>((uint32_t)pOwningPlayer + 0xC), ReadMemory<uint32_t>((uint32_t)pOwningPlayer + 0x10) });
-        if (pAgent && ReadMemory<uint32_t>((uint32_t)pAgent + 0xC) == '+agl') {
-            pPlayerUnitDamageEventData->player = objectid_64(ReadMemory<uint32_t>((uint32_t)pAgent + 0x14), ReadMemory<uint32_t>((uint32_t)pAgent + 0x18));
-        }
-
-        pAgent = find_objectid_64({ ReadMemory<uint32_t>((uint32_t)pUnit + 0xC), ReadMemory<uint32_t>((uint32_t)pUnit + 0x10) });
-        if (pAgent && ReadMemory<uint32_t>((uint32_t)pAgent + 0xC) == '+agl') {
-            pPlayerUnitDamageEventData->triggerUnit = objectid_64(ReadMemory<uint32_t>((uint32_t)pAgent + 0x14), ReadMemory<uint32_t>((uint32_t)pAgent + 0x18));
-        }
-
-        if (pSrcUnit) {
-            pAgent = find_objectid_64({ ReadMemory<uint32_t>((uint32_t)pSrcUnit + 0xC), ReadMemory<uint32_t>((uint32_t)pSrcUnit + 0x10) });
-            if (pAgent && ReadMemory<uint32_t>((uint32_t)pAgent + 0xC) == '+agl') {
-                pPlayerUnitDamageEventData->filterUnit = objectid_64(ReadMemory<uint32_t>((uint32_t)pAgent + 0x14), ReadMemory<uint32_t>((uint32_t)pAgent + 0x18));
-            }
-        }
 
         pPlayerUnitDamageEventData->amount = *(uint32_t*)amount;
 
-        TriggerEvent::FirePlayerUnitEvent(pPlayerUnitDamageEventData, pOwningPlayer, EVENT_PLAYER_UNIT_DAMAGED);
+        TriggerEvent::FirePlayerUnitEvent(pPlayerUnitDamageEventData, _this, pSrcUnit, EVENT_PLAYER_UNIT_DAMAGED);
     }
-    uint32_t ret = base::this_call<uint32_t>(real_CUnit_RunDamagedEvent, pUnit, amount, pSrcUnit);
+    uint32_t ret = base::this_call<uint32_t>(real_CUnit_RunDamagedEvent, _this, amount, pSrcUnit);
     if (!g_edd.empty()) {
         event_damage_data& edd = g_edd.back();
         if (edd.change)
@@ -363,11 +279,7 @@ bool __cdecl EXSetEventWeaponType(uint32_t type) {
 }
 
 void InitializeEventDamageData() {
-    JAPI_PlayerUnitDamageEventData_vtable = TriggerEvent::CPlayerUnitEventDataBase_vtable_instance.copy();
-    WriteMemory((uint32_t)&JAPI_PlayerUnitDamageEventData_vtable->GetTypeID, &JAPI_PlayerUnitDamageEventData::GetTypeID);
-    WriteMemory((uint32_t)&JAPI_PlayerUnitDamageEventData_vtable->GetTypeName, &JAPI_PlayerUnitDamageEventData::GetTypeName);
-    WriteMemory((uint32_t)&JAPI_PlayerUnitDamageEventData_vtable->GetFilterUnit, &JAPI_PlayerUnitDamageEventData::GetFilterUnit);
-    TriggerEvent::RegisterTriggerEventData('pumd', TriggerEvent::Type::CPlayerUnitEventDataBase, { EVENT_PLAYER_UNIT_DAMAGING, EVENT_PLAYER_UNIT_DAMAGED }, sizeof(JAPI_PlayerUnitDamageEventData), 0x10, JAPI_PlayerUnitDamageEventData::ctor);
+    setupEventData(JAPI_PlayerUnitDamageEventData, 'pumd', EVENT_PLAYER_UNIT_DAMAGING, EVENT_PLAYER_UNIT_DAMAGED);
 
 	RealUnitDamageFunc = base::hook::replace_pointer(getUnitDamageFunc(), (uintptr_t)FakeUnitDamageFunc);
 	jass::japi_hook("GetEventDamage", &RealGetEventDamage, (uintptr_t)FakeGetEventDamage);
