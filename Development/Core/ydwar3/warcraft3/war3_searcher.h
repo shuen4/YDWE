@@ -82,4 +82,5 @@ namespace warcraft3 {
     _WAR3_API uint32_t    create_by_typeid(uint32_t typeID);
     _WAR3_API uint32_t    create_handle(uint32_t pObject);
     _WAR3_API uint32_t    GetObjectByHash(uint32_t a, uint32_t b);
+    _WAR3_API uint32_t    GetObjectByHash_agl(uint32_t a, uint32_t b);
 }

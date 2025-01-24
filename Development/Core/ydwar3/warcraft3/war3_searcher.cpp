@@ -512,6 +512,8 @@ namespace warcraft3 {
             childTypeID = ReadMemory(pAgileTypeData + 0x78); // ∏∏¿‡–ÕID
             if (childTypeID == parentTypeID)
                 return true;
+            else if (childTypeID == '+aga')
+                return false;
         }
     }
 
@@ -614,5 +616,15 @@ namespace warcraft3 {
             return ReadMemory<uint32_t>(obj + 0x54);
         else
             return 0;
+    }
+
+    uint32_t GetObjectByHash_agl(uint32_t a, uint32_t b) {
+        uint32_t obj = find_objectid_64(objectid_64(a, b));
+        if (ReadMemory(obj + 0xC) != '+agl') {
+            obj = ReadMemory(obj + 0x30);
+            if (obj && !ReadMemory<uint32_t>(obj + 0x20))
+                return ReadMemory<uint32_t>(obj + 0x54);
+        }
+        return 0;
     }
 }

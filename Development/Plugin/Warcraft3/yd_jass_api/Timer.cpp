@@ -85,7 +85,7 @@ namespace warcraft3::japi {
         return 0;
     }
 
-    bool __cdecl EXDestroyTimer(jass::jhandle_t timer) {
+    uint32_t __cdecl EXDestroyTimer(jass::jhandle_t timer) {
         uint32_t pTimerWar3 = handle_to_object(timer);
         if (pTimerWar3 && type_check(get_object_type(pTimerWar3), '+tmr')) {
             jass::call("PauseTimer", timer); // 换成直接调用?

@@ -726,7 +726,7 @@ namespace warcraft3::japi {
 		return SetAbilityString(GetAbilityUITableById(abilcode), level, type, value);
 	}
 
-	bool __cdecl EXSetAbilityAEmeDataA(uint32_t ability_handle, uint32_t value)
+	uint32_t __cdecl EXSetAbilityAEmeDataA(uint32_t ability_handle, uint32_t value)
 	{
 		ability_data* ability_ptr = (ability_data*)ability_pool.at(ability_handle);
 		if (!ability_ptr)

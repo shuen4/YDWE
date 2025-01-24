@@ -52,7 +52,7 @@ namespace warcraft3::japi {
         base::this_call_vf<void>(unk, 0xC, value);
     }
 
-    bool __cdecl EXSpriteFrameSetDefaultLight(uint32_t pSpriteFrame) {
+    uint32_t __cdecl EXSpriteFrameSetDefaultLight(uint32_t pSpriteFrame) {
         if (!isSpriteFrame(pSpriteFrame))
             return false;
         static auto addr = searchCreateLight();

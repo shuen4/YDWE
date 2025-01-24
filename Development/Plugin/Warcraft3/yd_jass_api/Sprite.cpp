@@ -80,7 +80,7 @@ namespace warcraft3::japi {
         return 0;
     }
 
-    bool __cdecl EXIsSpriteValid(uint32_t pSprite) {
+    uint32_t __cdecl EXIsSpriteValid(uint32_t pSprite) {
         return GetSpriteType(pSprite) != SpriteType::INVALID;
     }
 
@@ -102,19 +102,19 @@ namespace warcraft3::japi {
         return 0;
     }
 
-    bool __cdecl EXSetSpriteX(uint32_t pSprite, float* x) {
+    uint32_t __cdecl EXSetSpriteX(uint32_t pSprite, float* x) {
         setupOffset(0x88, 0xC0);
         WriteMemory(pSprite + offset, *x);
         return true;
     }
 
-    bool __cdecl EXSetSpriteY(uint32_t pSprite, float* y) {
+    uint32_t __cdecl EXSetSpriteY(uint32_t pSprite, float* y) {
         setupOffset(0x8C, 0xC4);
         WriteMemory(pSprite + offset, *y);
         return true;
     }
 
-    bool __cdecl EXSetSpriteZ(uint32_t pSprite, float* z) {
+    uint32_t __cdecl EXSetSpriteZ(uint32_t pSprite, float* z) {
         setupOffset(0x90, 0xC8);
         WriteMemory(pSprite + offset, *z);
         return true;
@@ -135,7 +135,7 @@ namespace warcraft3::japi {
         return ReadMemory(pSprite + offset);
     }
 
-    bool __cdecl EXSetSpriteSize(uint32_t pSprite, float* size) {
+    uint32_t __cdecl EXSetSpriteSize(uint32_t pSprite, float* size) {
         checkValid();
         base::this_call_vf<void>(pSprite, 0x24, *size);
         return true;
@@ -151,7 +151,7 @@ namespace warcraft3::japi {
         return ReadMemory(pSprite + offset);
     }
 
-    bool __cdecl EXSpriteMatrixRotateX(uint32_t pSprite, float* angle) {
+    uint32_t __cdecl EXSpriteMatrixRotateX(uint32_t pSprite, float* angle) {
         setupOffset(0x64, 0x108);
         float angle_radians = *angle * float(M_PI / 180.);
         qmatrix<float> mat((float*)(pSprite + offset));
@@ -164,7 +164,7 @@ namespace warcraft3::japi {
         return true;
     }
 
-    bool __cdecl EXSpriteMatrixRotateY(uint32_t pSprite, float* angle) {
+    uint32_t __cdecl EXSpriteMatrixRotateY(uint32_t pSprite, float* angle) {
         setupOffset(0x64, 0x108);
         float angle_radians = *angle * float(M_PI / 180.);
         qmatrix<float> mat((float*)(pSprite + offset));
@@ -177,7 +177,7 @@ namespace warcraft3::japi {
         return true;
     }
 
-    bool __cdecl EXSpriteMatrixRotateZ(uint32_t pSprite, float* angle) {
+    uint32_t __cdecl EXSpriteMatrixRotateZ(uint32_t pSprite, float* angle) {
         setupOffset(0x64, 0x108);
         float angle_radians = *angle * float(M_PI / 180.);
         qmatrix<float> mat((float*)(pSprite + offset));
@@ -190,7 +190,7 @@ namespace warcraft3::japi {
         return true;
     }
 
-    bool __cdecl EXSpriteMatrixScale(uint32_t pSprite, float* x, float* y, float* z) {
+    uint32_t __cdecl EXSpriteMatrixScale(uint32_t pSprite, float* x, float* y, float* z) {
         setupOffset(0x64, 0x108);
         qmatrix<float> mat((float*)(pSprite + offset));
         qmatrix<float>::value_type m = {
@@ -202,7 +202,7 @@ namespace warcraft3::japi {
         return true;
     }
 
-    bool __cdecl EXSpriteMatrixReset(uint32_t pSprite) {
+    uint32_t __cdecl EXSpriteMatrixReset(uint32_t pSprite) {
         setupOffset(0x64, 0x108);
         qmatrix<float> mat((float*)(pSprite + offset));
         qmatrix<float>::value_type m = {
@@ -230,13 +230,13 @@ namespace warcraft3::japi {
         return ReadMemory(pSprite + offset);
     }
 
-    bool __cdecl EXSetSpriteColor(uint32_t pSprite, uint32_t color) {
+    uint32_t __cdecl EXSetSpriteColor(uint32_t pSprite, uint32_t color) {
         checkValid();
         base::this_call_vf<void>(pSprite, 0x30, color & 0xFFFFFF);
         return true;
     }
 
-    bool __cdecl EXSetSpriteAlpha(uint32_t pSprite, uint32_t alpha) {
+    uint32_t __cdecl EXSetSpriteAlpha(uint32_t pSprite, uint32_t alpha) {
         checkValid();
         base::this_call_vf<void>(pSprite, 0x34, alpha & 0xFF);
         return true;
@@ -260,7 +260,7 @@ namespace warcraft3::japi {
         return 0xFF;
     }
 
-    bool __cdecl EXSetSpriteGeosetColor(uint32_t pSprite, uint32_t index, uint32_t value) {
+    uint32_t __cdecl EXSetSpriteGeosetColor(uint32_t pSprite, uint32_t index, uint32_t value) {
         if (GetSpriteType(pSprite) != SpriteType::INVALID)
             if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
                 if (ReadMemory(pModelComplex + 0xC) > index) // Geoset 数量
@@ -271,7 +271,7 @@ namespace warcraft3::japi {
         return false;
     }
 
-    bool __cdecl EXSetSpriteGeosetAlpha(uint32_t pSprite, uint32_t index, uint32_t value) {
+    uint32_t __cdecl EXSetSpriteGeosetAlpha(uint32_t pSprite, uint32_t index, uint32_t value) {
         if (GetSpriteType(pSprite) != SpriteType::INVALID)
             if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
                 if (ReadMemory(pModelComplex + 0xC) > index) // Geoset 数量
@@ -300,7 +300,7 @@ namespace warcraft3::japi {
         return 0xFF;
     }
 
-    bool __cdecl EXSetSpriteReplaceableTexture(uint32_t pSprite, uint32_t path, uint32_t replaceableID) {
+    uint32_t __cdecl EXSetSpriteReplaceableTexture(uint32_t pSprite, uint32_t path, uint32_t replaceableID) {
         checkValid();
         static uint32_t pSprite_SetReplacableTexture = searchCSprite_SetReplacableTexture();
         static uint32_t pLoadTexture = searchLoadTexture();
@@ -316,7 +316,7 @@ namespace warcraft3::japi {
     //		queue				1 << 1
     //		RARITY_FREQUENT		1 << 4
     //		RARITY_RARE			1 << 5
-    bool __cdecl EXSetSpriteAnimationEx(uint32_t pSprite, uint32_t animName, uint32_t flag) {
+    uint32_t __cdecl EXSetSpriteAnimationEx(uint32_t pSprite, uint32_t animName, uint32_t flag) {
         checkValid();
         static SetSpriteAnimationByNameAddress addr = searchSetSpriteAnimation();
         uint32_t AnimData[4] = { 0, 0, 0, 0 };
@@ -339,7 +339,7 @@ namespace warcraft3::japi {
         return true;
     }
 
-    bool __cdecl EXSetSpriteAnimation(uint32_t pSprite, uint32_t animName) {
+    uint32_t __cdecl EXSetSpriteAnimation(uint32_t pSprite, uint32_t animName) {
         return EXSetSpriteAnimationEx(pSprite, animName, 0);
     }
 
@@ -348,7 +348,7 @@ namespace warcraft3::japi {
     //		queue				1 << 1
     //		RARITY_FREQUENT		1 << 4
     //		RARITY_RARE			1 << 5
-    bool __cdecl EXSetSpriteAnimationByIndexEx(uint32_t pSprite, uint32_t index, uint32_t flag) {
+    uint32_t __cdecl EXSetSpriteAnimationByIndexEx(uint32_t pSprite, uint32_t index, uint32_t flag) {
         checkValid();
 
         static uint32_t pSetSpriteAnimationByIndex = searchSetSpriteAnimationByIndex();
@@ -356,7 +356,7 @@ namespace warcraft3::japi {
         return true;
     }
 
-    bool __cdecl EXSetSpriteAnimationByIndex(uint32_t pSprite, uint32_t index) {
+    uint32_t __cdecl EXSetSpriteAnimationByIndex(uint32_t pSprite, uint32_t index) {
         return EXSetSpriteAnimationByIndexEx(pSprite, index, 0);
     }
 

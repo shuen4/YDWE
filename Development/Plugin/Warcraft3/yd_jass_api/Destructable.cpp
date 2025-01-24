@@ -37,14 +37,14 @@ namespace warcraft3::japi {
             return 0xFFFFFFFF;
         return *fake_GetDestructableColorById(&pDestructable/* ∏¥”√±‰¡ø */, pDestructable + 0x30);
     }
-    bool __cdecl EXSetDestructableColor(uint32_t destructable, uint32_t color) {
+    uint32_t __cdecl EXSetDestructableColor(uint32_t destructable, uint32_t color) {
         uint32_t pDestructable = handle_to_object(destructable);
         if (!pDestructable || !type_check(get_object_type(pDestructable), '+w3d'))
             return false;
         destructable_color[pDestructable] = color;
         return true;
     }
-    bool __cdecl EXResetDestructableColor(uint32_t destructable) {
+    uint32_t __cdecl EXResetDestructableColor(uint32_t destructable) {
         uint32_t pDestructable = handle_to_object(destructable);
         if (!pDestructable || !type_check(get_object_type(pDestructable), '+w3d'))
             return false;

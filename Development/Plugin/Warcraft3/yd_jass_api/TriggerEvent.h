@@ -6,6 +6,7 @@ namespace warcraft3::japi::TriggerEvent {
     };
     enum JAPI_eventid : uint32_t {
         EVENT_PLAYER_UNIT_ATTACK_MISS = 0x81000,
+        EVENT_PLAYER_UNIT_ATTACK_LAUNCH,
     };
     class CPlayerUnitEventDataBase_vtable {
     public:

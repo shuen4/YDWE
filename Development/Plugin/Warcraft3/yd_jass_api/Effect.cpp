@@ -9,7 +9,7 @@
 
 namespace warcraft3::japi {
 
-	uintptr_t searchSmartPosSetLocation() {
+	uintptr_t searchSmartPositionSetLocation() {
 		uintptr_t ptr;
 
 		//=========================================
@@ -503,7 +503,7 @@ namespace warcraft3::japi {
 	}
 
 	jass::jnothing_t __cdecl EXUpdateEffectSmartPosition(jass::jhandle_t effect) {
-		static uint32_t SmartPos_SetLocation = searchSmartPosSetLocation();
+		static uint32_t SmartPosition_SetLocation = searchSmartPositionSetLocation();
 
 		uintptr_t obj = handle_to_object(effect);
 		if (!obj)
@@ -517,7 +517,7 @@ namespace warcraft3::japi {
 
 		uint32_t pSmartPos = base::this_call<uint32_t>(*(uint32_t*)((*(uint32_t*)obj) + 0xB0), obj);
 		if (pSmartPos)
-			base::this_call<void>(SmartPos_SetLocation, pSmartPos, &vec3);
+			base::this_call<void>(SmartPosition_SetLocation, pSmartPos, &vec3);
 	}
 
 	// flag:

@@ -216,7 +216,7 @@ uint32_t __cdecl EXGetEventDamageData(uint32_t type)
 	return 0;
 }
 
-bool __cdecl EXSetEventDamage(uint32_t value)
+uint32_t __cdecl EXSetEventDamage(uint32_t value)
 {
 	if (g_edd.empty())
 	{
@@ -257,21 +257,21 @@ uint32_t __cdecl EXTriggerRegisterPlayerUnitDamagingEvent(jass::jhandle_t trigge
     return TriggerEvent::TriggerRegisterPlayerUnitEvent(trigger, player, EVENT_PLAYER_UNIT_DAMAGING, NULL);
 }
 
-bool __cdecl EXSetEventAttackType(uint32_t type) {
+uint32_t __cdecl EXSetEventAttackType(uint32_t type) {
     if (type > 6 || g_edd.empty())
         return false;
     g_edd.back().data->attack_type = type;
     return true;
 }
 
-bool __cdecl EXSetEventDamageType(uint32_t type) {
+uint32_t __cdecl EXSetEventDamageType(uint32_t type) {
     if (type > 26 || g_edd.empty() || type == 1 || type == 2 || type == 3 || type == 6 || type == 7)
         return false;
     g_edd.back().data->damage_type = 1 << type;
     return true;
 }
 
-bool __cdecl EXSetEventWeaponType(uint32_t type) {
+uint32_t __cdecl EXSetEventWeaponType(uint32_t type) {
     if (TriggerEvent::GetTriggerEventId() != EVENT_PLAYER_UNIT_DAMAGING || type > 23 || g_edd.empty())
         return false;
     g_edd.back().data->weapon_type = type;

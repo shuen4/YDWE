@@ -311,14 +311,14 @@ namespace warcraft3::japi {
             return 0xFFFFFFFF;
         return *fake_GetItemColorById(&pItem/* ∏¥”√±‰¡ø */, pItem + 0x30);
     }
-    bool __cdecl EXSetItemColor(uint32_t item, uint32_t color) {
+    uint32_t __cdecl EXSetItemColor(uint32_t item, uint32_t color) {
         uint32_t pItem = handle_to_object(item);
         if (!pItem || !type_check(get_object_type(pItem), 'item'))
             return false;
         item_color[pItem] = color;
         return true;
     }
-    bool __cdecl EXResetItemColor(uint32_t item) {
+    uint32_t __cdecl EXResetItemColor(uint32_t item) {
         uint32_t pItem = handle_to_object(item);
         if (!pItem || !type_check(get_object_type(pItem), 'item'))
             return false;
