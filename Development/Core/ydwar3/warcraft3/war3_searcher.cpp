@@ -507,13 +507,11 @@ namespace warcraft3 {
                 pAgileTypeData = base::this_call<uint32_t>(create_obj.pGetAgileTypeDataByTypeId, childTypeID);
             else
                 pAgileTypeData = base::this_call<uint32_t>(create_obj.inlined.pGetAgileTypeDataByTypeIdFunc2, ReadMemory(create_obj.inlined.pAgileTypeData) + 0xC, base::this_call<uint32_t>(create_obj.inlined.pGetAgileTypeDataByTypeIdFunc1, &childTypeID), &childTypeID);
-            if (!pAgileTypeData)
+            if (!pAgileTypeData || ReadMemory(pAgileTypeData + 0x78) == childTypeID) // 无数据 / 父 == 子
                 return false;
             childTypeID = ReadMemory(pAgileTypeData + 0x78); // 父类型ID
             if (childTypeID == parentTypeID)
                 return true;
-            else if (childTypeID == '+aga')
-                return false;
         }
     }
 
