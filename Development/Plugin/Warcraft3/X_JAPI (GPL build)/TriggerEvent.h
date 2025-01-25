@@ -65,13 +65,13 @@ namespace warcraft3::japi::TriggerEvent {
                 ((name*)_this)->vtable = name##_vtable;                                                                         \
             }                                                                                                                   \
         };
-#define setupEventData(name, eventid, ...) do {                                                                               \
+#define setupEventData(name, eventid, ...) do {                                                                                 \
         name##_vtable = TriggerEvent::CPlayerUnitEventDataBase_vtable_instance.copy();                                          \
         WriteMemory((uint32_t)&name##_vtable->GetTypeID, &name::GetTypeID);                                                     \
         WriteMemory((uint32_t)&name##_vtable->GetTypeName, &name::GetTypeName);                                                 \
         WriteMemory((uint32_t)&name##_vtable->GetFilterUnit, &name::GetFilterUnit);                                             \
         TriggerEvent::RegisterTriggerEventData(eventid, TriggerEvent::Type::CPlayerUnitEventDataBase, { __VA_ARGS__}, sizeof(name), 0x10, name::ctor); } while(0)
-    #define setupEventData_s(name, eventid) setupEventData(name, eventid, eventid)
+#define setupEventData_s(name, eventid) setupEventData(name, eventid, eventid)
     void RegisterTriggerEventData(uint32_t typeID, Type parentTypeID, std::vector<uint32_t> eventID, uint32_t size, uint32_t batchAllocCount, void(*ctor)(uint32_t));
     uint32_t TriggerRegisterPlayerUnitEvent(uint32_t trigger, uint32_t player, uint32_t eventID, uint32_t boolexpr);
     uint32_t GetTriggerEventId();

@@ -4,7 +4,7 @@ namespace warcraft3::japi {
 	void initialize();
 }
 
-extern "C" void Initialize()
+void Initialize()
 {
 	warcraft3::japi::initialize();
 }

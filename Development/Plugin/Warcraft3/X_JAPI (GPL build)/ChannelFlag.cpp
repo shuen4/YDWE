@@ -18,7 +18,7 @@ namespace warcraft3::japi {
         uint32_t ptr = get_vfn_ptr(".?AVCAbilityChannel@@");
         ptr = ReadMemory(ptr + 0x30C); // vftable + 0x30C
         ptr = next_opcode(ptr, 0xE8, 5); // GetDataB
-        ptr += 5; 
+        ptr += 5;
         ptr = next_opcode(ptr, 0xE8, 5); // float2int
         ptr += 5;
         ptr = next_opcode(ptr, 0xE8, 5); // GetDataC
@@ -41,7 +41,7 @@ namespace warcraft3::japi {
         return flag;
     }
 
-    void InitializeObjectEditorChannelFlags() {
+    void InitializeObjectEditor_Channel() {
         real_CAbilityChannel_GetFlag = searchCAbilityChannel_GetFlag();
         base::hook::install(&real_CAbilityChannel_GetFlag, (uint32_t)fake_CAbilityChannel_GetFlag);
     }

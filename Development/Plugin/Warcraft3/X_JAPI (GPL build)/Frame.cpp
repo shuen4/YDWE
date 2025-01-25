@@ -4,6 +4,7 @@
 #include <base/hook/fp_call.h>
 #include <base/util/memory.h>
 #include <warcraft3/version.h>
+#include "init_util.h"
 
 namespace warcraft3::japi {
     struct SpriteFrameSetDefaultLight {
@@ -41,9 +42,9 @@ namespace warcraft3::japi {
         return !IsBadReadPtr((void*)pSpriteFrame, 4) && ReadMemory(pSpriteFrame) != CSpriteFrame_vtable;
     }
 
-    // 因为懒得研究函数名称随便起
+    // 因为懒得研究函数 所以随便起名称
     // setupLight1 / setupLight2 通用
-    // 1 只有一个数值 2 就三个
+    // 1 只有一个数值 2 有三个
     void setupLight(uint32_t pLight, uint32_t index, float* value) {
         int unk = ReadMemory(ReadMemory(pLight + 16) + 4 * index);
         WriteMemory(unk + 0x10, 0);
@@ -52,7 +53,7 @@ namespace warcraft3::japi {
         base::this_call_vf<void>(unk, 0xC, value);
     }
 
-    uint32_t __cdecl EXSpriteFrameSetDefaultLight(uint32_t pSpriteFrame) {
+    uint32_t __cdecl X_SpriteFrameSetDefaultLight(uint32_t pSpriteFrame) {
         if (!isSpriteFrame(pSpriteFrame))
             return false;
         static auto addr = searchCreateLight();
@@ -79,7 +80,7 @@ namespace warcraft3::japi {
         return true;
     }
 
-    void InitializeFrame() {
-        jass::japi_add((uint32_t)EXSpriteFrameSetDefaultLight,     "EXSpriteFrameSetDefaultLight",    "(I)B");
+    init(Frame) {
+        jass::japi_add((uint32_t)X_SpriteFrameSetDefaultLight, "X_SpriteFrameSetDefaultLight", "(I)B");
     }
 }

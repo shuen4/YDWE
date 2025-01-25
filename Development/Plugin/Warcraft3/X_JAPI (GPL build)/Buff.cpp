@@ -7,6 +7,7 @@
 #include <warcraft3/hashtable.h>
 #include <base/util/memory.h>
 #include <string>
+#include "init_util.h"
 
 namespace warcraft3::japi {
     uint32_t searchCUnit_AddAbility() {
@@ -40,7 +41,7 @@ namespace warcraft3::japi {
         base::this_call<void>(pCBuff_UpdateDisplay, pBuff);
     }
 
-    uint32_t __cdecl EXUnitAddBuff(jass::jhandle_t target_unit, jass::jhandle_t src_unit, uint32_t typeID, uint32_t buffID, uint32_t level, uint32_t spell_steal_priority, uint32_t* duration, uint32_t* data1, uint32_t* data2, uint32_t* data3, uint32_t* data4, uint32_t* data5, uint32_t* data6, uint32_t* data7, uint32_t* data8, uint32_t* data9, uint32_t* data10, uint32_t* data11) {
+    uint32_t __cdecl X_UnitAddBuff(jass::jhandle_t target_unit, jass::jhandle_t src_unit, uint32_t typeID, uint32_t buffID, uint32_t level, uint32_t spell_steal_priority, uint32_t* duration, uint32_t* data1, uint32_t* data2, uint32_t* data3, uint32_t* data4, uint32_t* data5, uint32_t* data6, uint32_t* data7, uint32_t* data8, uint32_t* data9, uint32_t* data10, uint32_t* data11) {
         if (!target_unit)
             return false;
         switch (typeID) {
@@ -647,8 +648,7 @@ namespace warcraft3::japi {
         return true;
     }
 
-    void InitializeBuff()
-    {
-        jass::japi_add((uintptr_t)EXUnitAddBuff, "EXUnitAddBuff", "(Hunit;Hunit;IIIIRRRRRRRRRRRR)B");
+    init(Buff) {
+        jass::japi_add((uintptr_t)X_UnitAddBuff, "X_UnitAddBuff", "(Hunit;Hunit;IIIIRRRRRRRRRRRR)B");
     }
 }

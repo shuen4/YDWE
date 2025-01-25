@@ -70,11 +70,11 @@ namespace warcraft3::japi {
         base::this_call<void>(real_CreateMissTextAtUnit, _this);
     }
 
-    uint32_t __cdecl EXTriggerRegisterPlayerUnitAttackMissEvent(jass::jhandle_t trigger, jass::jhandle_t player) {
+    uint32_t __cdecl X_TriggerRegisterPlayerUnitAttackMissEvent(jass::jhandle_t trigger, jass::jhandle_t player) {
         return TriggerEvent::TriggerRegisterPlayerUnitEvent(trigger, player, TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_MISS, NULL);
     }
 
-    uint32_t __cdecl EXHideAttackMissEventText(bool hide) {
+    uint32_t __cdecl X_HideAttackMissEventText(bool hide) {
         if (TriggerEvent::GetTriggerEventId() == TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_MISS) {
             if (JAPI_PlayerUnitAttackMissEventData* pEventData = (JAPI_PlayerUnitAttackMissEventData*)TriggerEvent::GetTriggerEventData(TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_MISS)) {
                 pEventData->hide = hide;
@@ -84,7 +84,7 @@ namespace warcraft3::japi {
         return 0;
     }
 
-    uint32_t __cdecl EXIsAttackMissEventTextHidden() {
+    uint32_t __cdecl X_IsAttackMissEventTextHidden() {
         switch (TriggerEvent::GetTriggerEventId()) {
         case TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_MISS:
             if (JAPI_PlayerUnitAttackMissEventData* pEventData = (JAPI_PlayerUnitAttackMissEventData*)TriggerEvent::GetTriggerEventData(TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_MISS))
@@ -133,18 +133,18 @@ namespace warcraft3::japi {
         return base::this_call<uint32_t>(real_CAbilityAttack_AttackTarget, _this, target, weapon_index, a4, a5, a6, vision);
     }
 
-    uint32_t __cdecl EXTriggerRegisterPlayerUnitAttackLaunchEvent(jass::jhandle_t trigger, jass::jhandle_t player) {
+    uint32_t __cdecl X_TriggerRegisterPlayerUnitAttackLaunchEvent(jass::jhandle_t trigger, jass::jhandle_t player) {
         return TriggerEvent::TriggerRegisterPlayerUnitEvent(trigger, player, TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_LAUNCH, NULL);
     }
 
-    uint32_t __cdecl EXGetAttackLaunchEventWeaponIndex() {
+    uint32_t __cdecl X_GetAttackLaunchEventWeaponIndex() {
         if (TriggerEvent::GetTriggerEventId() == TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_LAUNCH)
             if (JAPI_PlayerUnitAttackLaunchEventData* pEventData = (JAPI_PlayerUnitAttackLaunchEventData*)TriggerEvent::GetTriggerEventData(TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_LAUNCH))
                 return pEventData->weapon_index;
         return 0xFFFFFFFF;
     }
 
-    uint32_t __cdecl EXGetAttackLaunchEventTarget() {
+    uint32_t __cdecl X_GetAttackLaunchEventTarget() {
         if (TriggerEvent::GetTriggerEventId() == TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_LAUNCH)
             if (JAPI_PlayerUnitAttackLaunchEventData* pEventData = (JAPI_PlayerUnitAttackLaunchEventData*)TriggerEvent::GetTriggerEventData(TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_LAUNCH))
                 if (uint32_t pWidget = GetObjectByHash(pEventData->filterUnit.a, pEventData->filterUnit.b))
@@ -153,7 +153,7 @@ namespace warcraft3::japi {
     }
 
     template <uint32_t typeID>
-    uint32_t __cdecl EXGetAttackLaunchEventTargetTyped() {
+    uint32_t __cdecl X_GetAttackLaunchEventTargetTyped() {
         if (TriggerEvent::GetTriggerEventId() == TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_LAUNCH)
             if (JAPI_PlayerUnitAttackLaunchEventData* pEventData = (JAPI_PlayerUnitAttackLaunchEventData*)TriggerEvent::GetTriggerEventData(TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_LAUNCH))
                 if (uint32_t pWidget = GetObjectByHash(pEventData->filterUnit.a, pEventData->filterUnit.b))
@@ -162,49 +162,49 @@ namespace warcraft3::japi {
         return 0;
     }
 
-    uint32_t __cdecl EXGetAttackLaunchEventSourceX() {
+    uint32_t __cdecl X_GetAttackLaunchEventSourceX() {
         if (TriggerEvent::GetTriggerEventId() == TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_LAUNCH)
             if (JAPI_PlayerUnitAttackLaunchEventData* pEventData = (JAPI_PlayerUnitAttackLaunchEventData*)TriggerEvent::GetTriggerEventData(TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_LAUNCH))
                 return pEventData->src_x;
         return 0;
     }
 
-    uint32_t __cdecl EXGetAttackLaunchEventSourceY() {
+    uint32_t __cdecl X_GetAttackLaunchEventSourceY() {
         if (TriggerEvent::GetTriggerEventId() == TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_LAUNCH)
             if (JAPI_PlayerUnitAttackLaunchEventData* pEventData = (JAPI_PlayerUnitAttackLaunchEventData*)TriggerEvent::GetTriggerEventData(TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_LAUNCH))
                 return pEventData->src_y;
         return 0;
     }
 
-    uint32_t __cdecl EXGetAttackLaunchEventTargetX() {
+    uint32_t __cdecl X_GetAttackLaunchEventTargetX() {
         if (TriggerEvent::GetTriggerEventId() == TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_LAUNCH)
             if (JAPI_PlayerUnitAttackLaunchEventData* pEventData = (JAPI_PlayerUnitAttackLaunchEventData*)TriggerEvent::GetTriggerEventData(TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_LAUNCH))
                 return pEventData->target_x;
         return 0;
     }
 
-    uint32_t __cdecl EXGetAttackLaunchEventTargetY() {
+    uint32_t __cdecl X_GetAttackLaunchEventTargetY() {
         if (TriggerEvent::GetTriggerEventId() == TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_LAUNCH)
             if (JAPI_PlayerUnitAttackLaunchEventData* pEventData = (JAPI_PlayerUnitAttackLaunchEventData*)TriggerEvent::GetTriggerEventData(TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_LAUNCH))
                 return pEventData->target_y;
         return 0;
     }
 
-    uint32_t __cdecl EXIsAttackLaunchEventPointTarget() {
+    uint32_t __cdecl X_IsAttackLaunchEventPointTarget() {
         if (TriggerEvent::GetTriggerEventId() == TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_LAUNCH)
             if (JAPI_PlayerUnitAttackLaunchEventData* pEventData = (JAPI_PlayerUnitAttackLaunchEventData*)TriggerEvent::GetTriggerEventData(TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_LAUNCH))
                 return pEventData->isPointTarget;
         return false;
     }
 
-    uint32_t __cdecl EXIsAttackLaunchEventGiveVision() {
+    uint32_t __cdecl X_IsAttackLaunchEventGiveVision() {
         if (TriggerEvent::GetTriggerEventId() == TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_LAUNCH)
             if (JAPI_PlayerUnitAttackLaunchEventData* pEventData = (JAPI_PlayerUnitAttackLaunchEventData*)TriggerEvent::GetTriggerEventData(TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_LAUNCH))
                 return pEventData->vision;
         return false;
     }
 
-    uint32_t __cdecl EXSetAttackLaunchEventGiveVision(bool vision) {
+    uint32_t __cdecl X_SetAttackLaunchEventGiveVision(bool vision) {
         if (TriggerEvent::GetTriggerEventId() == TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_LAUNCH)
             if (JAPI_PlayerUnitAttackLaunchEventData* pEventData = (JAPI_PlayerUnitAttackLaunchEventData*)TriggerEvent::GetTriggerEventData(TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_LAUNCH)) {
                 pEventData->vision = vision;
@@ -213,32 +213,32 @@ namespace warcraft3::japi {
         return false;
     }
 
-    void InitializeUnitEvent() {
+    void InitializeUnitEvent_Attack() {
         // 玩家单位攻击丢失事件
         setupEventData_s(JAPI_PlayerUnitAttackMissEventData, TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_MISS);
         real_CreateMissTextAtUnit = searchCreateMissTextAtUnit();
         base::hook::install(&real_CreateMissTextAtUnit, (uint32_t)fake_CreateMissTextAtUnit);
-        jass::japi_add((uint32_t)EXTriggerRegisterPlayerUnitAttackMissEvent,        "EXTriggerRegisterPlayerUnitAttackMissEvent",       "(Htrigger;Hplayer;)Hevent;");
-        jass::japi_add((uint32_t)EXHideAttackMissEventText,                         "EXHideAttackMissEventText",                        "(B)B");
-        jass::japi_add((uint32_t)EXIsAttackMissEventTextHidden,                     "EXIsAttackMissEventTextHidden",                    "()B");
+        jass::japi_add((uint32_t)X_TriggerRegisterPlayerUnitAttackMissEvent,        "X_TriggerRegisterPlayerUnitAttackMissEvent",       "(Htrigger;Hplayer;)Hevent;");
+        jass::japi_add((uint32_t)X_HideAttackMissEventText,                         "X_HideAttackMissEventText",                        "(B)B");
+        jass::japi_add((uint32_t)X_IsAttackMissEventTextHidden,                     "X_IsAttackMissEventTextHidden",                    "()B");
         
         // 玩家单位发起攻击事件
         setupEventData_s(JAPI_PlayerUnitAttackLaunchEventData, TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_LAUNCH);
         real_CAbilityAttack_AttackTarget = searchCAbilityAttack_AttackTarget();
         base::hook::install(&real_CAbilityAttack_AttackTarget, (uint32_t)fake_CAbilityAttack_AttackTarget);
-        jass::japi_add((uint32_t)EXTriggerRegisterPlayerUnitAttackLaunchEvent,      "EXTriggerRegisterPlayerUnitAttackLaunchEvent",     "(Htrigger;Hplayer;)Hevent;");
-        jass::japi_add((uint32_t)EXGetAttackLaunchEventWeaponIndex,                 "EXGetAttackLaunchEventWeaponIndex",                "()I");
-        jass::japi_add((uint32_t)EXGetAttackLaunchEventTarget,                      "EXGetAttackLaunchEventTarget",                     "()Hwidget;");
-        jass::japi_add((uint32_t)EXGetAttackLaunchEventTargetTyped<'+w3u'>,         "EXGetAttackLaunchEventTargetUnit",                 "()Hunit;");
-        jass::japi_add((uint32_t)EXGetAttackLaunchEventTargetTyped<'item'>,         "EXGetAttackLaunchEventTargetItem",                 "()Hitem;");
-        jass::japi_add((uint32_t)EXGetAttackLaunchEventTargetTyped<'+w3d'>,         "EXGetAttackLaunchEventTargetDestructable",         "()Hdestructable;");
-        jass::japi_add((uint32_t)EXGetAttackLaunchEventSourceX,                     "EXGetAttackLaunchEventSourceX",                    "()R");
-        jass::japi_add((uint32_t)EXGetAttackLaunchEventSourceY,                     "EXGetAttackLaunchEventSourceY",                    "()R");
-        jass::japi_add((uint32_t)EXGetAttackLaunchEventTargetX,                     "EXGetAttackLaunchEventTargetX",                    "()R");
-        jass::japi_add((uint32_t)EXGetAttackLaunchEventTargetY,                     "EXGetAttackLaunchEventTargetY",                    "()R");
-        jass::japi_add((uint32_t)EXIsAttackLaunchEventPointTarget,                  "EXIsAttackLaunchEventPointTarget",                 "()B");
-        jass::japi_add((uint32_t)EXIsAttackLaunchEventGiveVision,                   "EXIsAttackLaunchEventGiveVision",                  "()B");
-        jass::japi_add((uint32_t)EXSetAttackLaunchEventGiveVision,                  "EXSetAttackLaunchEventGiveVision",                 "(B)B");
+        jass::japi_add((uint32_t)X_TriggerRegisterPlayerUnitAttackLaunchEvent,      "X_TriggerRegisterPlayerUnitAttackLaunchEvent",     "(Htrigger;Hplayer;)Hevent;");
+        jass::japi_add((uint32_t)X_GetAttackLaunchEventWeaponIndex,                 "X_GetAttackLaunchEventWeaponIndex",                "()I");
+        jass::japi_add((uint32_t)X_GetAttackLaunchEventTarget,                      "X_GetAttackLaunchEventTarget",                     "()Hwidget;");
+        jass::japi_add((uint32_t)X_GetAttackLaunchEventTargetTyped<'+w3u'>,         "X_GetAttackLaunchEventTargetUnit",                 "()Hunit;");
+        jass::japi_add((uint32_t)X_GetAttackLaunchEventTargetTyped<'item'>,         "X_GetAttackLaunchEventTargetItem",                 "()Hitem;");
+        jass::japi_add((uint32_t)X_GetAttackLaunchEventTargetTyped<'+w3d'>,         "X_GetAttackLaunchEventTargetDestructable",         "()Hdestructable;");
+        jass::japi_add((uint32_t)X_GetAttackLaunchEventSourceX,                     "X_GetAttackLaunchEventSourceX",                    "()R");
+        jass::japi_add((uint32_t)X_GetAttackLaunchEventSourceY,                     "X_GetAttackLaunchEventSourceY",                    "()R");
+        jass::japi_add((uint32_t)X_GetAttackLaunchEventTargetX,                     "X_GetAttackLaunchEventTargetX",                    "()R");
+        jass::japi_add((uint32_t)X_GetAttackLaunchEventTargetY,                     "X_GetAttackLaunchEventTargetY",                    "()R");
+        jass::japi_add((uint32_t)X_IsAttackLaunchEventPointTarget,                  "X_IsAttackLaunchEventPointTarget",                 "()B");
+        jass::japi_add((uint32_t)X_IsAttackLaunchEventGiveVision,                   "X_IsAttackLaunchEventGiveVision",                  "()B");
+        jass::japi_add((uint32_t)X_SetAttackLaunchEventGiveVision,                  "X_SetAttackLaunchEventGiveVision",                 "(B)B");
 
     }
 }

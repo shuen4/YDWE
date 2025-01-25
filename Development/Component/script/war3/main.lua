@@ -64,6 +64,12 @@ event.on('GameDll加载', function ()
             init()
         end
     end
+    for _, lib in ipairs(libs) do
+        local init = ll.get_proc_address(lib, 'InitializeLowPriority', 'void(__stdcall*)()')
+        if init then
+            init()
+        end
+    end
 end)
 
 if '0' ~= global_config.MapTest.LaunchDisableSecurityAccess then

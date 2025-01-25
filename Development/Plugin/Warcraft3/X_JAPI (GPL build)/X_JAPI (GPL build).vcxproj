@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{b703d221-3fb4-4aa6-a997-237f990c9aa2}</ProjectGuid>
+    <RootNamespace>XJAPIGPLbuild</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), build.root))\Core\Solution\ydwe_build.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), build.root))\Core\Solution\ydwe_build.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(Warcraft3PluginBin)</OutDir>
+    <IntDir>$(Warcraft3PluginObj)</IntDir>
+    <TargetName>X_JAPI</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(Warcraft3PluginBin)</OutDir>
+    <IntDir>$(Warcraft3PluginObj)</IntDir>
+    <TargetName>X_JAPI</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;XJAPIGPLBUILD_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+    </Link>
+    <PreBuildEvent>
+      <Command>chcp 437
+for /f "tokens=2-4 delims=/ " %%1 in ('date /t') do for /f "eol=E tokens=5-9 delims=:. " %%4 in ('time^&lt;nul') do echo #define DATETIME "%%1/%%2/%%3 %%4:%%5:%%6.%%7" &gt; "$(projectdir)version.h"
+for /f %%1 in ('git rev-list --count HEAD .') do echo #define COMMIT_COUNT %%1 &gt;&gt; "$(projectdir)version.h"</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;XJAPIGPLBUILD_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+    </Link>
+    <PreBuildEvent>
+      <Command>chcp 437
+for /f "tokens=2-4 delims=/ " %%1 in ('date /t') do for /f "eol=E tokens=5-9 delims=:. " %%4 in ('time^&lt;nul') do echo #define DATETIME "%%1/%%2/%%3 %%4:%%5:%%6.%%7" &gt; "$(projectdir)version.h"
+for /f %%1 in ('git rev-list --count HEAD .') do echo #define COMMIT_COUNT %%1 &gt;&gt; "$(projectdir)version.h"</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Attack.cpp" />
+    <ClCompile Include="Bit.cpp" />
+    <ClCompile Include="Buff.cpp" />
+    <ClCompile Include="CallNative.cpp" />
+    <ClCompile Include="Cast.cpp" />
+    <ClCompile Include="ChannelFlag.cpp" />
+    <ClCompile Include="Destructable.cpp" />
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="EventDamageData.cpp" />
+    <ClCompile Include="Frame.cpp" />
+    <ClCompile Include="GameUI_Message.cpp" />
+    <ClCompile Include="Group.cpp" />
+    <ClCompile Include="Hashtable.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="JassVM.cpp" />
+    <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="Terrain.cpp" />
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="TriggerEvent.cpp" />
+    <ClCompile Include="Unit.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="init_util.h" />
+    <ClInclude Include="qmatrix.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="TriggerEvent.h" />
+    <None Include="version.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Core\ydbase\ydbase.vcxproj">
+      <Project>{75b04c07-94d9-41e7-bbfd-e67f79bff41a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Core\ydwar3\ydwar3.vcxproj">
+      <Project>{a0e0fbbf-af94-4132-be63-ab101e3af949}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

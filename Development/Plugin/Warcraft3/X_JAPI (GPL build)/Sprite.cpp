@@ -4,6 +4,7 @@
 #include <base/hook/fp_call.h>
 #include <base/util/memory.h>
 #include <warcraft3/version.h>
+#include "init_util.h"
 
 #include "qmatrix.h"
 
@@ -35,14 +36,14 @@ namespace warcraft3::japi {
 
     bool isSpriteFrame(uint32_t pSpriteFrame);
 
-    uint32_t __cdecl EXSpriteFrameGetSprite(uint32_t pSpriteFrame) {
+    uint32_t __cdecl X_SpriteFrameGetSprite(uint32_t pSpriteFrame) {
         if (isSpriteFrame(pSpriteFrame) && ReadMemory(pSpriteFrame + 0x174))
             return ReadMemory(ReadMemory(pSpriteFrame + 0x178));
         else
             return 0;
     }
 
-    uint32_t __cdecl EXWar3ImageGetSprite(uint32_t handle) {
+    uint32_t __cdecl X_War3ImageGetSprite(uint32_t handle) {
         uint32_t pObj = handle_to_object(handle);
         if (!pObj || !type_check(get_object_type(pObj), '+w3i'))
             return 0;
@@ -80,11 +81,11 @@ namespace warcraft3::japi {
         return 0;
     }
 
-    uint32_t __cdecl EXIsSpriteValid(uint32_t pSprite) {
+    uint32_t __cdecl X_IsSpriteValid(uint32_t pSprite) {
         return GetSpriteType(pSprite) != SpriteType::INVALID;
     }
 
-    SpriteType __cdecl EXGetSpriteType(uint32_t pSprite) {
+    SpriteType __cdecl X_GetSpriteType(uint32_t pSprite) {
         return GetSpriteType(pSprite);
     }
 
@@ -96,46 +97,46 @@ namespace warcraft3::japi {
     if (GetSpriteType(pSprite) == SpriteType::INVALID)                                                  \
         return false
 
-    uint32_t __cdecl EXGetSpriteGeosetCount(uint32_t pSprite) {
+    uint32_t __cdecl X_GetSpriteGeosetCount(uint32_t pSprite) {
         if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
             return ReadMemory(pModelComplex + 0xC);
         return 0;
     }
 
-    uint32_t __cdecl EXSetSpriteX(uint32_t pSprite, float* x) {
+    uint32_t __cdecl X_SetSpriteX(uint32_t pSprite, float* x) {
         setupOffset(0x88, 0xC0);
         WriteMemory(pSprite + offset, *x);
         return true;
     }
 
-    uint32_t __cdecl EXSetSpriteY(uint32_t pSprite, float* y) {
+    uint32_t __cdecl X_SetSpriteY(uint32_t pSprite, float* y) {
         setupOffset(0x8C, 0xC4);
         WriteMemory(pSprite + offset, *y);
         return true;
     }
 
-    uint32_t __cdecl EXSetSpriteZ(uint32_t pSprite, float* z) {
+    uint32_t __cdecl X_SetSpriteZ(uint32_t pSprite, float* z) {
         setupOffset(0x90, 0xC8);
         WriteMemory(pSprite + offset, *z);
         return true;
     }
 
-    uint32_t __cdecl EXGetSpriteX(uint32_t pSprite) {
+    uint32_t __cdecl X_GetSpriteX(uint32_t pSprite) {
         setupOffset(0x88, 0xC0);
         return ReadMemory(pSprite + offset);
     }
 
-    uint32_t __cdecl EXGetSpriteY(uint32_t pSprite) {
+    uint32_t __cdecl X_GetSpriteY(uint32_t pSprite) {
         setupOffset(0x8C, 0xC4);
         return ReadMemory(pSprite + offset);
     }
 
-    uint32_t __cdecl EXGetSpriteZ(uint32_t pSprite) {
+    uint32_t __cdecl X_GetSpriteZ(uint32_t pSprite) {
         setupOffset(0x90, 0xC8);
         return ReadMemory(pSprite + offset);
     }
 
-    uint32_t __cdecl EXSetSpriteSize(uint32_t pSprite, float* size) {
+    uint32_t __cdecl X_SetSpriteSize(uint32_t pSprite, float* size) {
         checkValid();
         base::this_call_vf<void>(pSprite, 0x24, *size);
         return true;
@@ -146,12 +147,12 @@ namespace warcraft3::japi {
         */
     }
 
-    uint32_t __cdecl EXGetSpriteSize(uint32_t pSprite) {
+    uint32_t __cdecl X_GetSpriteSize(uint32_t pSprite) {
         setupOffset(0x94, 0xE8);
         return ReadMemory(pSprite + offset);
     }
 
-    uint32_t __cdecl EXSpriteMatrixRotateX(uint32_t pSprite, float* angle) {
+    uint32_t __cdecl X_SpriteMatrixRotateX(uint32_t pSprite, float* angle) {
         setupOffset(0x64, 0x108);
         float angle_radians = *angle * float(M_PI / 180.);
         qmatrix<float> mat((float*)(pSprite + offset));
@@ -164,7 +165,7 @@ namespace warcraft3::japi {
         return true;
     }
 
-    uint32_t __cdecl EXSpriteMatrixRotateY(uint32_t pSprite, float* angle) {
+    uint32_t __cdecl X_SpriteMatrixRotateY(uint32_t pSprite, float* angle) {
         setupOffset(0x64, 0x108);
         float angle_radians = *angle * float(M_PI / 180.);
         qmatrix<float> mat((float*)(pSprite + offset));
@@ -177,7 +178,7 @@ namespace warcraft3::japi {
         return true;
     }
 
-    uint32_t __cdecl EXSpriteMatrixRotateZ(uint32_t pSprite, float* angle) {
+    uint32_t __cdecl X_SpriteMatrixRotateZ(uint32_t pSprite, float* angle) {
         setupOffset(0x64, 0x108);
         float angle_radians = *angle * float(M_PI / 180.);
         qmatrix<float> mat((float*)(pSprite + offset));
@@ -190,7 +191,7 @@ namespace warcraft3::japi {
         return true;
     }
 
-    uint32_t __cdecl EXSpriteMatrixScale(uint32_t pSprite, float* x, float* y, float* z) {
+    uint32_t __cdecl X_SpriteMatrixScale(uint32_t pSprite, float* x, float* y, float* z) {
         setupOffset(0x64, 0x108);
         qmatrix<float> mat((float*)(pSprite + offset));
         qmatrix<float>::value_type m = {
@@ -202,7 +203,7 @@ namespace warcraft3::japi {
         return true;
     }
 
-    uint32_t __cdecl EXSpriteMatrixReset(uint32_t pSprite) {
+    uint32_t __cdecl X_SpriteMatrixReset(uint32_t pSprite) {
         setupOffset(0x64, 0x108);
         qmatrix<float> mat((float*)(pSprite + offset));
         qmatrix<float>::value_type m = {
@@ -214,7 +215,7 @@ namespace warcraft3::japi {
         return true;
     }
 
-    uint32_t __cdecl EXSetSpriteTimeScale(uint32_t pSprite, float* timeScale) {
+    uint32_t __cdecl X_SetSpriteTimeScale(uint32_t pSprite, float* timeScale) {
         checkValid();
         base::this_call_vf<void>(pSprite, 0x28, *timeScale);
         return true;
@@ -225,24 +226,24 @@ namespace warcraft3::japi {
         */
     }
 
-    uint32_t __cdecl EXGetSpriteTimeScale(uint32_t pSprite) {
+    uint32_t __cdecl X_GetSpriteTimeScale(uint32_t pSprite) {
         setupOffset(0x48, 0x190);
         return ReadMemory(pSprite + offset);
     }
 
-    uint32_t __cdecl EXSetSpriteColor(uint32_t pSprite, uint32_t color) {
+    uint32_t __cdecl X_SetSpriteColor(uint32_t pSprite, uint32_t color) {
         checkValid();
         base::this_call_vf<void>(pSprite, 0x30, color & 0xFFFFFF);
         return true;
     }
 
-    uint32_t __cdecl EXSetSpriteAlpha(uint32_t pSprite, uint32_t alpha) {
+    uint32_t __cdecl X_SetSpriteAlpha(uint32_t pSprite, uint32_t alpha) {
         checkValid();
         base::this_call_vf<void>(pSprite, 0x34, alpha & 0xFF);
         return true;
     }
 
-    uint32_t __cdecl EXGetSpriteColor(uint32_t pSprite) {
+    uint32_t __cdecl X_GetSpriteColor(uint32_t pSprite) {
         if (GetSpriteType(pSprite) != SpriteType::INVALID)
             if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
                 if (ReadMemory(pModelComplex + 0xC)) // Geoset 数量
@@ -251,7 +252,7 @@ namespace warcraft3::japi {
         return 0xFF;
     }
 
-    uint32_t __cdecl EXGetSpriteAlpha(uint32_t pSprite) {
+    uint32_t __cdecl X_GetSpriteAlpha(uint32_t pSprite) {
         if (GetSpriteType(pSprite) != SpriteType::INVALID)
             if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
                 if (ReadMemory(pModelComplex + 0xC)) // Geoset 数量
@@ -260,7 +261,7 @@ namespace warcraft3::japi {
         return 0xFF;
     }
 
-    uint32_t __cdecl EXSetSpriteGeosetColor(uint32_t pSprite, uint32_t index, uint32_t value) {
+    uint32_t __cdecl X_SetSpriteGeosetColor(uint32_t pSprite, uint32_t index, uint32_t value) {
         if (GetSpriteType(pSprite) != SpriteType::INVALID)
             if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
                 if (ReadMemory(pModelComplex + 0xC) > index) // Geoset 数量
@@ -271,7 +272,7 @@ namespace warcraft3::japi {
         return false;
     }
 
-    uint32_t __cdecl EXSetSpriteGeosetAlpha(uint32_t pSprite, uint32_t index, uint32_t value) {
+    uint32_t __cdecl X_SetSpriteGeosetAlpha(uint32_t pSprite, uint32_t index, uint32_t value) {
         if (GetSpriteType(pSprite) != SpriteType::INVALID)
             if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
                 if (ReadMemory(pModelComplex + 0xC) > index) // Geoset 数量
@@ -282,7 +283,7 @@ namespace warcraft3::japi {
         return false;
     }
 
-    uint32_t __cdecl EXGetSpriteGeosetColor(uint32_t pSprite, uint32_t index) {
+    uint32_t __cdecl X_GetSpriteGeosetColor(uint32_t pSprite, uint32_t index) {
         if (GetSpriteType(pSprite) != SpriteType::INVALID)
             if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
                 if (ReadMemory(pModelComplex + 0xC) > index) // Geoset 数量
@@ -291,7 +292,7 @@ namespace warcraft3::japi {
         return 0xFF;
     }
 
-    uint32_t __cdecl EXGetSpriteGeosetAlpha(uint32_t pSprite, uint32_t index) {
+    uint32_t __cdecl X_GetSpriteGeosetAlpha(uint32_t pSprite, uint32_t index) {
         if (GetSpriteType(pSprite) != SpriteType::INVALID)
             if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
                 if (ReadMemory(pModelComplex + 0xC) > index) // Geoset 数量
@@ -300,7 +301,7 @@ namespace warcraft3::japi {
         return 0xFF;
     }
 
-    uint32_t __cdecl EXSetSpriteReplaceableTexture(uint32_t pSprite, uint32_t path, uint32_t replaceableID) {
+    uint32_t __cdecl X_SetSpriteReplaceableTexture(uint32_t pSprite, uint32_t path, uint32_t replaceableID) {
         checkValid();
         static uint32_t pSprite_SetReplacableTexture = searchCSprite_SetReplacableTexture();
         static uint32_t pLoadTexture = searchLoadTexture();
@@ -316,7 +317,7 @@ namespace warcraft3::japi {
     //		queue				1 << 1
     //		RARITY_FREQUENT		1 << 4
     //		RARITY_RARE			1 << 5
-    uint32_t __cdecl EXSetSpriteAnimationEx(uint32_t pSprite, uint32_t animName, uint32_t flag) {
+    uint32_t __cdecl X_SetSpriteAnimationEx(uint32_t pSprite, uint32_t animName, uint32_t flag) {
         checkValid();
         static SetSpriteAnimationByNameAddress addr = searchSetSpriteAnimation();
         uint32_t AnimData[4] = { 0, 0, 0, 0 };
@@ -339,8 +340,8 @@ namespace warcraft3::japi {
         return true;
     }
 
-    uint32_t __cdecl EXSetSpriteAnimation(uint32_t pSprite, uint32_t animName) {
-        return EXSetSpriteAnimationEx(pSprite, animName, 0);
+    uint32_t __cdecl X_SetSpriteAnimation(uint32_t pSprite, uint32_t animName) {
+        return X_SetSpriteAnimationEx(pSprite, animName, 0);
     }
 
     // flag:
@@ -348,7 +349,7 @@ namespace warcraft3::japi {
     //		queue				1 << 1
     //		RARITY_FREQUENT		1 << 4
     //		RARITY_RARE			1 << 5
-    uint32_t __cdecl EXSetSpriteAnimationByIndexEx(uint32_t pSprite, uint32_t index, uint32_t flag) {
+    uint32_t __cdecl X_SetSpriteAnimationByIndexEx(uint32_t pSprite, uint32_t index, uint32_t flag) {
         checkValid();
 
         static uint32_t pSetSpriteAnimationByIndex = searchSetSpriteAnimationByIndex();
@@ -356,62 +357,62 @@ namespace warcraft3::japi {
         return true;
     }
 
-    uint32_t __cdecl EXSetSpriteAnimationByIndex(uint32_t pSprite, uint32_t index) {
-        return EXSetSpriteAnimationByIndexEx(pSprite, index, 0);
+    uint32_t __cdecl X_SetSpriteAnimationByIndex(uint32_t pSprite, uint32_t index) {
+        return X_SetSpriteAnimationByIndexEx(pSprite, index, 0);
     }
 
 #undef checkValid
 #undef setupOffset
 
-    void InitializeSprite() {
-        jass::japi_add((uint32_t)EXSpriteFrameGetSprite,            "EXSpriteFrameGetSprite",           "(I)I");                     // CSpriteUber
-        jass::japi_add((uint32_t)EXWar3ImageGetSprite,              "EXUnitGetSprite",                  "(Hunit;)I");                // CSpriteUber
-        jass::japi_add((uint32_t)EXWar3ImageGetSprite,              "EXEffectGetSprite",                "(Heffect;)I");              // CSpriteUber
-        jass::japi_add((uint32_t)EXWar3ImageGetSprite,              "EXTrackableGetSprite",             "(Htrackable;)I");           // CSpriteUber
-        jass::japi_add((uint32_t)EXWar3ImageGetSprite,              "EXItemGetSprite",                  "(Hitem;)I");                // CSpriteMini, 无法用Sprite接口设置颜色(实际上是会设置回去)
-        jass::japi_add((uint32_t)EXWar3ImageGetSprite,              "EXDestructableGetSprite",          "(Hdestructable;)I");        // CSpriteMini, 无法用Sprite接口设置颜色(实际上是会设置回去)
+    init(Sprite) {
+        jass::japi_add((uint32_t)X_SpriteFrameGetSprite,            "X_SpriteFrameGetSprite",           "(I)I");                     // CSpriteUber
+        jass::japi_add((uint32_t)X_War3ImageGetSprite,              "X_UnitGetSprite",                  "(Hunit;)I");                // CSpriteUber
+        jass::japi_add((uint32_t)X_War3ImageGetSprite,              "X_EffectGetSprite",                "(Heffect;)I");              // CSpriteUber
+        jass::japi_add((uint32_t)X_War3ImageGetSprite,              "X_TrackableGetSprite",             "(Htrackable;)I");           // CSpriteUber
+        jass::japi_add((uint32_t)X_War3ImageGetSprite,              "X_ItemGetSprite",                  "(Hitem;)I");                // CSpriteMini, 无法用Sprite接口设置颜色(实际上是会设置回去)
+        jass::japi_add((uint32_t)X_War3ImageGetSprite,              "X_DestructableGetSprite",          "(Hdestructable;)I");        // CSpriteMini, 无法用Sprite接口设置颜色(实际上是会设置回去)
 
-        jass::japi_add((uint32_t)EXIsSpriteValid,                   "EXIsSpriteValid",                  "(I)B");
-        jass::japi_add((uint32_t)EXGetSpriteType,                   "EXGetSpriteType",                  "(I)I");
-        jass::japi_add((uint32_t)EXGetSpriteGeosetCount,            "EXGetSpriteGeosetCount",           "(I)I");
+        jass::japi_add((uint32_t)X_IsSpriteValid,                   "X_IsSpriteValid",                  "(I)B");
+        jass::japi_add((uint32_t)X_GetSpriteType,                   "X_GetSpriteType",                  "(I)I");
+        jass::japi_add((uint32_t)X_GetSpriteGeosetCount,            "X_GetSpriteGeosetCount",           "(I)I");
         
-        jass::japi_add((uint32_t)EXSetSpriteX,                      "EXSetSpriteX",                     "(IR)B");
-        jass::japi_add((uint32_t)EXGetSpriteX,                      "EXGetSpriteX",                     "(I)R");
+        jass::japi_add((uint32_t)X_SetSpriteX,                      "X_SetSpriteX",                     "(IR)B");
+        jass::japi_add((uint32_t)X_GetSpriteX,                      "X_GetSpriteX",                     "(I)R");
 
-        jass::japi_add((uint32_t)EXSetSpriteY,                      "EXSetSpriteY",                     "(IR)B");
-        jass::japi_add((uint32_t)EXGetSpriteY,                      "EXGetSpriteY",                     "(I)R");
+        jass::japi_add((uint32_t)X_SetSpriteY,                      "X_SetSpriteY",                     "(IR)B");
+        jass::japi_add((uint32_t)X_GetSpriteY,                      "X_GetSpriteY",                     "(I)R");
 
-		jass::japi_add((uint32_t)EXSetSpriteZ,                      "EXSetSpriteZ",                     "(IR)B");
-		jass::japi_add((uint32_t)EXGetSpriteZ,                      "EXGetSpriteZ",                     "(I)R");
+		jass::japi_add((uint32_t)X_SetSpriteZ,                      "X_SetSpriteZ",                     "(IR)B");
+		jass::japi_add((uint32_t)X_GetSpriteZ,                      "X_GetSpriteZ",                     "(I)R");
         
-		jass::japi_add((uint32_t)EXSetSpriteSize,                   "EXSetSpriteSize",                  "(IR)B");
-		jass::japi_add((uint32_t)EXGetSpriteSize,                   "EXGetSpriteSize",                  "(I)R");
+		jass::japi_add((uint32_t)X_SetSpriteSize,                   "X_SetSpriteSize",                  "(IR)B");
+		jass::japi_add((uint32_t)X_GetSpriteSize,                   "X_GetSpriteSize",                  "(I)R");
         
-		jass::japi_add((uint32_t)EXSpriteMatrixRotateX,             "EXSpriteMatrixRotateX",			"(IR)B");
-		jass::japi_add((uint32_t)EXSpriteMatrixRotateY,             "EXSpriteMatrixRotateY",			"(IR)B");
-		jass::japi_add((uint32_t)EXSpriteMatrixRotateZ,             "EXSpriteMatrixRotateZ",			"(IR)B");
-        jass::japi_add((uint32_t)EXSpriteMatrixScale,               "EXSpriteMatrixScale",              "(IRRR)B");
-        jass::japi_add((uint32_t)EXSpriteMatrixReset,               "EXSpriteMatrixReset",              "(I)B");
+		jass::japi_add((uint32_t)X_SpriteMatrixRotateX,             "X_SpriteMatrixRotateX",			"(IR)B");
+		jass::japi_add((uint32_t)X_SpriteMatrixRotateY,             "X_SpriteMatrixRotateY",			"(IR)B");
+		jass::japi_add((uint32_t)X_SpriteMatrixRotateZ,             "X_SpriteMatrixRotateZ",			"(IR)B");
+        jass::japi_add((uint32_t)X_SpriteMatrixScale,               "X_SpriteMatrixScale",              "(IRRR)B");
+        jass::japi_add((uint32_t)X_SpriteMatrixReset,               "X_SpriteMatrixReset",              "(I)B");
         
-		jass::japi_add((uint32_t)EXSetSpriteTimeScale,              "EXSetSpriteTimeScale",				"(IR)B");
-		jass::japi_add((uint32_t)EXGetSpriteTimeScale,              "EXGetSpriteTimeScale",				"(I)R");
+		jass::japi_add((uint32_t)X_SetSpriteTimeScale,              "X_SetSpriteTimeScale",				"(IR)B");
+		jass::japi_add((uint32_t)X_GetSpriteTimeScale,              "X_GetSpriteTimeScale",				"(I)R");
         
-		jass::japi_add((uint32_t)EXSetSpriteColor,                  "EXSetSpriteColor",				    "(II)B");
-		jass::japi_add((uint32_t)EXSetSpriteAlpha,                  "EXSetSpriteAlpha",				    "(II)B");
+		jass::japi_add((uint32_t)X_SetSpriteColor,                  "X_SetSpriteColor",				    "(II)B");
+		jass::japi_add((uint32_t)X_SetSpriteAlpha,                  "X_SetSpriteAlpha",				    "(II)B");
 		
-		jass::japi_add((uint32_t)EXGetSpriteColor,                  "EXGetSpriteColor",                 "(I)I");        // 等效于EXGetSpriteGeosetColor, index 0
-		jass::japi_add((uint32_t)EXGetSpriteAlpha,                  "EXGetSpriteAlpha",                 "(I)I");        // 等效于EXGetSpriteGeosetAlpha, index 0
+		jass::japi_add((uint32_t)X_GetSpriteColor,                  "X_GetSpriteColor",                 "(I)I");        // 等效于X_GetSpriteGeosetColor, index 0
+		jass::japi_add((uint32_t)X_GetSpriteAlpha,                  "X_GetSpriteAlpha",                 "(I)I");        // 等效于X_GetSpriteGeosetAlpha, index 0
         
-		jass::japi_add((uint32_t)EXSetSpriteGeosetColor,            "EXSetSpriteGeosetColor",			"(III)B");      // index 始于 0
-		jass::japi_add((uint32_t)EXSetSpriteGeosetAlpha,            "EXSetSpriteGeosetAlpha",			"(III)B");      // index 始于 0
-		jass::japi_add((uint32_t)EXGetSpriteGeosetColor,            "EXGetSpriteGeosetColor",           "(II)I");       // index 始于 0
-		jass::japi_add((uint32_t)EXGetSpriteGeosetAlpha,            "EXGetSpriteGeosetAlpha",           "(II)I");       // index 始于 0
+		jass::japi_add((uint32_t)X_SetSpriteGeosetColor,            "X_SetSpriteGeosetColor",			"(III)B");      // index 始于 0
+		jass::japi_add((uint32_t)X_SetSpriteGeosetAlpha,            "X_SetSpriteGeosetAlpha",			"(III)B");      // index 始于 0
+		jass::japi_add((uint32_t)X_GetSpriteGeosetColor,            "X_GetSpriteGeosetColor",           "(II)I");       // index 始于 0
+		jass::japi_add((uint32_t)X_GetSpriteGeosetAlpha,            "X_GetSpriteGeosetAlpha",           "(II)I");       // index 始于 0
 
-		jass::japi_add((uint32_t)EXSetSpriteReplaceableTexture,     "EXSetSpriteReplaceableTexture",    "(ISI)B");
+		jass::japi_add((uint32_t)X_SetSpriteReplaceableTexture,     "X_SetSpriteReplaceableTexture",    "(ISI)B");
         
-		jass::japi_add((uint32_t)EXSetSpriteAnimation,              "EXSetSpriteAnimation",             "(IS)B");
-		jass::japi_add((uint32_t)EXSetSpriteAnimationEx,            "EXSetSpriteAnimationEx",           "(ISI)B");
-		jass::japi_add((uint32_t)EXSetSpriteAnimationByIndex,       "EXSetSpriteAnimationByIndex",      "(II)B");
-		jass::japi_add((uint32_t)EXSetSpriteAnimationByIndexEx,     "EXSetSpriteAnimationByIndexEx",    "(III)B");
+		jass::japi_add((uint32_t)X_SetSpriteAnimation,              "X_SetSpriteAnimation",             "(IS)B");
+		jass::japi_add((uint32_t)X_SetSpriteAnimationEx,            "X_SetSpriteAnimationEx",           "(ISI)B");
+		jass::japi_add((uint32_t)X_SetSpriteAnimationByIndex,       "X_SetSpriteAnimationByIndex",      "(II)B");
+		jass::japi_add((uint32_t)X_SetSpriteAnimationByIndexEx,     "X_SetSpriteAnimationByIndexEx",    "(III)B");
     }
 }

@@ -6,25 +6,9 @@ namespace warcraft3::japi {
 	void InitializeAbilityState();
 	void InitializeItemState();
 	void InitializeEventDamageData();
-	void InitializeMessage();
+	void InitializeDisplayChat();
 	void InitializeDisableButtonBlp();
 	void InitializeEffect();
-	void InitializeTerrain();
-	void InitializeHashtable();
-	void InitializeBit();
-    void InitializeBuff();
-    void InitializeCast();
-    void InitializeJassVM();
-    void InitializeTimer();
-    void InitializeSprite();
-    void InitializeDestructable();
-    void InitializeFrame();
-    void InitializeGroup();
-    void InitializeUnitEvent();
-
-    void InitializeFixCallNative();
-
-    void InitializeObjectEditorChannelFlags();
 
 	void initialize()
 	{
@@ -32,24 +16,8 @@ namespace warcraft3::japi {
 		InitializeAbilityState();
 		InitializeItemState();
 		InitializeEventDamageData();
-		InitializeMessage();
+		InitializeDisplayChat();
 		InitializeDisableButtonBlp();
 		InitializeEffect();
-		InitializeTerrain();
-		InitializeHashtable();
-		InitializeBit();
-        InitializeBuff();
-        InitializeCast();
-        InitializeJassVM();
-        InitializeTimer();
-        InitializeSprite();
-        InitializeDestructable();
-        InitializeFrame();
-        InitializeGroup();
-        InitializeUnitEvent();
-
-        InitializeFixCallNative();
-
-        InitializeObjectEditorChannelFlags();
 	}
 }

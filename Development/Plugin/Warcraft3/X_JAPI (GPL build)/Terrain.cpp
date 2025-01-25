@@ -3,6 +3,7 @@
 #include <warcraft3/war3_searcher.h>
 #include <base/hook/fp_call.h>
 #include <string>
+#include "init_util.h"
 
 namespace warcraft3::japi {
 
@@ -37,15 +38,14 @@ namespace warcraft3::japi {
 		return ptr;
 	}
 
-	uint32_t __cdecl EXGetTerrainZ(jass::jreal_t* x, jass::jreal_t* y) {
+	uint32_t __cdecl X_GetTerrainZ(jass::jreal_t* x, jass::jreal_t* y) {
 
 		static uint32_t GetTerrainZ = searchGetTerrainZ();
 
 		return jass::to_real((float)base::fast_call<double>(GetTerrainZ, -1, 0, jass::from_real(*x), jass::from_real(*y), 1));
 	}
 
-	void InitializeTerrain()
-	{
-		jass::japi_add((uintptr_t)EXGetTerrainZ,		"EXGetTerrainZ",		"(RR)R");
+    init(Terrain) {
+		jass::japi_add((uintptr_t)X_GetTerrainZ,		"X_GetTerrainZ",		"(RR)R");
 	}
 }

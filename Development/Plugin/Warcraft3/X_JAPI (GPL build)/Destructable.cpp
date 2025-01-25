@@ -5,11 +5,11 @@
 #include <warcraft3/version.h>
 #include <warcraft3/war3_searcher.h>	
 #include <warcraft3/hashtable.h>
-#include <array>
+#include <map>
 #include <string>
 #include <base/util/memory.h>
 #include <warcraft3/event.h>
-#include "StringPool.h"
+#include "init_util.h"
 
 namespace warcraft3::japi {
     std::map<uint32_t, uint32_t> destructable_color;
@@ -31,20 +31,20 @@ namespace warcraft3::japi {
         PatchCallRelative(ptr, fake_GetDestructableColorById);
     }
 
-    uint32_t __cdecl EXGetDestructableColor(uint32_t destructable) {
+    uint32_t __cdecl X_GetDestructableColor(uint32_t destructable) {
         uint32_t pDestructable = handle_to_object(destructable);
         if (!pDestructable || !type_check(get_object_type(pDestructable), '+w3d'))
             return 0xFFFFFFFF;
         return *fake_GetDestructableColorById(&pDestructable/* ∏¥”√±‰¡ø */, pDestructable + 0x30);
     }
-    uint32_t __cdecl EXSetDestructableColor(uint32_t destructable, uint32_t color) {
+    uint32_t __cdecl X_SetDestructableColor(uint32_t destructable, uint32_t color) {
         uint32_t pDestructable = handle_to_object(destructable);
         if (!pDestructable || !type_check(get_object_type(pDestructable), '+w3d'))
             return false;
         destructable_color[pDestructable] = color;
         return true;
     }
-    uint32_t __cdecl EXResetDestructableColor(uint32_t destructable) {
+    uint32_t __cdecl X_ResetDestructableColor(uint32_t destructable) {
         uint32_t pDestructable = handle_to_object(destructable);
         if (!pDestructable || !type_check(get_object_type(pDestructable), '+w3d'))
             return false;
@@ -55,10 +55,10 @@ namespace warcraft3::japi {
         return true;
     }
 
-	void InitializeDestructable() {
-        jass::japi_add((uintptr_t)EXGetDestructableColor,       "EXGetDestructableColor",           "(Hdestructable;)I");
-        jass::japi_add((uintptr_t)EXSetDestructableColor,       "EXSetDestructableColor",           "(Hdestructable;I)B");
-        jass::japi_add((uintptr_t)EXResetDestructableColor,     "EXResetDestructableColor",         "(Hdestructable;)B");
+    init(DestructableDestructable) {
+        jass::japi_add((uintptr_t)X_GetDestructableColor,       "X_GetDestructableColor",           "(Hdestructable;)I");
+        jass::japi_add((uintptr_t)X_SetDestructableColor,       "X_SetDestructableColor",           "(Hdestructable;I)B");
+        jass::japi_add((uintptr_t)X_ResetDestructableColor,     "X_ResetDestructableColor",         "(Hdestructable;)B");
         patchCDestructable_UpdateColor();
         event_agent_destructor([](uint32_t _this) {
             auto i = destructable_color.find(_this);

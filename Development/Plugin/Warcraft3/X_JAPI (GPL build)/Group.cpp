@@ -4,10 +4,11 @@
 #include <base/hook/fp_call.h>
 #include <base/util/memory.h>
 #include <warcraft3/version.h>
+#include "init_util.h"
 
 namespace warcraft3::japi {
 
-    uint32_t __cdecl EXGroupGetSize(uint32_t group) {
+    uint32_t __cdecl X_GroupGetSize(uint32_t group) {
         uint32_t pGroup = handle_to_object(group);
         if (!pGroup || !type_check(get_object_type(pGroup), '+grp'))
             return 0;
@@ -24,7 +25,7 @@ namespace warcraft3::japi {
         return convert_function(ptr);
     }
 
-    uint32_t __cdecl EXGroupUnitAt(uint32_t group, uint32_t index) {
+    uint32_t __cdecl X_GroupUnitAt(uint32_t group, uint32_t index) {
         uint32_t pGroup = handle_to_object(group);
         if (!pGroup || !type_check(get_object_type(pGroup), '+grp')/* || index >= ReadMemory(pGroup + 0x34) 原生函数会检查 */)
             return 0;
@@ -35,8 +36,8 @@ namespace warcraft3::japi {
         return create_handle(pUnit);
     }
 
-    void InitializeGroup() {
-        jass::japi_add((uint32_t)EXGroupGetSize,       "EXGroupGetSize",    "(Hgroup;)I");
-        jass::japi_add((uint32_t)EXGroupUnitAt,        "EXGroupUnitAt",     "(Hgroup;I)Hunit;");
+    init(Group) {
+        jass::japi_add((uint32_t)X_GroupGetSize,       "X_GroupGetSize",    "(Hgroup;)I");
+        jass::japi_add((uint32_t)X_GroupUnitAt,        "X_GroupUnitAt",     "(Hgroup;I)Hunit;");
     }
 }

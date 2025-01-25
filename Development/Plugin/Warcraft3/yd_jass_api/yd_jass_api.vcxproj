@@ -83,29 +83,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AbilityState.cpp" />
-    <ClCompile Include="Bit.cpp" />
-    <ClCompile Include="Buff.cpp" />
-    <ClCompile Include="Cast.cpp" />
-    <ClCompile Include="Destructable.cpp" />
     <ClCompile Include="DisableButtonBlp.cpp" />
+    <ClCompile Include="DisplayChat.cpp" />
     <ClCompile Include="DllMain.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="EventDamageData.cpp" />
-    <ClCompile Include="FixCallNative.cpp" />
-    <ClCompile Include="Frame.cpp" />
-    <ClCompile Include="Group.cpp" />
-    <ClCompile Include="Hashtable.cpp" />
     <ClCompile Include="Initialize.cpp" />
     <ClCompile Include="ItemState.cpp" />
-    <ClCompile Include="JassVM.cpp" />
-    <ClCompile Include="ObjectEditorChannelFlags.cpp" />
-    <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="Terrain.cpp" />
-    <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="TriggerEvent.cpp" />
-    <ClCompile Include="UnitEvent.cpp" />
     <ClCompile Include="UnitState.cpp" />
-    <ClCompile Include="Message.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="yd_jass_api.def" />
@@ -126,9 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PasButton.h" />
-    <ClInclude Include="qmatrix.h" />
     <ClInclude Include="StringPool.h" />
-    <ClInclude Include="TriggerEvent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

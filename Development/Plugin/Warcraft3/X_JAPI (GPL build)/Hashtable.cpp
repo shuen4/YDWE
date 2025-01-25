@@ -4,6 +4,7 @@
 #include <base/hook/fp_call.h>
 #include <string>
 #include <base/util/memory.h>
+#include "init_util.h"
 
 namespace warcraft3::japi {
 
@@ -99,7 +100,7 @@ namespace warcraft3::japi {
 		return ptr;
 	}
 
-	uint32_t __cdecl EXLoadHandleId(jass::jhandle_t hTable, jass::jinteger_t parentKey, jass::jinteger_t childKey) {
+	uint32_t __cdecl X_LoadHandleId(jass::jhandle_t hTable, jass::jinteger_t parentKey, jass::jinteger_t childKey) {
 
 		static uint32_t LoadHandleId = searchLoadHandleId();
 
@@ -119,7 +120,7 @@ namespace warcraft3::japi {
 	//		4: image
 	//		5: ubersplat
 	//		6: fogstate
-	uint32_t __cdecl EXSaveHandleIdEx(jass::jhandle_t hTable, jass::jinteger_t parentKey, jass::jinteger_t childKey, jass::jinteger_t handleId, jass::jinteger_t type) {
+	uint32_t __cdecl X_SaveHandleIdEx(jass::jhandle_t hTable, jass::jinteger_t parentKey, jass::jinteger_t childKey, jass::jinteger_t handleId, jass::jinteger_t type) {
 
 		static uint32_t SaveHandleId = searchSaveHandleId();
 
@@ -133,14 +134,13 @@ namespace warcraft3::japi {
 	}
 
 	// 不改变计数
-	uint32_t __cdecl EXSaveHandleId(jass::jhandle_t hTable, jass::jinteger_t parentKey, jass::jinteger_t childKey, jass::jinteger_t handleId) {
-		return EXSaveHandleIdEx(hTable, parentKey, childKey, handleId, 6);
+	uint32_t __cdecl X_SaveHandleId(jass::jhandle_t hTable, jass::jinteger_t parentKey, jass::jinteger_t childKey, jass::jinteger_t handleId) {
+		return X_SaveHandleIdEx(hTable, parentKey, childKey, handleId, 6);
 	}
 
-	void InitializeHashtable()
-	{
-		jass::japi_add((uintptr_t)EXLoadHandleId,		"EXLoadHandleId",		"(Hhashtable;II)I");
-		jass::japi_add((uintptr_t)EXSaveHandleId,		"EXSaveHandleId",		"(Hhashtable;III)B");
-		jass::japi_add((uintptr_t)EXSaveHandleIdEx,		"EXSaveHandleIdEx",		"(Hhashtable;IIII)B");
+    init(Hashtable) {
+		jass::japi_add((uintptr_t)X_LoadHandleId,		"X_LoadHandleId",		"(Hhashtable;II)I");
+		jass::japi_add((uintptr_t)X_SaveHandleId,		"X_SaveHandleId",		"(Hhashtable;III)B");
+		jass::japi_add((uintptr_t)X_SaveHandleIdEx,		"X_SaveHandleIdEx",		"(Hhashtable;IIII)B");
 	}
 }

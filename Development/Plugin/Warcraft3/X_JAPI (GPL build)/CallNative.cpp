@@ -120,7 +120,7 @@ namespace warcraft3::japi {
     }
 
     // 原生只支持15个参数, 大于15会造成缓冲区溢出
-    void InitializeFixCallNative() {
+    void InitializeFix_JassVM_CallNative() {
         uint32_t real_JassVM_CallNative = getJassVM_CallNative();
         base::hook::install(&real_JassVM_CallNative, (uintptr_t)fake_JassVM_CallNative);
     }

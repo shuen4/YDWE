@@ -5,6 +5,7 @@
 #include <string>
 #include <base/util/memory.h>
 #include <warcraft3/event.h>
+#include "init_util.h"
 
 namespace warcraft3::japi {
     uintptr_t search_jass_vmmain()
@@ -97,38 +98,37 @@ namespace warcraft3::japi {
         memcpy(&jass_executed_opcode_add_orig[0], (void*)last_4_opcode, last_3_opcode - last_4_opcode);
     }
 
-    void __cdecl EXEnableOpcodeLimit(uint32_t flag) {
+    void __cdecl X_EnableOpcodeLimit(uint32_t flag) {
         if (flag)
             WriteMemoryEx<uint16_t>(real_jass_executed_opcode_check, 0x8C0F); // jl
         else
             WriteMemoryEx<uint16_t>(real_jass_executed_opcode_check, 0xE990); // NOP, jmp
     }
 
-    void __cdecl EXEnableOpcodeCounter(uint32_t flag) {
+    void __cdecl X_EnableOpcodeCounter(uint32_t flag) {
         DWORD old;
         VirtualProtect((void*)real_jass_executed_opcode_add, jass_executed_opcode_add_orig.size(), PAGE_EXECUTE_READWRITE, &old);
         if (flag)
-            memcpy((void*)real_jass_executed_opcode_add , &jass_executed_opcode_add_orig[0], jass_executed_opcode_add_orig.size()); // 1.26 add eax, 1 | 1.27 inc esi
+            memcpy((void*)real_jass_executed_opcode_add, &jass_executed_opcode_add_orig[0], jass_executed_opcode_add_orig.size()); // 1.26 add eax, 1 | 1.27 inc esi
         else
-            for (uint32_t i = 0; i < jass_executed_opcode_add_orig.size(); i++)
-                WriteMemory<uint8_t>(real_jass_executed_opcode_add + i, 0x90); // NOP
+            memset((void*)real_jass_executed_opcode_add, 0x90, jass_executed_opcode_add_orig.size());
         VirtualProtect((void*)real_jass_executed_opcode_add, jass_executed_opcode_add_orig.size(), old, &old);
         FlushInstructionCache(GetCurrentProcess(), (void*)real_jass_executed_opcode_add, jass_executed_opcode_add_orig.size());
     }
 
-    void __cdecl EXSetOpcodeBehavior(uint32_t enableCheck, uint32_t enableCounter) {
-        EXEnableOpcodeLimit(enableCheck);
-        EXEnableOpcodeCounter(enableCounter);
+    void __cdecl X_SetOpcodeBehavior(uint32_t enableCheck, uint32_t enableCounter) {
+        X_EnableOpcodeLimit(enableCheck);
+        X_EnableOpcodeCounter(enableCounter);
     }
 
-    void InitializeJassVM() {
+    init(JassVM) {
         real_jass_executed_opcode_check = get_jass_executed_opcode_check();
         init_search_jass_executed_opcode_add();
-        jass::japi_add((uint32_t)EXEnableOpcodeLimit,   "EXEnableOpcodeLimit",   "(B)Z");
-        jass::japi_add((uint32_t)EXEnableOpcodeCounter, "EXEnableOpcodeCounter", "(B)Z");
-        jass::japi_add((uint32_t)EXSetOpcodeBehavior,   "EXSetOpcodeBehavior",   "(BB)Z");
+        jass::japi_add((uint32_t)X_EnableOpcodeLimit,   "X_EnableOpcodeLimit",   "(B)Z");
+        jass::japi_add((uint32_t)X_EnableOpcodeCounter, "X_EnableOpcodeCounter", "(B)Z");
+        jass::japi_add((uint32_t)X_SetOpcodeBehavior,   "X_SetOpcodeBehavior",   "(BB)Z");
         event_game_reset([]() {
-            EXSetOpcodeBehavior(true, true);
+            X_SetOpcodeBehavior(true, true);
         });
     }
 }
