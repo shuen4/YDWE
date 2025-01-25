@@ -726,7 +726,7 @@ namespace warcraft3::japi {
 		return SetAbilityString(GetAbilityUITableById(abilcode), level, type, value);
 	}
 
-	bool __cdecl EXSetAbilityAEmeDataA(uint32_t ability_handle, uint32_t value)
+	uint32_t __cdecl EXSetAbilityAEmeDataA(uint32_t ability_handle, uint32_t value)
 	{
 		ability_data* ability_ptr = (ability_data*)ability_pool.at(ability_handle);
 		if (!ability_ptr)
@@ -825,7 +825,7 @@ namespace warcraft3::japi {
 		return jass::create_string(buf);
 	}
 
-	bool  __cdecl EXSetBuffDataString(uint32_t code, uint32_t type, uint32_t value)
+	uint32_t  __cdecl EXSetBuffDataString(uint32_t code, uint32_t type, uint32_t value)
 	{
 		typedef hashtable::table<> buff_table_t;
 		buff_table_t* table = (buff_table_t*)get_buff_table();

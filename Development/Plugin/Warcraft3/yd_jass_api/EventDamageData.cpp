@@ -185,7 +185,7 @@ uint32_t __cdecl EXGetEventDamageData(uint32_t type)
 	return 0;
 }
 
-bool __cdecl EXSetEventDamage(uint32_t value)
+uint32_t __cdecl EXSetEventDamage(uint32_t value)
 {
 	if (g_edd.empty())
 	{
