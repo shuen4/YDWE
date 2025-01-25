@@ -258,21 +258,21 @@ uint32_t __cdecl EXTriggerRegisterPlayerUnitDamagingEvent(jass::jhandle_t trigge
 }
 
 uint32_t __cdecl EXSetEventAttackType(uint32_t type) {
-    if (type > 6 || g_edd.empty())
+    if (g_edd.empty() || type > 6)
         return false;
     g_edd.back().data->attack_type = type;
     return true;
 }
 
 uint32_t __cdecl EXSetEventDamageType(uint32_t type) {
-    if (type > 26 || g_edd.empty() || type == 1 || type == 2 || type == 3 || type == 6 || type == 7)
+    if (g_edd.empty() || type > 26 || type == 1 || type == 2 || type == 3 || type == 6 || type == 7)
         return false;
     g_edd.back().data->damage_type = 1 << type;
     return true;
 }
 
 uint32_t __cdecl EXSetEventWeaponType(uint32_t type) {
-    if (TriggerEvent::GetTriggerEventId() != EVENT_PLAYER_UNIT_DAMAGING || type > 23 || g_edd.empty())
+    if (TriggerEvent::GetTriggerEventId() != EVENT_PLAYER_UNIT_DAMAGING || g_edd.empty() || type > 23)
         return false;
     g_edd.back().data->weapon_type = type;
     return true;
