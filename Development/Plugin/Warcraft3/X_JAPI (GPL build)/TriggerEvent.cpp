@@ -5,13 +5,14 @@
 #include <warcraft3/jass/hook.h>
 #include <warcraft3/jass.h>
 #include <warcraft3/version.h>
-#include <warcraft3/war3_searcher.h>	
+#include <warcraft3/war3_searcher.h>    
 #include <warcraft3/hashtable.h>
 #include <base/util/memory.h>
 #include <map>
 #include <string>
 #include <stack>
 #include "TriggerEvent.h"
+#include "util.h"
 
 #define TRIGGER_EVENT_ID_BASE 0x80200
 #define EVENT_PLAYER_UNIT_ATTACKED (TRIGGER_EVENT_ID_BASE + 0x18)
@@ -34,7 +35,7 @@ enum class DataType : uint32_t {
     filteritem,
 };
 
-namespace warcraft3::japi::TriggerEvent {
+namespace TriggerEvent {
 
     uint32_t searchCDataAllocator_Create() {
         uint32_t ptr = ReadMemory(get_vfn_ptr(".?AV?$InstanceGenerator@VCEffectImagePos@@@@") + 0x0);
@@ -132,27 +133,27 @@ namespace warcraft3::japi::TriggerEvent {
     uint32_t searchCPlayerEventReg_FireEvent_ptr() {
         return get_vfn_ptr(".?AVCPlayerEventReg@@") + 0x10;
     }
-    uintptr_t searchCPlayerWar3_Save() {
+    uint32_t searchCPlayerWar3_Save() {
         uint32_t ptr = get_vfn_ptr(".?AVCPlayerWar3@@");
         return ReadMemory(ptr + 0x38); // vftable + 0x38
     }
-    uintptr_t searchCPlayerWar3_Load() {
+    uint32_t searchCPlayerWar3_Load() {
         uint32_t ptr = get_vfn_ptr(".?AVCPlayerWar3@@");
         return ReadMemory(ptr + 0x3C); // vftable + 0x3C
     }
-    uintptr_t searchCUnit_GetOwner() {
-        uintptr_t ptr;
+    uint32_t searchCUnit_GetOwner() {
+        uint32_t ptr;
 
         //=========================================
         // (1)
         //
-        // push		"()V"
-        // mov		edx, "GetOwningPlayer"
-        // mov		ecx, [GetOwningPlayer函数的地址] <----
-        // call		BindNative
+        // push     "()V"
+        // mov      edx, "GetOwningPlayer"
+        // mov      ecx, [GetOwningPlayer函数的地址] <----
+        // call     BindNative
         //=========================================
         ptr = get_war3_searcher().search_string("GetOwningPlayer");
-        ptr = *(uintptr_t*)(ptr + 0x05);
+        ptr = *(uint32_t*)(ptr + 0x05);
 
         //=========================================
         // (2)
@@ -191,14 +192,14 @@ namespace warcraft3::japi::TriggerEvent {
     }
     uint32_t searchCObserver_IsEventRegistered() {
         war3_searcher& s = get_war3_searcher();
-        for (uintptr_t ptr = s.search_int_in_text(524818 /* 事件ID */); ptr; ptr = s.search_int_in_text(524818, ptr + 1))
+        for (uint32_t ptr = s.search_int_in_text(524818 /* 事件ID */); ptr; ptr = s.search_int_in_text(524818, ptr + 1))
             if (ReadMemory<uint8_t>(ptr - 1) == 0x68) // push 0x80212
                 return convert_function(next_opcode(ptr, 0xE8, 5));
         return 0;
     }
     uint32_t searchDispatchPlayerUnitEvent() {
         war3_searcher& s = get_war3_searcher();
-        for (uintptr_t ptr = s.search_int_in_text(524818 /* 事件ID */); ptr; ptr = s.search_int_in_text(524818, ptr + 1)) {
+        for (uint32_t ptr = s.search_int_in_text(524818 /* 事件ID */); ptr; ptr = s.search_int_in_text(524818, ptr + 1)) {
             if (ReadMemory<uint8_t>(ptr - 1) == 0x68) { // push 0x80212
                 ptr = s.search_int_in_text(524818, ptr + 1);
                 if (ReadMemory<uint8_t>(ptr - 1) == 0x68) { // push 0x80212
@@ -325,11 +326,11 @@ namespace warcraft3::japi::TriggerEvent {
                 real_CPlayerEventReg_FireEvent = ReadMemory(searchCPlayerEventReg_FireEvent_ptr());
                 base::hook::replace_pointer(searchCPlayerEventReg_FireEvent_ptr(), (uint32_t)fake_CPlayerEventReg_FireEvent);
                 real_CPlayerWar3_Save = searchCPlayerWar3_Save();
-                base::hook::install(&real_CPlayerWar3_Save, (uintptr_t)fake_CPlayerWar3_Save);
+                base::hook::install(&real_CPlayerWar3_Save, (uint32_t)fake_CPlayerWar3_Save);
                 real_CPlayerWar3_Load = searchCPlayerWar3_Load();
-                base::hook::install(&real_CPlayerWar3_Load, (uintptr_t)fake_CPlayerWar3_Load);
+                base::hook::install(&real_CPlayerWar3_Load, (uint32_t)fake_CPlayerWar3_Load);
                 real_RegisterType = searchRegisterType();
-                base::hook::install(&real_RegisterType, (uintptr_t)fake_RegisterType);
+                base::hook::install(&real_RegisterType, (uint32_t)fake_RegisterType);
             }
             InstanceGenerator* generator = new InstanceGenerator(size, batchAllocCount, typeID, parentTypeID, eventID, ctor);
             Generator[typeID] = generator;
@@ -421,5 +422,48 @@ namespace warcraft3::japi::TriggerEvent {
         static uint32_t pDispatchPlayerUnitEvent = searchDispatchPlayerUnitEvent();
         base::this_call<uint32_t>(pDispatchPlayerUnitEvent, pOwningPlayer, TRIGGER_EVENT_ID_BASE + eventID, pPlayerUnitEvent);
         reference_free_ptr((uint32_t**)&pPlayerUnitEvent);
+    }
+
+    uint32_t __cdecl X_TriggerRegisterPlayerUnitEvent(uint32_t trigger, uint32_t player, uint32_t eventID, uint32_t filter) {
+        for (auto i = Generator.begin(); i != Generator.end(); i++)
+            if (i->second->parentTypeID == Type::CPlayerUnitEventDataBase)
+                for (auto i1 = i->second->eventID.begin(); i1 != i->second->eventID.end(); i1++)
+                    return TriggerRegisterPlayerUnitEvent(trigger, player, eventID, filter);
+        return 0;
+    }
+    
+    uint32_t __cdecl X_TriggerRegisterPlayerUnitEventSimple(uint32_t trigger, uint32_t player, uint32_t eventID) {
+        return X_TriggerRegisterPlayerUnitEvent(trigger, player, eventID, NULL);
+    }
+
+    uint32_t __cdecl X_GetTriggerUnit() {
+        static auto& s = get_war3_searcher();
+        uint32_t pGameState = base::this_call<uint32_t>(s.create_handle.GetDataNode, s.get_gamewar3());
+        if (!pGameState)
+            return 0;
+        static uint32_t pGameState_PeekDataByType = searchCGameState_PeekDataByType();
+        uint32_t triggerunit = base::this_call<uint32_t>(pGameState_PeekDataByType, pGameState, DataType::triggerunit);
+        if (!triggerunit)
+            return 0;
+        return triggerunit;
+    }
+
+    uint32_t __cdecl X_GetTriggerPlayer() {
+        static auto& s = get_war3_searcher();
+        uint32_t pGameState = base::this_call<uint32_t>(s.create_handle.GetDataNode, s.get_gamewar3());
+        if (!pGameState)
+            return 0;
+        static uint32_t pGameState_PeekDataByType = searchCGameState_PeekDataByType();
+        uint32_t triggerunit = base::this_call<uint32_t>(pGameState_PeekDataByType, pGameState, DataType::triggerplayer);
+        if (!triggerunit)
+            return 0;
+        return triggerunit;
+    }
+
+    init(TriggerEvent) {
+        jass::japi_add((uint32_t)X_TriggerRegisterPlayerUnitEvent,          "X_TriggerRegisterPlayerUnitEvent",         "(Htrigger;Hplayer;IHboolexpr;)Hevent;");
+        jass::japi_add((uint32_t)X_TriggerRegisterPlayerUnitEventSimple,    "X_TriggerRegisterPlayerUnitEventSimple",   "(Htrigger;Hplayer;I)Hevent;");
+        jass::japi_add((uint32_t)X_GetTriggerUnit,                          "X_GetTriggerUnit",                         "()Hunit;");
+        jass::japi_add((uint32_t)X_GetTriggerPlayer,                        "X_GetTriggerPlayer",                       "()Hplayer;");
     }
 }

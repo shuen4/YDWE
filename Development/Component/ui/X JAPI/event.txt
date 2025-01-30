@@ -1,0 +1,23 @@
+[X_TriggerRegisterPlayerUnitEvent]
+title = "玩家单位事件 （指定条件)"
+description = "${Player} 的单位 ${event} 条件: ${boolexpr}"
+comment = "部分事件不会执行条件"
+category = TC_X_JAPI_EVENT
+[[.args]]
+type = player
+default = "PlayerALL"
+[[.args]]
+type = X_PlayerUnitEvent
+[[.args]]
+type = boolexpr
+
+[X_TriggerRegisterPlayerUnitEventSimple]
+title = "玩家单位事件"
+description = "${Player} 的单位 ${event}"
+comment = ""
+category = TC_X_JAPI_EVENT
+[[.args]]
+type = player
+default = "PlayerALL"
+[[.args]]
+type = X_PlayerUnitEvent

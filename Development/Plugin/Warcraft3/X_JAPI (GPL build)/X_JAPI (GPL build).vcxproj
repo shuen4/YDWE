@@ -70,7 +70,7 @@
       <EnableUAC>false</EnableUAC>
     </Link>
     <PreBuildEvent>
-      <Command>chcp 437
+      <Command>chcp 437&gt;nul
 for /f "tokens=2-4 delims=/ " %%1 in ('date /t') do for /f "eol=E tokens=5-9 delims=:. " %%4 in ('time^&lt;nul') do echo #define DATETIME "%%1/%%2/%%3 %%4:%%5:%%6.%%7" &gt; "$(projectdir)version.h"
 for /f %%1 in ('git rev-list --count HEAD .') do echo #define COMMIT_COUNT %%1 &gt;&gt; "$(projectdir)version.h"</Command>
     </PreBuildEvent>
@@ -92,22 +92,20 @@ for /f %%1 in ('git rev-list --count HEAD .') do echo #define COMMIT_COUNT %%1 &
       <EnableUAC>false</EnableUAC>
     </Link>
     <PreBuildEvent>
-      <Command>chcp 437
+      <Command>chcp 437&gt;nul
 for /f "tokens=2-4 delims=/ " %%1 in ('date /t') do for /f "eol=E tokens=5-9 delims=:. " %%4 in ('time^&lt;nul') do echo #define DATETIME "%%1/%%2/%%3 %%4:%%5:%%6.%%7" &gt; "$(projectdir)version.h"
 for /f %%1 in ('git rev-list --count HEAD .') do echo #define COMMIT_COUNT %%1 &gt;&gt; "$(projectdir)version.h"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Attack.cpp" />
-    <ClCompile Include="Bit.cpp" />
     <ClCompile Include="Buff.cpp" />
     <ClCompile Include="CallNative.cpp" />
-    <ClCompile Include="Cast.cpp" />
     <ClCompile Include="ChannelFlag.cpp" />
+    <ClCompile Include="Damage.cpp" />
     <ClCompile Include="Destructable.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Effect.cpp" />
-    <ClCompile Include="EventDamageData.cpp" />
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="GameUI_Message.cpp" />
     <ClCompile Include="Group.cpp" />
@@ -119,12 +117,13 @@ for /f %%1 in ('git rev-list --count HEAD .') do echo #define COMMIT_COUNT %%1 &
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TriggerEvent.cpp" />
     <ClCompile Include="Unit.cpp" />
+    <ClCompile Include="Util.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="init_util.h" />
     <ClInclude Include="qmatrix.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="TriggerEvent.h" />
+    <ClInclude Include="util.h" />
     <None Include="version.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>

@@ -1,0 +1,52 @@
+[TriggerCategories]
+TC_X_JAPI=[X JAPI],ReplaceableTextures\CommandButtons\BTNEngineeringUpgrade.blp
+TC_X_JAPI_BUFF=[X BUFF],ReplaceableTextures\CommandButtons\BTNTransmute.blp
+
+TC_X_JAPI_EVENT=[X 事件],ReplaceableTextures\CommandButtons\BTNFeedBack.blp
+TC_X_JAPI_EVENT_FEEDBACK=[X 事件响应],ReplaceableTextures\CommandButtons\BTNControlMagic.blp
+TC_X_JAPI_DEPRECATED=[X 已弃用],ReplaceableTextures\CommandButtons\BTNCancel.blp
+TC_X_JAPI_NOT_RECOMMENDED=[X 不推荐使用],ReplaceableTextures\CommandButtons\BTNBattleStations.blp
+
+TC_X_JAPI_CONV=[X 转换],ReplaceableTextures\CommandButtons\BTNBattleStations.blp
+
+[TriggerTypes]
+X_PlayerUnitEvent=0,0,0,玩家单位事件,integer
+X_MessageLoc=0,0,0,消息位置,integer
+X_SpriteType=0,0,0,Sprite类型,integer
+X_Sprite=1,1,1,Sprite,integer
+X_AnimationFlag=1,1,1,动画选项,integer
+X_Color=1,1,1,颜色,integer
+X_SaveHandleMethod=0,0,0,保存方式,integer
+X_ItemIntegerDataType=0,0,0,物品整数数据类型,integer
+
+[TriggerParams]
+X_PlayerUnitEvent_Damaging=0,X_PlayerUnitEvent,0x134,"接受伤害 (计算护甲前)"
+X_PlayerUnitEvent_Damaged=0,X_PlayerUnitEvent,0x13B,"接受伤害"
+
+X_PlayerUnitEvent_AttackMiss=0,X_PlayerUnitEvent,0x81000,"攻击丢失"
+X_PlayerUnitEvent_AttackLaunch=0,X_PlayerUnitEvent,0x81001,"发动攻击"
+
+X_MessageLoc_Unit=0,X_MessageLoc,0x00,"单位提示"
+X_MessageLoc_Game=0,X_MessageLoc,0x01,"游戏消息"
+X_MessageLoc_Chat=0,X_MessageLoc,0x02,"聊天消息"
+X_MessageLoc_Top=0,X_MessageLoc,0x03,"维修消息"
+
+X_SpriteType_Mini=0,X_SpriteType,0x01,"CSpriteMini"
+X_SpriteType_Uber=0,X_SpriteType,0x02,"CSpriteUber"
+
+X_AnimationFlag_Set=0,X_AnimationFlag,0x00,"设置动画"
+X_AnimationFlag_Queue=0,X_AnimationFlag,0x02,"添加到队列"
+X_AnimationFlag_RARITY_FREQUENT=0,X_AnimationFlag,0x10,"普通的动画"
+X_AnimationFlag_RARITY_RARE=0,X_AnimationFlag,0x20,"罕见的动画"
+
+X_Color_All=0,X_Color,0xFFFFFFFF,"默认颜色"
+
+X_SaveHandleMethod_Ref=0,X_SaveHandleMethod,0x1,"修改引用计数"
+X_SaveHandleMethod_NoRef=0,X_SaveHandleMethod,0x2,"不修改引用计数"
+
+X_ItemIntegerDataType_Level=0,X_ItemIntegerDataType,0x1,"等级"
+X_ItemIntegerDataType_Class=0,X_ItemIntegerDataType,0x2,"物品分类"
+X_ItemIntegerDataType_Powerup=0,X_ItemIntegerDataType,0x3,"拾取时自动使用"
+X_ItemIntegerDataType_Sellable=0,X_ItemIntegerDataType,0x4,"可被市场出售"
+X_ItemIntegerDataType_Pawnable=0,X_ItemIntegerDataType,0x5,"可以被抵押"
+X_ItemIntegerDataType_Color=0,X_ItemIntegerDataType,0x6,"颜色"

@@ -5,12 +5,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="事件">
-      <UniqueIdentifier>{5306f89a-d930-411d-8f9e-741528cefb2c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="事件\单位">
-      <UniqueIdentifier>{d00167f2-70f0-4fef-a70e-8dba4bafaa0c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="头文件">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
@@ -27,12 +21,18 @@
     <Filter Include="物编\通魔">
       <UniqueIdentifier>{a2a9b90f-d66e-4c47-906d-4482f55f51b6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="事件\共享库">
-      <UniqueIdentifier>{8d5250bd-c749-48ed-98c1-8189ec08293f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="X JAPI 函数">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="事件">
+      <UniqueIdentifier>{5306f89a-d930-411d-8f9e-741528cefb2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="事件\单位">
+      <UniqueIdentifier>{d00167f2-70f0-4fef-a70e-8dba4bafaa0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="事件\共享库">
+      <UniqueIdentifier>{8d5250bd-c749-48ed-98c1-8189ec08293f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -55,15 +55,12 @@
     <ClInclude Include="TriggerEvent.h">
       <Filter>事件\共享库</Filter>
     </ClInclude>
-    <ClInclude Include="init_util.h">
+    <ClInclude Include="util.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="EventDamageData.cpp">
-      <Filter>事件\单位</Filter>
-    </ClCompile>
     <ClCompile Include="Attack.cpp">
       <Filter>事件\单位</Filter>
     </ClCompile>
@@ -76,13 +73,7 @@
     <ClCompile Include="TriggerEvent.cpp">
       <Filter>事件\共享库</Filter>
     </ClCompile>
-    <ClCompile Include="Bit.cpp">
-      <Filter>X JAPI 函数</Filter>
-    </ClCompile>
     <ClCompile Include="Buff.cpp">
-      <Filter>X JAPI 函数</Filter>
-    </ClCompile>
-    <ClCompile Include="Cast.cpp">
       <Filter>X JAPI 函数</Filter>
     </ClCompile>
     <ClCompile Include="Destructable.cpp">
@@ -120,6 +111,12 @@
     </ClCompile>
     <ClCompile Include="Unit.cpp">
       <Filter>X JAPI 函数</Filter>
+    </ClCompile>
+    <ClCompile Include="Util.cpp">
+      <Filter>X JAPI 函数</Filter>
+    </ClCompile>
+    <ClCompile Include="Damage.cpp">
+      <Filter>事件\单位</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

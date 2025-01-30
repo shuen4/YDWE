@@ -16,7 +16,6 @@
 *.sqlite
 *.vs/
 OpenSource/Boost/
-Build/publish/
-Build/publish1/
+Build/publish*/
 Development/Component/script/common/gitlog.lua
 Development/Component/compiler/include/YDTrigger/Import.h

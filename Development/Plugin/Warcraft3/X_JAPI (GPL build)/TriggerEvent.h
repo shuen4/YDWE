@@ -1,6 +1,7 @@
 #pragma once
+#include "util.h"
 
-namespace warcraft3::japi::TriggerEvent {
+namespace TriggerEvent {
     enum class Type : uint32_t {
         CPlayerUnitEventDataBase = 'pued',
     };

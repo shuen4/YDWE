@@ -1,0 +1,613 @@
+[X_GetTriggerUnit]
+title = "触发单位"
+description = "触发单位"
+comment = "因切换至魔兽自带的事件系统, 此函数的返回值始终与 事件响应 - 触发单位 相同"
+category = TC_X_JAPI_EVENT_FEEDBACK
+returns = unit
+
+[X_GetTriggerPlayer]
+title = "触发玩家"
+description = "触发玩家"
+comment = "因切换至魔兽自带的事件系统, 此函数的返回值始终与 事件响应 - 触发玩家 相同"
+category = TC_X_JAPI_EVENT_FEEDBACK
+returns = player
+
+[X_IsAttackMissEventTextHidden]
+title = "攻击丢失事件 - 文本可见性"
+description = "攻击丢失事件 - 文本可见性"
+comment = ""
+category = TC_X_JAPI_EVENT_FEEDBACK
+returns = boolean
+
+[X_GetAttackLaunchEventWeaponIndex]
+title = "发动攻击事件 - 攻击索引"
+description = "发动攻击事件 - 攻击索引"
+comment = "攻击1的索引为0, 攻击2的索引为1"
+category = TC_X_JAPI_EVENT_FEEDBACK
+returns = integer
+
+[X_GetAttackLaunchEventTargetUnit]
+title = "发动攻击事件 - 目标 (单位)"
+description = "发动攻击事件 - 目标 (单位)"
+comment = "类型错误则返回 null"
+category = TC_X_JAPI_EVENT_FEEDBACK
+returns = unit
+
+[X_GetAttackLaunchEventTargetItem]
+title = "发动攻击事件 - 目标 (物品)"
+description = "发动攻击事件 - 目标 (物品)"
+comment = "类型错误则返回 null"
+category = TC_X_JAPI_EVENT_FEEDBACK
+returns = item
+
+[X_GetAttackLaunchEventTargetDestructable]
+title = "发动攻击事件 - 目标(可破坏物)"
+description = "发动攻击事件 - 目标 (可破坏物)"
+comment = "类型错误则返回 null"
+category = TC_X_JAPI_EVENT_FEEDBACK
+returns = destructable
+
+[X_GetAttackLaunchEventSourceX]
+title = "发动攻击事件 - 来源 X"
+description = "发动攻击事件 - 来源坐标 (X)"
+comment = "发动攻击时的触发单位所在的位置"
+category = TC_X_JAPI_EVENT_FEEDBACK
+returns = real
+
+[X_GetAttackLaunchEventSourceY]
+title = "发动攻击事件 - 来源 Y"
+description = "发动攻击事件 - 来源坐标 (Y)"
+comment = "发动攻击时的触发单位所在的位置"
+category = TC_X_JAPI_EVENT_FEEDBACK
+returns = real
+
+[X_GetAttackLaunchEventTargetX]
+title = "发动攻击事件 - 目标 X"
+description = "发动攻击事件 - 目标坐标 (X)"
+comment = "发动攻击时的目标所在的位置 / 目标点"
+category = TC_X_JAPI_EVENT_FEEDBACK
+returns = real
+
+[X_GetAttackLaunchEventTargetY]
+title = "发动攻击事件 - 目标 Y"
+description = "发动攻击事件 - 目标坐标 (Y)"
+comment = "发动攻击时的目标所在的位置 / 目标点"
+category = TC_X_JAPI_EVENT_FEEDBACK
+returns = real
+
+[X_IsAttackLaunchEventPointTarget]
+title = "发动攻击事件 - 目标是否为点"
+description = "发动攻击事件 - 目标为点"
+comment = "攻击地面(G)"
+category = TC_X_JAPI_EVENT_FEEDBACK
+returns = boolean
+
+[X_IsAttackLaunchEventExposeSource]
+title = "发动攻击事件 - 是否暴露攻击单位"
+description = "发动攻击事件 - 暴露攻击单位"
+comment = "攻击地面(G)"
+category = TC_X_JAPI_EVENT_FEEDBACK
+returns = boolean
+
+[X_GetDestructableColor]
+title = "可破坏物 - 获取颜色值"
+description = "获取 ${可破坏物} 的颜色值"
+comment = "如果未设置颜色则为物编里的颜色值"
+category = TC_X_JAPI
+returns = X_Color
+[[.args]]
+type = destructable
+
+[X_GetEffectColorRed]
+title = "特效 - 获取颜色值 (红)"
+description = "获取 ${特效} 的颜色值 (红)"
+comment = "已弃用, 可使用Sprite代替"
+category = TC_X_JAPI_DEPRECATED
+returns = integer
+[[.args]]
+type = effect
+
+[X_GetEffectColorGreen]
+title = "特效 - 获取颜色值 (绿)"
+description = "获取 ${特效} 的颜色值 (绿)"
+comment = "已弃用, 可使用Sprite代替"
+category = TC_X_JAPI_DEPRECATED
+returns = integer
+[[.args]]
+type = effect
+
+[X_GetEffectColorBlue]
+title = "特效 - 获取颜色值 (蓝)"
+description = "获取 ${特效} 的颜色值 (蓝)"
+comment = "已弃用, 可使用Sprite代替"
+category = TC_X_JAPI_DEPRECATED
+returns = integer
+[[.args]]
+type = effect
+
+[X_GetEffectColor]
+title = "特效 - 获取颜色值"
+description = "获取 ${特效} 的颜色值"
+comment = "已弃用, 可使用Sprite代替, 不包括透明度"
+category = TC_X_JAPI_DEPRECATED
+returns = X_Color
+[[.args]]
+type = effect
+
+[X_GetEffectColorAlpha]
+title = "特效 - 获取透明度"
+description = "获取 ${特效} 的透明度"
+comment = "已弃用, 可使用Sprite代替"
+category = TC_X_JAPI_DEPRECATED
+returns = integer
+[[.args]]
+type = effect
+
+[X_GroupGetSize]
+title = "单位组 - 获取单位数量"
+description = "获取 ${单位组} 里的单位数量"
+comment = "包括删除了但没移出的单位"
+category = TC_X_JAPI
+returns = integer
+[[.args]]
+type = group
+
+[X_GroupUnitAt]
+title = "单位组 - 第N个单位"
+description = "获取 ${单位组} 里的第 ${N} 个单位"
+comment = "若目标单位已经被删除但还在存在于单位组内则返回null"
+category = TC_X_JAPI
+returns = unit
+[[.args]]
+type = group
+[[.args]]
+type = integer
+default = "0"
+
+[X_LoadHandleId]
+title = "哈希表 - 读取句柄ID"
+description = "获取 ${哈希表} 父Key: ${key} 子Key: ${key} 里的句柄ID"
+comment = "等效于 GetHandleId(LoadXXXXXXHandle(...))"
+category = TC_X_JAPI
+returns = integer
+[[.args]]
+type = hashtable
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+
+[X_GetItemDataInteger]
+title = "物品类型 - 获取整数数据"
+description = "获取 ${物品类型} 的 ${type}"
+comment = ""
+category = TC_X_JAPI
+returns = integer
+[[.args]]
+type = itemcode
+[[.args]]
+type = X_ItemIntegerDataType
+
+[X_GetItemColor]
+title = "物品 - 获取颜色值"
+description = "获取 ${物品} 的颜色值"
+comment = "如果未设置颜色则为物编里的颜色值"
+category = TC_X_JAPI
+returns = X_Color
+[[.args]]
+type = item
+
+[X_SpriteFrameGetSprite]
+title = "Sprite - 获取CSpriteFrame的Sprite"
+description = "获取 ${CSpriteFrame} 的Sprite"
+comment = "CSpriteFrame / SPRITE"
+category = TC_X_JAPI
+returns = X_Sprite
+[[.args]]
+type = integer
+
+[X_UnitGetSprite]
+title = "Sprite - 获取单位的Sprite"
+description = "获取 ${单位} 的Sprite"
+comment = ""
+category = TC_X_JAPI
+returns = X_Sprite
+[[.args]]
+type = unit
+
+[X_EffectGetSprite]
+title = "Sprite - 获取特效的Sprite"
+description = "获取 ${特效} 的Sprite"
+comment = ""
+category = TC_X_JAPI
+returns = X_Sprite
+[[.args]]
+type = effect
+
+[X_TrackableGetSprite]
+title = "Sprite - 获取可追踪物的Sprite"
+description = "获取 ${可追踪物} 的Sprite"
+comment = ""
+category = TC_X_JAPI
+returns = X_Sprite
+[[.args]]
+type = trackable
+
+[X_DestructableGetSprite]
+title = "Sprite - 获取可破坏物的Sprite"
+description = "获取 ${可破坏物} 的Sprite"
+comment = "无法更改颜色 (会自动设置回去), 使用 可破坏物 - 设置颜色 代替"
+category = TC_X_JAPI
+returns = X_Sprite
+[[.args]]
+type = destructable
+
+[X_ItemGetSprite]
+title = "Sprite - 获取物品的Sprite"
+description = "获取 ${物品} 的Sprite"
+comment = "无法更改颜色 (会自动设置回去), 使用 物品 - 设置颜色 代替"
+category = TC_X_JAPI
+returns = X_Sprite
+[[.args]]
+type = item
+
+[X_IsSpriteValid]
+title = "Sprite - 是否有效"
+description = "${sprite} 有效"
+comment = ""
+category = TC_X_JAPI
+returns = boolean
+[[.args]]
+type = integer
+
+[X_GetSpriteType]
+title = "Sprite - 获取类型"
+description = "获取 ${sprite} 的类型"
+comment = ""
+category = TC_X_JAPI
+returns = X_SpriteType
+[[.args]]
+type = integer
+
+[X_GetSpriteGeosetCount]
+title = "Sprite - 获取Geoset数量"
+description = "获取 ${sprite} 的Geoset数量"
+comment = ""
+category = TC_X_JAPI
+returns = integer
+[[.args]]
+type = integer
+
+[X_GetSpriteX]
+title = "Sprite - 获取X坐标"
+description = "获取 ${sprite} 的X坐标"
+comment = ""
+category = TC_X_JAPI
+returns = real
+[[.args]]
+type = integer
+
+[X_GetSpriteY]
+title = "Sprite - 获取Y坐标"
+description = "获取 ${sprite} 的Y坐标"
+comment = ""
+category = TC_X_JAPI
+returns = real
+[[.args]]
+type = integer
+
+[X_GetSpriteZ]
+title = "Sprite - 获取Z坐标"
+description = "获取 ${sprite} 的Z坐标"
+comment = ""
+category = TC_X_JAPI
+returns = real
+[[.args]]
+type = integer
+
+[X_GetSpriteSize]
+title = "Sprite - 获取大小"
+description = "获取 ${sprite} 的大小"
+comment = ""
+category = TC_X_JAPI
+returns = real
+[[.args]]
+type = integer
+
+[X_GetSpriteTimeScale]
+title = "Sprite - 获取动画速度"
+description = "获取 ${sprite} 的动画速度"
+comment = ""
+category = TC_X_JAPI
+returns = real
+[[.args]]
+type = integer
+
+[X_GetSpriteColor]
+title = "Sprite - 获取颜色"
+description = "获取 ${sprite} 的颜色"
+comment = "不包括透明度"
+category = TC_X_JAPI
+returns = integer
+[[.args]]
+type = integer
+
+[X_GetSpriteAlpha]
+title = "Sprite - 获取透明度"
+description = "获取 ${sprite} 的透明度"
+comment = ""
+category = TC_X_JAPI
+returns = integer
+[[.args]]
+type = integer
+
+[X_GetSpriteGeosetColor]
+title = "Sprite - 获取Geoset颜色"
+description = "获取 ${sprite}, Geoset${index}的颜色"
+comment = "不包括透明度"
+category = TC_X_JAPI
+returns = integer
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+
+[X_GetSpriteGeosetAlpha]
+title = "Sprite - 获取Geoset透明度"
+description = "获取 ${sprite}, Geoset${index}的透明度"
+comment = ""
+category = TC_X_JAPI
+returns = integer
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+
+[X_GetTerrainZ]
+title = "地形 - 获取Z轴"
+description = "获取位于 (${X}, ${Y}) 地形的Z轴"
+comment = ""
+category = TC_X_JAPI
+returns = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_IsUnitInvulnerable]
+title = "单位 - 是否无敌"
+description = "${单位} 处于无敌状态"
+comment = ""
+category = TC_X_JAPI
+returns = boolean
+[[.args]]
+type = unit
+
+[X_BitAnd]
+title = "位操作 - 按位与"
+description = "${a} 按位与 ${b}"
+comment = ""
+category = TC_X_JAPI
+returns = integer
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+
+[X_BitOr]
+title = "位操作 - 按位或"
+description = "${a} 按位或 ${b}"
+comment = ""
+category = TC_X_JAPI
+returns = integer
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+
+[X_BitXor]
+title = "位操作 - 按位异或"
+description = "${a} 按位异或 ${b}"
+comment = ""
+category = TC_X_JAPI
+returns = integer
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+
+[X_IsBitSet]
+title = "位操作 - 检查标识"
+description = "标识 ${a} 拥有位 ${b}"
+comment = ""
+category = TC_X_JAPI
+returns = boolean
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+
+[X_CastI2R]
+title = "强制转换整数为实数"
+description = "强制转换 ${value} 为实数"
+comment = ""
+category = TC_X_JAPI_CONV
+returns = real
+[[.args]]
+type = integer
+
+[X_CastR2I]
+title = "强制转换实数为整数"
+description = "强制转换 ${value} 为整数"
+comment = ""
+category = TC_X_JAPI_CONV
+returns = integer
+[[.args]]
+type = real
+
+[X_ConvertColor]
+title = "转换颜色为整数 (ARGB)"
+description = "转换 (${a}, ${r}, ${g}, ${b}) 为整数"
+comment = ""
+category = TC_X_JAPI_CONV
+returns = integer
+[[.args]]
+type = integer
+min = 0
+max = 255
+[[.args]]
+type = integer
+min = 0
+max = 255
+[[.args]]
+type = integer
+min = 0
+max = 255
+[[.args]]
+type = integer
+min = 0
+max = 255
+
+[X_ReplaceColorR]
+title = "复制颜色并替换红色"
+description = "复制 ${color} 并替换红色为 ${r}"
+comment = ""
+category = TC_X_JAPI
+returns = X_Color
+[[.args]]
+type = X_Color
+[[.args]]
+type = integer
+min = 0
+max = 255
+
+[X_ReplaceColorG]
+title = "复制颜色并替换绿色"
+description = "复制 ${color} 并替换绿色为 ${r}"
+comment = ""
+category = TC_X_JAPI
+returns = X_Color
+[[.args]]
+type = X_Color
+[[.args]]
+type = integer
+min = 0
+max = 255
+
+[X_ReplaceColorB]
+title = "复制颜色并替换蓝色"
+description = "复制 ${color} 并替换蓝色为 ${r}"
+comment = ""
+category = TC_X_JAPI
+returns = X_Color
+[[.args]]
+type = X_Color
+[[.args]]
+type = integer
+min = 0
+max = 255
+
+[X_ReplaceColorA]
+title = "复制颜色并替换透明度"
+description = "复制 ${color} 并替换透明度为 ${r}"
+comment = ""
+category = TC_X_JAPI
+returns = X_Color
+[[.args]]
+type = X_Color
+[[.args]]
+type = integer
+min = 0
+max = 255
+
+[X_GetColorR]
+title = "获取颜色的红色"
+description = "获取 ${color} 的红色"
+comment = ""
+category = TC_X_JAPI
+returns = integer
+[[.args]]
+type = X_Color
+
+[X_GetColorG]
+title = "获取颜色的绿色"
+description = "获取 ${color} 的绿色"
+comment = ""
+category = TC_X_JAPI
+returns = integer
+[[.args]]
+type = X_Color
+
+[X_GetColorB]
+title = "获取颜色的蓝色"
+description = "获取 ${color} 的蓝色"
+comment = ""
+category = TC_X_JAPI
+returns = integer
+[[.args]]
+type = X_Color
+
+[X_GetColorA]
+title = "获取颜色的透明度"
+description = "获取 ${color} 的透明度"
+comment = ""
+category = TC_X_JAPI
+returns = integer
+[[.args]]
+type = X_Color
+
+[X_WEConvertType1]
+title = "转换Sprite为整数"
+description = "转换 ${sprite} 为整数"
+comment = ""
+category = TC_X_JAPI_CONV
+returns = integer
+[[.args]]
+type = X_Sprite
+
+[X_WEConvertType2]
+title = "转换整数为Sprite"
+description = "转换 ${整数} 为Sprite"
+comment = ""
+category = TC_X_JAPI_CONV
+returns = X_Sprite
+[[.args]]
+type = integer
+
+[X_WEConvertType3]
+title = "转换颜色为整数"
+description = "转换 ${颜色} 为整数"
+comment = ""
+category = TC_X_JAPI_CONV
+returns = X_Color
+[[.args]]
+type = integer
+
+[X_WEConvertType4]
+title = "转换整数为颜色"
+description = "转换 ${整数} 为颜色"
+comment = ""
+category = TC_X_JAPI_CONV
+returns = X_Color
+[[.args]]
+type = integer
+
+[X_WEConvertType5]
+title = "转换动画选项为整数"
+description = "转换 ${动画选项} 为整数"
+comment = ""
+category = TC_X_JAPI_CONV
+returns = integer
+[[.args]]
+type = X_AnimationFlag
+
+[X_WEConvertType6]
+title = "转换整数为动画选项"
+description = "转换 ${整数} 为动画选项"
+comment = ""
+category = TC_X_JAPI_CONV
+returns = X_AnimationFlag
+[[.args]]
+type = integer

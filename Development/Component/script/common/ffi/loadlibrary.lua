@@ -30,7 +30,8 @@ function m.unload_library(module)
 end
 
 function m.get_proc_address(lib, name, define)
-    return ffi.cast(define, ffi.C.GetProcAddress(lib, name))
+	local proc = ffi.C.GetProcAddress(lib, name)
+	return proc ~= ffi.C.NULL and ffi.cast(define, proc) or nil
 end
 
 return m

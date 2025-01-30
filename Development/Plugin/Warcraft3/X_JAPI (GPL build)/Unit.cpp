@@ -1,26 +1,17 @@
-#include <base/hook/fp_call.h>
-#include <base/hook/iat.h>
 #include <warcraft3/jass/hook.h>
 #include <warcraft3/war3_searcher.h>
-#include <warcraft3/version.h>
-#include <warcraft3/jass.h>
-#include <cassert>	 
-#include <warcraft3/hashtable.h>  
-#include "init_util.h"
+#include "util.h"
+#include <base/util/memory.h>
 
-namespace warcraft3::japi {	  
+uint32_t _cdecl X_IsUnitInvulnerable(uint32_t unit) {
+    uint32_t pUnit = handle_to_object(unit);
 
-	jass::jboolean_t _cdecl X_IsUnitInvulnerable(jass::jhandle_t unit)
-	{
-		uint32_t pUnit = handle_to_object(unit);
+    if (pUnit && type_check_s(pUnit, '+w3u'))
+        return !!(ReadMemory<uint8_t>(pUnit + 0x20) & 0b00001000);
 
-		if (pUnit)
-			return *(uint32_t*)(pUnit + 0x20) & 0b00001000;
+    return false;
+}
 
-		return false;
-	}
-    
-    init(Unit) {
-		jass::japi_add((uintptr_t)X_IsUnitInvulnerable,		"X_IsUnitInvulnerable",		"(Hunit;)B");
-	}
+init(Unit) {
+    jass::japi_add((uint32_t)X_IsUnitInvulnerable,     "X_IsUnitInvulnerable",     "(Hunit;)B");
 }

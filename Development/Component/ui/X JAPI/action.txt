@@ -1,0 +1,3637 @@
+[X_SetAttackMissEventTextHidden]
+title = "攻击丢失事件 - 隐藏文本"
+description = "攻击丢失事件 - 隐藏文本 ${arg}"
+comment = "等待之后修改事件的数据无效"
+category = TC_X_JAPI_EVENT_FEEDBACK
+[[.args]]
+type = boolean
+default = "true"
+
+[X_SetAttackLaunchEventExposeSource]
+title = "发动攻击事件 - 设置暴露视野"
+description = "发动攻击事件 - 设置暴露视野为 ${arg}"
+comment = "等待之后修改事件的数据无效"
+category = TC_X_JAPI_EVENT_FEEDBACK
+[[.args]]
+type = boolean
+default = "false"
+
+[X_SetDamageEventAttackType]
+title = "伤害事件 - 设置攻击类型"
+description = "伤害事件 - 设置攻击类型为 ${攻击类型}"
+comment = "等待之后修改事件的数据无效"
+category = TC_X_JAPI_EVENT_FEEDBACK
+[[.args]]
+type = attacktype
+
+[X_SetDamageEventDamageType]
+title = "伤害事件 - 设置伤害类型"
+description = "伤害事件 - 设置伤害类型为 ${伤害类型}"
+comment = "等待之后修改事件的数据无效"
+category = TC_X_JAPI_EVENT_FEEDBACK
+[[.args]]
+type = damagetype
+
+[X_SetDamageEventWeaponType]
+title = "伤害事件 - 设置武器类型"
+description = "伤害事件 - 设置武器类型为 ${武器类型}"
+comment = "仅伤害事件(计算护甲前)有效, 等待之后修改事件的数据无效"
+category = TC_X_JAPI_EVENT_FEEDBACK
+[[.args]]
+type = weapontype
+
+[X_SetDamageEventDamageValue]
+title = "伤害事件 - 设置伤害值"
+description = "伤害事件 - 设置伤害值为 ${伤害值}"
+comment = "等待之后修改事件的数据无效, 插件启用时 YDWE 的设置伤害值将使用此函数"
+category = TC_X_JAPI_EVENT_FEEDBACK
+[[.args]]
+type = real
+
+[X_UnitAddBuff]
+title = "单位添加魔法效果"
+description = "为单位 ${u} 添加魔法效果 来源单位: ${src}, 效果: ${ID}, 显示效果: ${BuffID}, 等级: ${等级}, 魔法盗取优先级: ${优先级}, 持续时间: ${duration}, 数据1: ${data1}, 数据2: ${data2}, 数据3: ${data3}, 数据4: ${data4}, 数据5: ${data5}, 数据6: ${data6}, 数据7: ${data7}, 数据8: ${data8}, 数据9: ${data9}, 数据10: ${data10}, 数据11: ${data11}"
+comment = "来源可空 部分效果ID不支持/不存在于物编/存在于物编但是真正的ID是别的 等级为0则不显示等级"
+category = TC_X_JAPI_NOT_RECOMMENDED
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+[[.args]]
+type = buffcode
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bdet]
+title = "添加魔法效果 Bdet(被探测到)"
+description = "为单位 ${target} 添加 Bdet(被探测到) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 玩家 ${player} 侦查类型 ${detecttype}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "Bdet"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = player
+[[.args]]
+type = integer
+default = "3"
+
+[X_UnitAddBuff_BUan]
+title = "添加魔法效果 BUan(操纵死尸)"
+description = "为单位 ${target} 添加 BUan(操纵死尸) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 无敌 ${invul}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BUan"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = integer
+default = "1"
+
+[X_UnitAddBuff_BFig]
+title = "添加魔法效果 BFig(召唤出来的物品)"
+description = "为单位 ${target} 添加 BFig(召唤出来的物品) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BFig"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BEfn]
+title = "添加魔法效果 BEfn(自然之力)"
+description = "为单位 ${target} 添加 BEfn(自然之力) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BEfn"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bhwd]
+title = "添加魔法效果 Bhwd(治疗守卫)"
+description = "为单位 ${target} 添加 Bhwd(治疗守卫) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "Bhwd"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bplg]
+title = "添加魔法效果 Bplg(疾病云雾)"
+description = "为单位 ${target} 添加 Bplg(疾病云雾) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "Bplg"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Brai]
+title = "添加魔法效果 Brai(骷髅战士)"
+description = "为单位 ${target} 添加 Brai(骷髅战士) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "Brai"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BHwe]
+title = "添加魔法效果 BHwe(骷髅战士)"
+description = "为单位 ${target} 添加 BHwe(骷髅战士) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BHwe"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BTLF]
+title = "添加魔法效果 BTLF(定时的生命)"
+description = "为单位 ${target} 添加 BTLF(定时的生命) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BTLF"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bdef]
+title = "添加魔法效果 Bdef(守护卷轴)"
+description = "为单位 ${target} 添加 Bdef(守护卷轴) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 护甲 ${armor}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "Bdef"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bdig]
+title = "添加魔法效果 Bdig(吞噬)"
+description = "为单位 ${target} 添加 Bdig(吞噬) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 每秒伤害 ${DPS}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Bdig"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BHds]
+title = "添加魔法效果 BHds(神圣护甲)"
+description = "为单位 ${target} 添加 BHds(神圣护甲) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BHds"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BNdi]
+title = "添加魔法效果 BNdi(魔鬼缠身)"
+description = "为单位 ${target} 添加 BNdi(魔鬼缠身) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BNdi"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BNdh]
+title = "添加魔法效果 BNdh(醉酒云雾)"
+description = "为单位 ${target} 添加 BNdh(醉酒云雾) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 移速增加(%) ${movespeed} 攻速增加(%) ${attackspeed} 禁止类型 ${disabletype} 失误几率(%) ${misschance}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BNdh"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BOeq]
+title = "添加魔法效果 BOeq(地震)"
+description = "为单位 ${target} 添加 BOeq(地震) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 移速增加(%) ${movespeed} 攻速增加(%) ${attackspeed}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BOeq"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Beat]
+title = "添加魔法效果 Beat(吃树)"
+description = "为单位 ${target} 添加 Beat(吃树) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 总生命恢复 ${health} 总魔法恢复 ${mana}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "Beat"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bgra]
+title = "添加魔法效果 Bgra(拔树)"
+description = "为单位 ${target} 添加 Bgra(拔树) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 攻击次数 ${attackcount} 禁用索引 ${disableweapon} 启用索引 ${enableweapon} 树木类型 ${treeID}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "Bgra"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+[[.args]]
+type = destructablecode
+default = "LTlt"
+
+[X_UnitAddBuff_Bena]
+title = "添加魔法效果 Bena(诱捕)"
+description = "为单位 ${target} 添加 Bena(诱捕) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 玩家${player} 空中单位坠落时间 ${falltime} 空中单位高度 ${height} 近战攻击范围 ${meleerange}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Bena"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = player
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Beng]
+title = "添加魔法效果 Beng(诱捕)"
+description = "为单位 ${target} 添加 Beng(诱捕) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 玩家${player} 空中单位坠落时间 ${falltime} 空中单位高度 ${height} 近战攻击范围 ${meleerange}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Beng"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = player
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bwea]
+title = "添加魔法效果 Bwea(蛛网)"
+description = "为单位 ${target} 添加 Bwea(蛛网) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 玩家${player} 空中单位坠落时间 ${falltime} 空中单位高度 ${height} 近战攻击范围 ${meleerange}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Bwea"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = player
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bweb]
+title = "添加魔法效果 Bweb(蛛网)"
+description = "为单位 ${target} 添加 Bweb(蛛网) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 玩家${player} 空中单位坠落时间 ${falltime} 空中单位高度 ${height} 近战攻击范围 ${meleerange}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Bweb"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = player
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BEer]
+title = "添加魔法效果 BEer(纠缠根须)"
+description = "为单位 ${target} 添加 BEer(纠缠根须) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 每秒伤害 ${DPS}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BEer"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bcrs]
+title = "添加魔法效果 Bcrs(诅咒)"
+description = "为单位 ${target} 添加 Bcrs(诅咒) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 失误几率(%) ${misschance}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Bcrs"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Beye]
+title = "添加魔法效果 Beye(岗哨守卫)"
+description = "为单位 ${target} 添加 Beye(岗哨守卫) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "Beye"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bfae]
+title = "添加魔法效果 Bfae(精灵之火)"
+description = "为单位 ${target} 添加 Bfae(精灵之火) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 共享视野给玩家 ${player} 护甲减少 ${armorreduce}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "Bfae"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = player
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bshs]
+title = "添加魔法效果 Bshs(影子权杖)"
+description = "为单位 ${target} 添加 Bshs(影子权杖) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 共享视野给玩家 ${player}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "Bshs"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = player
+
+[X_UnitAddBuff_BNlm]
+title = "添加魔法效果 BNlm(炎魔)"
+description = "为单位 ${target} 添加 BNlm(炎魔) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 分裂次数 ${count} 分裂延迟 ${delay} 分裂所需攻击次数 ${attackneeded} 最大生命值参数 ${healthbonus} 分裂生命周期奖励 ${timelifebonus} 最大分裂次数 ${maxcount} 剩余分裂次数 ${remainingcount} 分裂距离 ${distance}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BNlm"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = integer
+[[.args]]
+type = real
+[[.args]]
+type = integer
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BNso]
+title = "添加魔法效果 BNso(灵魂燃烧)"
+description = "为单位 ${target} 添加 BNso(灵魂燃烧) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 伤害 ${damage} 伤害周期 ${interval} 移速减少(%) ${movespeedreduce} 攻速减少(%) ${attackspeedreduce} 攻击减少(%) ${attackreduce}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BNso"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BPSE]
+title = "添加魔法效果 BPSE(被击晕的)"
+description = "为单位 ${target} 添加 BPSE(被击晕的) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BPSE"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BHfa]
+title = "添加魔法效果 BHfa(烈焰风暴)"
+description = "为单位 ${target} 添加 BHfa(烈焰风暴) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 伤害值 ${damage}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BHfa"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BUfa]
+title = "添加魔法效果 BUfa(霜冻护甲)"
+description = "为单位 ${target} 添加 BUfa(霜冻护甲) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 攻击单位减速时间 ${debuffduration} 护甲增加 ${armor}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BUfa"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bfro]
+title = "添加魔法效果 Bfro(被减速的)"
+description = "为单位 ${target} 添加 Bfro(被减速的) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 移速增加(%) ${movespeed} 攻速增加(%) ${attackspeed}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Bfro"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BOhx]
+title = "添加魔法效果 BOhx(妖术)"
+description = "为单位 ${target} 添加 BOhx(妖术) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 单位类型 ${unitID}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BOhx"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = unitcode
+
+[X_UnitAddBuff_BNht]
+title = "添加魔法效果 BNht(恐怖嚎叫)"
+description = "为单位 ${target} 添加 BNht(恐怖嚎叫) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 伤害增加(%) ${damageincrease} 护甲增加 ${armor} 生命恢复增加 ${healthregen} 魔法恢复增加 ${manaregen}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BNht"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bprg]
+title = "添加魔法效果 Bprg(净化)"
+description = "为单位 ${target} 添加 Bprg(净化) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 移速更新次数 ${movespeedupdatecount} 攻速更新次数 ${attackspeedupdatecount} 单位麻痹时间 ${pauseduration} 英雄麻痹时间 ${heropauseduration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Bprg"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bhea]
+title = "添加魔法效果 Bhea(医疗)"
+description = "为单位 ${target} 添加 Bhea(医疗) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Bhea"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Brej]
+title = "添加魔法效果 Brej(生命恢复)"
+description = "为单位 ${target} 添加 Brej(生命恢复) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 总生命恢复 ${health} 总魔法恢复 ${mana}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "Brej"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BIrm]
+title = "添加魔法效果 BIrm(净化药水)"
+description = "为单位 ${target} 添加 BIrm(净化药水) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 总魔法恢复 ${mana} 攻击驱散 ${dispel}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BIrm"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = integer
+
+[X_UnitAddBuff_BIrl]
+title = "添加魔法效果 BIrl(再生物品)"
+description = "为单位 ${target} 添加 BIrl(再生物品) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 总生命恢复 ${health} 攻击驱散 ${dispel}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BIrl"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = integer
+
+[X_UnitAddBuff_BIrg]
+title = "添加魔法效果 BIrg(生命恢复)"
+description = "为单位 ${target} 添加 BIrg(生命恢复) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 总生命恢复 ${health} 总魔法恢复 ${mana} 攻击驱散 ${dispel}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BIrg"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = integer
+
+[X_UnitAddBuff_Bfre]
+title = "添加魔法效果 Bfre(冰冻)"
+description = "为单位 ${target} 添加 Bfre(冰冻) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 是否为镜像 ${mirrorimage}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Bfre"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = integer
+
+[X_UnitAddBuff_BIcb]
+title = "添加魔法效果 BIcb(腐蚀)"
+description = "为单位 ${target} 添加 BIcb(腐蚀) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 护甲减少 ${armorreduce}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BIcb"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BIrb]
+title = "添加魔法效果 BIrb(再生)"
+description = "为单位 ${target} 添加 BIrb(再生) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BIrb"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BIpv]
+title = "添加魔法效果 BIpv(吸血药水)"
+description = "为单位 ${target} 添加 BIpv(吸血药水) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 生命偷取值(%) ${lifesteal} 伤害奖励 ${damagebonus}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BIpv"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BUcb]
+title = "添加魔法效果 BUcb(腐尸甲虫)"
+description = "为单位 ${target} 添加 BUcb(腐尸甲虫) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BUcb"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BEia]
+title = "添加魔法效果 BEia(献祭(施法者))"
+description = "为单位 ${target} 添加 BEia(献祭(施法者)) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 伤害 ${damage}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BEia"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BEim]
+title = "添加魔法效果 BEim(献祭)"
+description = "为单位 ${target} 添加 BEim(献祭) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 每秒魔法消耗 ${manacost} 伤害间隔 ${interval} 影响范围 ${AOE} 伤害 ${damage} 目标允许 ${targetallow} 玩家 ${player}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BEim"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = integer
+[[.args]]
+type = player
+
+[X_UnitAddBuff_BNpi]
+title = "添加魔法效果 BNpi(永久的献祭)"
+description = "为单位 ${target} 添加 BNpi(永久的献祭) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 每秒魔法消耗 ${manacost} 伤害间隔 ${interval} 影响范围 ${AOE} 伤害 ${damage} 目标允许 ${targetallow} 玩家 ${player}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BNpi"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = integer
+[[.args]]
+type = player
+
+[X_UnitAddBuff_Bpig]
+title = "添加魔法效果 Bpig(永久的献祭)"
+description = "为单位 ${target} 添加 Bpig(永久的献祭) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 每秒魔法消耗 ${manacost} 伤害间隔 ${interval} 影响范围 ${AOE} 伤害 ${damage} 目标允许 ${targetallow} 玩家 ${player}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "Bpig"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = integer
+[[.args]]
+type = player
+
+[X_UnitAddBuff_BIcf]
+title = "添加魔法效果 BIcf(火焰风衣)"
+description = "为单位 ${target} 添加 BIcf(火焰风衣) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 每秒魔法消耗 ${manacost} 伤害间隔 ${interval} 影响范围 ${AOE} 伤害 ${damage} 目标允许 ${targetallow} 玩家 ${player}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BIcf"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = integer
+[[.args]]
+type = player
+
+[X_UnitAddBuff_BUim]
+title = "添加魔法效果 BUim(穿刺)"
+description = "为单位 ${target} 添加 BUim(穿刺) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 伤害 ${damage} 空中停留时间 ${airduration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BUim"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BNin]
+title = "添加魔法效果 BNin(地狱火)"
+description = "为单位 ${target} 添加 BNin(地狱火) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 目标X ${x} 目标Y ${y}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BNin"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Binf]
+title = "添加魔法效果 Binf(心灵之火)"
+description = "为单位 ${target} 添加 Binf(心灵之火) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 攻击增加(%) ${attackincrease} 防御增加 ${armor} 生命恢复速度 ${healthregen} 魔法恢复速度 ${manaregen}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "Binf"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Binv]
+title = "添加魔法效果 Binv(隐形术)"
+description = "为单位 ${target} 添加 Binv(隐形术) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 渐隐时间${fadeduration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "Binv"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bvul]
+title = "添加魔法效果 Bvul(无敌的)"
+description = "为单位 ${target} 添加 Bvul(无敌的) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "Bvul"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Blsh]
+title = "添加魔法效果 Blsh(闪电护盾)"
+description = "为单位 ${target} 添加 Blsh(闪电护盾) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 伤害间隔 ${interval} 影响范围 ${AOE} 伤害 ${damage}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "Blsh"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bams]
+title = "添加魔法效果 Bams(反魔法外壳)"
+description = "为单位 ${target} 添加 Bams(反魔法外壳) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "Bams"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bam2]
+title = "添加魔法效果 Bam2(反魔法外壳)"
+description = "为单位 ${target} 添加 Bam2(反魔法外壳) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 护盾生命 ${shield}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "Bam2"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bmfl]
+title = "添加魔法效果 Bmfl(魔力之焰)"
+description = "为单位 ${target} 添加 Bmfl(魔力之焰) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 影响范围 ${AOE} 每点魔法造成伤害(单位) ${damagepermana} 每点魔法造成伤害(英雄) ${herodamagepermana} 最大伤害(单位) ${maxdamage} 最大伤害(英雄) ${heromaxdamage} 施法距离 ${range} 魔法施法时间 ${cd} 仅溅射伤害有魔法单位 ${onlyunithavemana} 目标允许 ${targetallow} 魔法效果 ${buff}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "Bmfl"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+[[.args]]
+type = buffcode
+default = "Bmfa"
+
+[X_UnitAddBuff_BNms]
+title = "添加魔法效果 BNms(魔法护盾)"
+description = "为单位 ${target} 添加 BNms(魔法护盾) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 每点魔法抵消的伤害值 ${damageabsorbpermana} 伤害吸收(%) ${absorbpercent}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BNms"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BOmi]
+title = "添加魔法效果 BOmi(镜像)"
+description = "为单位 ${target} 添加 BOmi(镜像) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 施加伤害(%) ${damagedeal} 所受伤害(%) ${damagetaken}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BOmi"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BIil]
+title = "添加魔法效果 BIil(幻象物品)"
+description = "为单位 ${target} 添加 BIil(幻象物品) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 施加伤害(%) ${damagedeal} 所受伤害(%) ${damagetaken}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BIil"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BNpa]
+title = "添加魔法效果 BNpa(寄生虫)"
+description = "为单位 ${target} 添加 BNpa(寄生虫) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 每秒伤害 ${DPS} 移速减少(%) ${movespeedreduce} 攻速减少(%) ${attackspeedreduce} 叠加类型 ${stacktype} 单位类型 ${unitID} 召唤单位数量 ${count} 召唤单位持续时间 ${timelife} 召唤单位所属玩家 ${player} 魔法效果 ${buff}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BNpa"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = integer
+default = "8"
+[[.args]]
+type = unitcode
+default = "ncfs"
+[[.args]]
+type = integer
+[[.args]]
+type = real
+[[.args]]
+type = player
+[[.args]]
+type = buffcode
+default = "BNpm"
+
+[X_UnitAddBuff_BNpm]
+title = "添加魔法效果 BNpm(寄生虫)"
+description = "为单位 ${target} 添加 BNpm(寄生虫) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BNpm"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bpsh]
+title = "添加魔法效果 Bpsh(变相移动)"
+description = "为单位 ${target} 添加 Bpsh(变相移动) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Bpsh"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bply]
+title = "添加魔法效果 Bply(变形术)"
+description = "为单位 ${target} 添加 Bply(变形术) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 单位类型 ${unitID}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Bply"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = unitcode
+
+[X_UnitAddBuff_BNsa]
+title = "添加魔法效果 BNsa(避难权杖)"
+description = "为单位 ${target} 添加 BNsa(避难权杖) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 回复延迟 ${delay} 每秒生命恢复 ${healthregenpersec} 魔法伤害参数 ${magicdamage}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BNsa"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BHtc]
+title = "添加魔法效果 BHtc(雷霆一击)"
+description = "为单位 ${target} 添加 BHtc(雷霆一击) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 移速增加(%) ${movespeed} 攻速增加(%) ${attackspeed}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BHtc"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BCtc]
+title = "添加魔法效果 BCtc(雷霆一击)"
+description = "为单位 ${target} 添加 BCtc(雷霆一击) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 移速增加(%) ${movespeed} 攻速增加(%) ${attackspeed}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BCtc"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BNfy]
+title = "添加魔法效果 BNfy(口袋工厂)"
+description = "为单位 ${target} 添加 BNfy(口袋工厂) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 生产单位间隔 ${delay} 生产单位类型 ${unitID} 生产单位持续时间 ${timelife} 魔法效果 ${buff} 生产单位位移 ${offset} 约束范围 ${range}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BNfy"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = unitcode
+[[.args]]
+type = real
+[[.args]]
+type = buffcode
+default = "BNcg"
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BNcg]
+title = "添加魔法效果 BNcg(人工地精)"
+description = "为单位 ${target} 添加 BNcg(人工地精) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 中心X ${x} 中心Y ${y}"
+comment = "x y 仅在单位为 null 时使用"
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BNcg"
+[[.args]]
+type = unit
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BNto]
+title = "添加魔法效果 BNto(龙卷风)"
+description = "为单位 ${target} 添加 BNto(龙卷风) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BNto"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Buhf]
+title = "添加魔法效果 Buhf(邪恶狂热)"
+description = "为单位 ${target} 添加 Buhf(邪恶狂热) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 每秒伤害 ${DPS} 攻速增加(%) ${attackspeed}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Buhf"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Buns]
+title = "添加魔法效果 Buns(反召唤)"
+description = "为单位 ${target} 添加 Buns(反召唤) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 回收资源率(%) ${recyclerate} 每秒伤害 ${DPS}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Buns"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BOvc]
+title = "添加魔法效果 BOvc(巫毒(施法者))"
+description = "为单位 ${target} 添加 BOvc(巫毒(施法者)) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BOvc"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BOvd]
+title = "添加魔法效果 BOvd(巫毒)"
+description = "为单位 ${target} 添加 BOvd(巫毒) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BOvd"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BOwd]
+title = "添加魔法效果 BOwd(守卫)"
+description = "为单位 ${target} 添加 BOwd(守卫) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BOwd"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BImo]
+title = "添加魔法效果 BImo(怪兽诱捕守卫)"
+description = "为单位 ${target} 添加 BImo(怪兽诱捕守卫) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 影响区域 ${AOE} 激活延迟 ${delay} 引诱间隔 ${interval}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BImo"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BNwm]
+title = "添加魔法效果 BNwm(水奴)"
+description = "为单位 ${target} 添加 BNwm(水奴) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BNwm"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bmec]
+title = "添加魔法效果 Bmec(机械类的小玩艺)"
+description = "为单位 ${target} 添加 Bmec(机械类的小玩艺) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "Bmec"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BNsg]
+title = "添加魔法效果 BNsg(熊)"
+description = "为单位 ${target} 添加 BNsg(熊) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BNsg"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BNsq]
+title = "添加魔法效果 BNsq(豪猪)"
+description = "为单位 ${target} 添加 BNsq(豪猪) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BNsq"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BNsw]
+title = "添加魔法效果 BNsw(战鹰)"
+description = "为单位 ${target} 添加 BNsw(战鹰) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BNsw"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BOwk]
+title = "添加魔法效果 BOwk(疾步风)"
+description = "为单位 ${target} 添加 BOwk(疾步风) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 转变时间 ${fadeduration} 移速增加(%) ${movespeed} 攻击伤害加成 ${attackbonus} 启用伤害加成 ${enableattackbonus}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BOwk"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = integer
+
+[X_UnitAddBuff_Bfrz]
+title = "添加魔法效果 Bfrz(冰冻喷吐)"
+description = "为单位 ${target} 添加 Bfrz(冰冻喷吐) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Bfrz"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bliq]
+title = "添加魔法效果 Bliq(液体炸弹)"
+description = "为单位 ${target} 添加 Bliq(液体炸弹) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 每秒伤害 ${DPS} 移速减少(%) ${movespeedreduce} 攻速减少(%) ${attackspeedreduce} 允许修理 ${allowrepair}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Bliq"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = integer
+
+[X_UnitAddBuff_BNab]
+title = "添加魔法效果 BNab(酸性炸弹)"
+description = "为单位 ${target} 添加 BNab(酸性炸弹) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 护甲减少 ${armorreduce} 伤害数值 ${damage} 伤害间隔 ${interval} 移速减少(%) ${movespeedreduce} 攻速减少(%) ${attackspeedreduce}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BNab"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BNsl]
+title = "添加魔法效果 BNsl(灵魂保存)"
+description = "为单位 ${target} 添加 BNsl(灵魂保存) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BNsl"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BHbn]
+title = "添加魔法效果 BHbn(驱散)"
+description = "为单位 ${target} 添加 BHbn(驱散) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 移速增加(%) ${movespeed} 攻速增加(%) ${attackspeed}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BHbn"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bbsk]
+title = "添加魔法效果 Bbsk(狂战士)"
+description = "为单位 ${target} 添加 Bbsk(狂战士) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 移速增加(%) ${movespeed} 攻速增加(%) ${attackspeed} 所受伤害增加(%) ${damagetaken}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Bbsk"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BNdm]
+title = "添加魔法效果 BNdm(黑暗之奴)"
+description = "为单位 ${target} 添加 BNdm(黑暗之奴) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BNdm"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BNba]
+title = "添加魔法效果 BNba(黑暗之箭)"
+description = "为单位 ${target} 添加 BNba(黑暗之箭) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 玩家 ${player} 召唤单位类型 ${unitID} 召唤单位数量 ${count} 召唤单位持续时间 ${timelife} 魔法效果 ${buff}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BNba"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = player
+[[.args]]
+type = unitcode
+[[.args]]
+type = integer
+[[.args]]
+type = real
+[[.args]]
+type = buffcode
+default = "BNdm"
+
+[X_UnitAddBuff_BNrd]
+title = "添加魔法效果 BNrd(火焰雨)"
+description = "为单位 ${target} 添加 BNrd(火焰雨) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 每秒伤害 ${DPS}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BNrd"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bblo]
+title = "添加魔法效果 Bblo(嗜血术)"
+description = "为单位 ${target} 添加 Bblo(嗜血术) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 移速增加(%) ${movespeed} 攻速增加(%) ${attackspeed} 模型放大比例(%) ${modelscale}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Bblo"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bfzy]
+title = "添加魔法效果 Bfzy(狂热)"
+description = "为单位 ${target} 添加 Bfzy(狂热) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 移速增加(%) ${movespeed} 攻速增加(%) ${attackspeed} 模型放大比例(%) ${modelscale}"
+comment = "疑似只缩放选择圈"
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Bfzy"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BNbf]
+title = "添加魔法效果 BNbf(火焰呼吸)"
+description = "为单位 ${target} 添加 BNbf(火焰呼吸) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 每秒伤害 ${DPS}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BNbf"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BCbf]
+title = "添加魔法效果 BCbf(霜冻闪电)"
+description = "为单位 ${target} 添加 BCbf(霜冻闪电) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 每秒伤害 ${DPS}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BCbf"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bpos]
+title = "添加魔法效果 Bpos(占据)"
+description = "为单位 ${target} 添加 Bpos(占据) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 目标无敌 ${invul} 目标魔法免疫 ${immue}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Bpos"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+
+[X_UnitAddBuff_Bpoc]
+title = "添加魔法效果 Bpoc(占据 (施法者))"
+description = "为单位 ${target} 添加 Bpoc(占据 (施法者)) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "Bpoc"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bcmg]
+title = "添加魔法效果 Bcmg(控制魔法)"
+description = "为单位 ${target} 添加 Bcmg(控制魔法) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "Bcmg"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bclf]
+title = "添加魔法效果 Bclf(乌云技能)"
+description = "为单位 ${target} 添加 Bclf(乌云技能) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 移速增加(%) ${movespeed} 攻速增加(%) ${attackspeed} 禁止类型(整数) ${disabletype} 失误概率(%) ${misschance}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Bclf"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = integer
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BHca]
+title = "添加魔法效果 BHca(冰冻冷箭)"
+description = "为单位 ${target} 添加 BHca(冰冻冷箭) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 移速减少(%) ${movespeedreduce} 攻速减少(%) ${attackspeedreduce} 叠加类型 ${stacktype}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BHca"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = integer
+default = "7"
+
+[X_UnitAddBuff_Bcri]
+title = "添加魔法效果 Bcri(残废)"
+description = "为单位 ${target} 添加 Bcri(残废) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 移速减少(%) ${movespeedreduce} 攻速减少(%) ${attackspeedreduce} 伤害减少(%) ${attackreduce}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Bcri"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bcy2]
+title = "添加魔法效果 Bcy2(飓风)"
+description = "为单位 ${target} 添加 Bcy2(飓风) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Bcy2"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bcyc]
+title = "添加魔法效果 Bcyc(飓风)"
+description = "为单位 ${target} 添加 Bcyc(飓风) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Bcyc"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Broa]
+title = "添加魔法效果 Broa(咆哮)"
+description = "为单位 ${target} 添加 Broa(咆哮) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 攻击增加(%) ${attackincrease} 防御增加 ${armor} 生命恢复速度 ${healthregen} 魔法再生 ${manaregen}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "Broa"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BNbr]
+title = "添加魔法效果 BNbr(战争咆哮)"
+description = "为单位 ${target} 添加 BNbr(战争咆哮) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 攻击增加(%) ${attackbonus} 防御增加 ${armor} 生命恢复速度 ${healthregen} 魔法再生 ${manaregen}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BNbr"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BEst]
+title = "添加魔法效果 BEst(侦察)"
+description = "为单位 ${target} 添加 BEst(侦察) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BEst"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BEsh]
+title = "添加魔法效果 BEsh(暗影突袭)"
+description = "为单位 ${target} 添加 BEsh(暗影突袭) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 持续伤害 ${damage} 伤害间隔 ${interval} 移速减少(%) ${movespeedreduce} 攻速减少(%) ${attackspeedreduce} 速度衰减幅度 ${factor}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BEsh"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BNsi]
+title = "添加魔法效果 BNsi(沉默魔法)"
+description = "为单位 ${target} 添加 BNsi(沉默魔法) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 移速增加(%) ${movespeed} 攻速增加(%) ${attackspeed} 禁止类型 ${disabletype} 失误几率(%) ${misschance}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BNsi"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = integer
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BUsl]
+title = "添加魔法效果 BUsl(睡眠)"
+description = "为单位 ${target} 添加 BUsl(睡眠) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BUsl"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BUsp]
+title = "添加魔法效果 BUsp(睡眠 (暂停))"
+description = "为单位 ${target} 添加 BUsp(睡眠 (暂停)) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BUsp"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BNdc]
+title = "添加魔法效果 BNdc(黑暗转换)"
+description = "为单位 ${target} 添加 BNdc(黑暗转换) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 单位类型 ${unitID}"
+comment = "疑似内部硬编码 持续时间固定6秒"
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BNdc"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = unitcode
+default = "nzom"
+
+[X_UnitAddBuff_Bslo]
+title = "添加魔法效果 Bslo(减速)"
+description = "为单位 ${target} 添加 Bslo(减速) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 移速增加(%) ${movespeed} 攻速增加(%) ${attackspeed}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Bslo"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bspe]
+title = "添加魔法效果 Bspe(速度加快)"
+description = "为单位 ${target} 添加 Bspe(速度加快) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 移速增加(%) ${movespeed} 攻速增加(%) ${attackspeed}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Bspe"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BNss]
+title = "添加魔法效果 BNss(魔法护盾)"
+description = "为单位 ${target} 添加 BNss(魔法护盾) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BNss"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bspl]
+title = "添加魔法效果 Bspl(灵魂锁链)"
+description = "为单位 ${target} 添加 Bspl(灵魂锁链) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 分布伤害参数(%) ${rate}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "Bspl"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BEsv]
+title = "添加魔法效果 BEsv(复仇之魂)"
+description = "为单位 ${target} 添加 BEsv(复仇之魂) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = buffcode
+default = "BEsv"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bvng]
+title = "添加魔法效果 Bvng(复仇之魂)"
+description = "为单位 ${target} 添加 Bvng(复仇之魂) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Bvng"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BOsf]
+title = "添加魔法效果 BOsf(野兽幽魂)"
+description = "为单位 ${target} 添加 BOsf(野兽幽魂) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BOsf"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_BIsh]
+title = "添加魔法效果 BIsh(猎头者灵魂)"
+description = "为单位 ${target} 添加 BIsh(猎头者灵魂) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BIsh"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_UnitAddBuff_Bstt]
+title = "添加魔法效果 Bstt(静止陷阱)"
+description = "为单位 ${target} 添加 Bstt(静止陷阱) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "Bstt"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+
+[X_SetDestructableColor]
+title = "可破坏物 - 设置颜色"
+description = "设置 ${可破坏物} 的颜色为 ${value}"
+comment = "可以设置透明度"
+category = TC_X_JAPI
+[[.args]]
+type = destructable
+[[.args]]
+type = X_Color
+default = "X_Color_All"
+
+[X_ResetDestructableColor]
+title = "可破坏物 - 重置颜色"
+description = "重置 ${可破坏物} 的颜色"
+comment = "重置后将使用物编颜色"
+category = TC_X_JAPI
+[[.args]]
+type = destructable
+
+--[X_SetEffectTimeScale]
+--title = "特效 - 设置动画速度"
+--description = "设置 ${特效} 的动画速度为 ${timescale}"
+--comment = "EXSetEffectSpeed 的别名"
+--category = TC_X_JAPI
+--[[.args]]
+--type = effect
+--[[.args]]
+--type = real
+
+[X_SetEffectColorRed]
+title = "特效 - 设置颜色 (红)"
+description = "设置 ${特效} 的颜色 (红)为 ${R}"
+comment = ""
+category = TC_X_JAPI_DEPRECATED
+[[.args]]
+type = effect
+[[.args]]
+type = integer
+
+[X_SetEffectColorGreen]
+title = "特效 - 设置颜色 (绿)"
+description = "设置 ${特效} 的颜色 (绿)为 ${G}"
+comment = ""
+category = TC_X_JAPI_DEPRECATED
+[[.args]]
+type = effect
+[[.args]]
+type = integer
+
+[X_SetEffectColorBlue]
+title = "特效 - 设置颜色 (蓝)"
+description = "设置 ${特效} 的颜色 (蓝)为 ${B}"
+comment = ""
+category = TC_X_JAPI_DEPRECATED
+[[.args]]
+type = effect
+[[.args]]
+type = integer
+
+[X_SetEffectColor]
+title = "特效 - 设置颜色"
+description = "设置 ${特效} 的颜色为 ${color}"
+comment = "不包括透明度"
+category = TC_X_JAPI_DEPRECATED
+[[.args]]
+type = effect
+[[.args]]
+type = X_Color
+default = "X_Color_All"
+
+[X_SetEffectAlpha]
+title = "特效 - 设置透明度"
+description = "设置 ${特效} 的透明度为 ${color}"
+comment = ""
+category = TC_X_JAPI_DEPRECATED
+[[.args]]
+type = effect
+[[.args]]
+type = integer
+default = "255"
+min = 0
+max = 255
+
+[X_SetEffectTeamColor]
+title = "特效 - 设置队伍颜色"
+description = "设置 ${特效} 的队伍颜色为 ${playercolor}"
+comment = "类似于SetUnitColor"
+category = TC_X_JAPI
+[[.args]]
+type = effect
+[[.args]]
+type = playercolor
+default = "Color00"
+
+[X_UpdateEffectSmartPosition]
+title = "特效 - 更新智能坐标"
+description = "更新 ${特效} 的智能坐标"
+comment = "先读取Sprite的坐标 然后设置成特效的坐标"
+category = TC_X_JAPI
+[[.args]]
+type = effect
+
+--[X_SetEffectAnimation]
+--title = "特效 - 播放动画"
+--description = "播放 ${特效} 的 ${animation} 动画"
+--comment = "部分动画字符串无效"
+--category = TC_X_JAPI
+--[[.args]]
+--type = effect
+--[[.args]]
+--type = string
+
+[X_SetEffectAnimationEx]
+title = "特效 - 播放动画"
+description = "播放 ${特效} 的 ${animation} 动画 选项: ${flag}"
+comment = "部分动画字符串无效"
+category = TC_X_JAPI
+[[.args]]
+type = effect
+[[.args]]
+type = string
+[[.args]]
+type = X_AnimationFlag
+default = "X_AnimationFlag_Set"
+
+--[X_SetEffectAnimationByIndex]
+--title = "特效 - 播放动画(序号)"
+--description = "播放 ${特效} 的第 ${n} 号动画
+--comment = ""
+--category = TC_X_JAPI
+--[[.args]]
+--type = effect
+--[[.args]]
+--type = integer
+--default = "0"
+
+[X_SetEffectAnimationByIndexEx]
+title = "特效 - 播放动画 (序号)"
+description = "播放 ${特效} 的第 ${n} 号动画 选项: ${flag}"
+comment = ""
+category = TC_X_JAPI
+[[.args]]
+type = effect
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = X_AnimationFlag
+default = "X_AnimationFlag_Set"
+
+[X_HideEffect]
+title = "特效 - 隐藏"
+description = "设置 ${特效} 隐藏: ${flag}"
+comment = ""
+category = TC_X_JAPI
+[[.args]]
+type = effect
+[[.args]]
+type = boolean
+
+[X_RemoveEffect]
+title = "特效 - 立即删除"
+description = "立即删除 ${特效}"
+comment = ""
+category = TC_X_JAPI
+[[.args]]
+type = effect
+
+[X_RemoveEffectTimed_GUI]
+title = "特效 - 延迟删除"
+description = "在 ${duration} 秒延迟后, 立即删除 ${特效} "
+comment = "不会播放死亡动画且时间到会立即删除特效"
+category = TC_X_JAPI
+[[.args]]
+type = effect
+[[.args]]
+type = real
+
+[X_SpriteFrameSetDefaultLight]
+title = "界面 - 设置SpriteFrame的默认光照"
+description = "设置 ${SpriteFrame} 的默认光照"
+comment = "创建的CSpriteFrame默认不包含光照, 因此部分模型将会显示全黑"
+category = TC_X_JAPI
+[[.args]]
+type = integer
+
+[X_DisplayMessage]
+title = "游戏界面 - 显示文本"
+description = "文本: ${text} 时长: ${duration} 位置: ${where} 颜色: ${color}"
+comment = "透明度有效 但开始渐变时会重置透明度"
+category = TC_X_JAPI
+[[.args]]
+type = StringExt
+[[.args]]
+type = real
+default = "10.0"
+[[.args]]
+type = X_MessageLoc
+default = "X_MessageLoc_Game"
+[[.args]]
+type = X_Color
+default = "X_Color_All"
+
+[X_ClearMessage]
+title = "游戏界面 - 清空文本"
+description = "清空 ${where} 的文本"
+comment = ""
+category = TC_X_JAPI
+[[.args]]
+type = X_MessageLoc
+default = "X_MessageLoc_Game"
+
+[X_SetMessage]
+title = "游戏界面 - 设置文本"
+description = "文本: ${text} 时长: ${duration} 位置: ${where} 颜色: ${color}"
+comment = "透明度有效 但开始渐变时会重置透明度"
+category = TC_X_JAPI
+[[.args]]
+type = StringExt
+[[.args]]
+type = real
+default = "10.0"
+[[.args]]
+type = X_MessageLoc
+default = "X_MessageLoc_Game"
+[[.args]]
+type = X_Color
+default = "X_Color_All"
+
+[X_SaveHandleId]
+title = "哈希表 - 保存句柄ID"
+description = "在 ${哈希表} 父Key: ${key} 子Key: ${key} 里保存句柄ID: ${id}"
+comment = "底层接口"
+category = TC_X_JAPI_NOT_RECOMMENDED
+[[.args]]
+type = hashtable
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+
+[X_SaveHandleIdEx]
+title = "哈希表 - 保存句柄ID (指定保存方式)"
+description = "在 ${哈希表} 父Key: ${key} 子Key: ${key} 里保存句柄ID: ${id} 保存方式为: ${method}"
+comment = "底层接口"
+category = TC_X_JAPI_NOT_RECOMMENDED
+[[.args]]
+type = hashtable
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+[[.args]]
+type = integer
+[[.args]]
+type = X_SaveHandleMethod
+
+[X_SetItemDataInteger]
+title = "物品类型 - 设置整数数据"
+description = "设置 ${物品类型} 的 ${type} 为: ${data}"
+comment = ""
+category = TC_X_JAPI
+[[.args]]
+type = itemcode
+[[.args]]
+type = X_ItemIntegerDataType
+[[.args]]
+type = integer
+
+[X_SetItemColor]
+title = "物品 - 设置颜色"
+description = "设置 ${物品} 的颜色为: ${color}"
+comment = "可以设置透明度"
+category = TC_X_JAPI
+[[.args]]
+type = item
+[[.args]]
+type = X_Color
+default = "X_Color_All"
+
+[X_ResetItemColor]
+title = "物品 - 重置颜色"
+description = "重置 ${物品} 的颜色"
+comment = "重置后将使用物编颜色"
+category = TC_X_JAPI
+[[.args]]
+type = item
+
+[X_EnableOpcodeLimit]
+title = "Jass虚拟机 - 启用/禁用 字节码上限"
+description = "${arg} 字节码上限"
+comment = "一般不会用到"
+category = TC_X_JAPI
+[[.args]]
+type = onoffoption
+default = "OnOffOff"
+
+[X_EnableOpcodeCounter]
+title = "Jass虚拟机 - 启用/禁用 字节码计数"
+description = "${arg} 字节码计数"
+comment = "可以在执行本地if之前关闭计数 结束再启用以避免字节码超限终止导致的异步"
+category = TC_X_JAPI
+[[.args]]
+type = onoffoption
+default = "OnOffOff"
+
+[X_SetOpcodeBehavior]
+title = "Jass虚拟机 - 设置字节码行为"
+description = "${arg} 字节码上限, ${arg} 字节码计数"
+comment = ""
+category = TC_X_JAPI
+[[.args]]
+type = onoffoption
+default = "OnOffOff"
+[[.args]]
+type = onoffoption
+default = "OnOffOff"
+
+[X_SetSpriteX]
+title = "Sprite - 设置X坐标"
+description = "设置 ${sprite} 的X坐标为 ${x}"
+comment = ""
+category = TC_X_JAPI
+[[.args]]
+type = X_Sprite
+[[.args]]
+type = real
+
+[X_SetSpriteY]
+title = "Sprite - 设置Y坐标"
+description = "设置 ${sprite} 的Y坐标为 ${y}"
+comment = ""
+category = TC_X_JAPI
+[[.args]]
+type = X_Sprite
+[[.args]]
+type = real
+
+[X_SetSpriteZ]
+title = "Sprite - 设置Z坐标"
+description = "设置 ${sprite} 的Z坐标为 ${z}"
+comment = ""
+category = TC_X_JAPI
+[[.args]]
+type = X_Sprite
+[[.args]]
+type = real
+
+[X_SetSpriteSize]
+title = "Sprite - 设置大小"
+description = "设置 ${sprite} 的大小为 ${x}"
+comment = ""
+category = TC_X_JAPI
+[[.args]]
+type = X_Sprite
+[[.args]]
+type = real
+
+[X_SpriteMatrixRotateX]
+title = "Sprite - 绕X轴旋转"
+description = "使 ${sprite} 绕X轴旋转 ${x} 度"
+comment = "多次调用，效果会叠加，不想叠加需要先重置为初始状态。"
+category = TC_X_JAPI
+[[.args]]
+type = X_Sprite
+[[.args]]
+type = degree
+
+[X_SpriteMatrixRotateY]
+title = "Sprite - 绕Y轴旋转"
+description = "使 ${sprite} 绕Y轴旋转 ${y} 度"
+comment = "多次调用，效果会叠加，不想叠加需要先重置为初始状态。"
+category = TC_X_JAPI
+[[.args]]
+type = X_Sprite
+[[.args]]
+type = degree
+
+[X_SpriteMatrixRotateZ]
+title = "Sprite - 绕Z轴旋转"
+description = "使 ${sprite} 绕X轴旋转 ${z} 度"
+comment = "多次调用，效果会叠加，不想叠加需要先重置为初始状态。"
+category = TC_X_JAPI
+[[.args]]
+type = X_Sprite
+[[.args]]
+type = degree
+
+[X_SpriteMatrixScale]
+title = "Sprite - 绕Z轴旋转"
+description = "设置 ${sprite} 的X轴缩放 ${x} Y轴缩放 ${y} Z轴缩放 ${z}"
+comment = "多次调用，效果会叠加，不想叠加需要先重置为初始状态。设置为2,2,2时相当于大小变为2倍。设置为负数时，就是镜像翻转。"
+category = TC_X_JAPI
+[[.args]]
+type = X_Sprite
+[[.args]]
+type = real
+default = "1"
+[[.args]]
+type = real
+default = "1"
+[[.args]]
+type = real
+default = "1"
+
+[X_SpriteMatrixReset]
+title = "Sprite - 重置"
+description = "重置 ${sprite}"
+comment = "清空所有的旋转和缩放，重置为初始状态。"
+category = TC_X_JAPI
+[[.args]]
+type = X_Sprite
+
+[X_SetSpriteTimeScale]
+title = "Sprite - 设置动画速度"
+description = "设置 ${sprite} 的动画速度为 ${timescale}"
+comment = ""
+category = TC_X_JAPI
+[[.args]]
+type = X_Sprite
+[[.args]]
+type = real
+default = "1"
+
+[X_SetSpriteColor]
+title = "Sprite - 设置颜色"
+description = "设置 ${sprite} 的颜色为 ${color} "
+comment = "无法更改 物品/可破坏物 的颜色 (会自动设置回去), 使用 物品/可破坏物 - 设置颜色 代替"
+category = TC_X_JAPI
+[[.args]]
+type = X_Sprite
+[[.args]]
+type = X_Color
+default = "X_Color_All"
+
+[X_SetSpriteAlpha]
+title = "Sprite - 设置透明度"
+description = "设置 ${sprite} 的透明度为 ${alpha} "
+comment = ""
+category = TC_X_JAPI
+[[.args]]
+type = X_Sprite
+[[.args]]
+type = integer
+default = "255"
+min = 0
+max = 255
+
+[X_SetSpriteGeosetColor]
+title = "Sprite - 设置Geoset颜色"
+description = "设置 ${sprite} 的 Geoset${i} 颜色为 ${color}"
+comment = "无法更改 物品/可破坏物 的颜色 (会自动设置回去), 使用 物品/可破坏物 - 设置颜色 代替"
+category = TC_X_JAPI
+[[.args]]
+type = X_Sprite
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = X_Color
+default = "X_Color_All"
+
+[X_SetSpriteGeosetAlpha]
+title = "Sprite - 设置Geoset透明度"
+description = "设置 ${sprite} 的 Geoset${i} 透明度为 ${alpha}"
+comment = ""
+category = TC_X_JAPI
+[[.args]]
+type = X_Sprite
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "255"
+min = 0
+max = 255
+
+[X_SetSpriteReplaceableTexture]
+title = "Sprite - 设置可替换贴图"
+description = "设置 ${sprite} 的可替换贴图为 ${path} ID: ${id}"
+comment = ""
+category = TC_X_JAPI
+[[.args]]
+type = X_Sprite
+[[.args]]
+type = string
+default = "ReplaceableTextures\\TeamColor\\TeamColor00.blp"
+[[.args]]
+type = integer
+default = "1"
+
+--[X_SetSpriteAnimation]
+--title = "Sprite - 播放动画"
+--description = "播放 ${Sprite} 的 ${animation} 动画"
+--comment = "部分动画字符串无效"
+--category = TC_X_JAPI
+--[[.args]]
+--type = X_Sprite
+--[[.args]]
+--type = string
+
+[X_SetSpriteAnimationEx]
+title = "Sprite - 播放动画"
+description = "播放 ${Sprite} 的 ${animation} 动画 选项: ${flag}"
+comment = "部分动画字符串无效"
+category = TC_X_JAPI
+[[.args]]
+type = X_Sprite
+[[.args]]
+type = string
+[[.args]]
+type = X_AnimationFlag
+default = "X_AnimationFlag_Set"
+
+--[X_SetSpriteAnimationByIndex]
+--title = "Sprite - 播放动画(序号)"
+--description = "播放 ${Sprite} 的第 ${n} 号动画
+--comment = ""
+--category = TC_X_JAPI
+--[[.args]]
+--type = X_Sprite
+--[[.args]]
+--type = integer
+--default = "0"
+
+[X_SetSpriteAnimationByIndexEx]
+title = "Sprite - 播放动画 (序号)"
+description = "播放 ${Sprite} 的第 ${n} 号动画 选项: ${flag}"
+comment = ""
+category = TC_X_JAPI
+[[.args]]
+type = X_Sprite
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = X_AnimationFlag
+default = "X_AnimationFlag_Set"
+
+[X_TimerSetPeriodic]
+title = "计时器 - 设置循环"
+description = "设置 ${计时器}的循环为 ${arg}"
+comment = ""
+category = TC_X_JAPI
+[[.args]]
+type = timer
+[[.args]]
+type = boolean
+
+[X_TimerSetTimeout]
+title = "计时器 - 设置超时"
+description = "设置 ${计时器}的超时为 ${arg}"
+comment = "不会修改当前计时器的剩余时间"
+category = TC_X_JAPI
+[[.args]]
+type = timer
+[[.args]]
+type = real
+
+[X_ResumeTimer]
+title = "计时器 - 恢复计时器"
+description = "恢复 ${计时器}"
+comment = "不会运行两次后停止"
+category = TC_X_JAPI
+[[.args]]
+type = timer
+
+[X_PauseTimer]
+title = "计时器 - 暂停计时器"
+description = "暂停 ${计时器}"
+comment = "不会清空是否循环"
+category = TC_X_JAPI
+[[.args]]
+type = timer
+
+[X_DestroyTimer]
+title = "计时器 - 删除计时器"
+description = "删除 ${计时器}"
+comment = "高频循环计时器删除后不会重复触发"
+category = TC_X_JAPI
+[[.args]]
+type = timer

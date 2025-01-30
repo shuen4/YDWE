@@ -19,6 +19,8 @@ local function compiler_searcher(name)
         filename = fs.ydwe_devpath() / 'compiler' / 'script' / 'slk.lua'
     elseif name == 'report' then
         filename = fs.ydwe_devpath() / 'compiler' / 'script' / 'report.lua'
+    elseif name == 'FourCC' then
+        filename = fs.ydwe_devpath() / 'compiler' / 'script' / 'FourCC.lua'
     elseif name == 'compiler' then
         filename = fs.ydwe_devpath() / 'compiler' / 'script' / 'init.lua'
     elseif name:sub(1, 9) == 'compiler.' then
