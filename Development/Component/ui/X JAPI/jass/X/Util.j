@@ -1,4 +1,5 @@
-#pragma once
+#ifndef X_UTIL_inc
+#define X_UTIL_inc
 
 native X_BitAnd                                     takes integer a, integer b returns integer
 native X_BitOr                                      takes integer a, integer b returns integer
@@ -15,3 +16,5 @@ native X_GetColorR                                  takes integer color returns 
 native X_GetColorG                                  takes integer color returns integer
 native X_GetColorB                                  takes integer color returns integer
 native X_GetColorA                                  takes integer color returns integer
+
+#endif

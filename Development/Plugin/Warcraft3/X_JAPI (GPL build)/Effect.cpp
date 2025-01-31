@@ -36,12 +36,8 @@ uint32_t searchSmartPositionSetLocation() {
     //=========================================
     ptr = next_opcode(ptr, 0xE8, 5);
     ptr += 5;
-    ptr = next_opcode(ptr, 0xFF, 2);
-    ptr += 2;
     ptr = next_opcode(ptr, 0xE8, 5);
     ptr += 5;
-    ptr = next_opcode(ptr, 0xFF, 2);
-    ptr += 2;
     ptr = next_opcode(ptr, 0xE8, 5);
     ptr = convert_function(ptr);
 

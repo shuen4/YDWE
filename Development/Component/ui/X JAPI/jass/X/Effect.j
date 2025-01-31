@@ -1,4 +1,5 @@
-#pragma once
+#ifndef X_EFFECT_inc
+#define X_EFFECT_inc
 
 native X_SetEffectTimeScale                     takes effect whichEffect, real timescale returns boolean
 native X_SetEffectColorRed                      takes effect whichEffect, integer red returns boolean
@@ -20,3 +21,5 @@ native X_SetEffectAnimationByIndexEx            takes effect whichEffect, intege
 native X_HideEffect                             takes effect whichEffect, boolean hide returns boolean
 native X_RemoveEffect                           takes effect whichEffect returns integer
 native X_RemoveEffectTimed                      takes effect whichEffect, real time returns integer
+
+#endif

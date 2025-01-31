@@ -1,4 +1,5 @@
-#pragma once
+#ifndef X_SPRITE_inc
+#define X_SPRITE_inc
 
 native X_SpriteFrameGetSprite                           takes integer spriteframe returns integer
 native X_UnitGetSprite                                  takes unit whichUnit returns integer
@@ -49,3 +50,5 @@ native X_SetSpriteAnimation                             takes integer sprite, st
 native X_SetSpriteAnimationEx                           takes integer sprite, string animation, integer flag returns boolean
 native X_SetSpriteAnimationByIndex                      takes integer sprite, integer index returns boolean
 native X_SetSpriteAnimationByIndexEx                    takes integer sprite, integer index, integer flag returns boolean
+
+#endif

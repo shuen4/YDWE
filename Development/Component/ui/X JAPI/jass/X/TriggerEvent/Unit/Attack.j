@@ -1,4 +1,5 @@
-#pragma once
+#ifndef X_TRIGGEREVENT_UNIT_ATTACK_inc
+#define X_TRIGGEREVENT_UNIT_ATTACK_inc
 
 native X_TriggerRegisterPlayerUnitAttackMissEvent       takes trigger whichTrigger, player whichPlayer returns event
 native X_SetAttackMissEventTextHidden                   takes boolean hide return boolean
@@ -17,3 +18,5 @@ native X_GetAttackLaunchEventTargetY                    takes nothing returns re
 native X_IsAttackLaunchEventPointTarget                 takes nothing returns boolean
 native X_IsAttackLaunchEventExposeSource                takes nothing returns boolean
 native X_SetAttackLaunchEventExposeSource               takes boolean expose returns boolean
+
+#endif

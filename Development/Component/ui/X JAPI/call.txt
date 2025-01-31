@@ -452,7 +452,7 @@ title = "转换颜色为整数 (ARGB)"
 description = "转换 (${a}, ${r}, ${g}, ${b}) 为整数"
 comment = ""
 category = TC_X_JAPI_CONV
-returns = integer
+returns = X_Color
 [[.args]]
 type = integer
 min = 0
@@ -581,9 +581,9 @@ title = "转换颜色为整数"
 description = "转换 ${颜色} 为整数"
 comment = ""
 category = TC_X_JAPI_CONV
-returns = X_Color
+returns = integer
 [[.args]]
-type = integer
+type = X_Color
 
 [X_WEConvertType4]
 title = "转换整数为颜色"

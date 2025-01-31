@@ -3441,7 +3441,7 @@ type = X_Sprite
 type = degree
 
 [X_SpriteMatrixScale]
-title = "Sprite - 绕Z轴旋转"
+title = "Sprite - 缩放"
 description = "设置 ${sprite} 的X轴缩放 ${x} Y轴缩放 ${y} Z轴缩放 ${z}"
 comment = "多次调用，效果会叠加，不想叠加需要先重置为初始状态。设置为2,2,2时相当于大小变为2倍。设置为负数时，就是镜像翻转。"
 category = TC_X_JAPI
@@ -3593,8 +3593,8 @@ type = X_AnimationFlag
 default = "X_AnimationFlag_Set"
 
 [X_TimerSetPeriodic]
-title = "计时器 - 设置循环"
-description = "设置 ${计时器}的循环为 ${arg}"
+title = "计时器 - 设置是否循环"
+description = "设置 ${计时器} 循环: ${arg}"
 comment = ""
 category = TC_X_JAPI
 [[.args]]

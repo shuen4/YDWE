@@ -16,43 +16,21 @@ uint32_t searchCreateMissTextAtUnit() {
     return s.current_function(ptr);
 }
 uint32_t searchCAbilityAttack_AttackTarget() {
-    war3_searcher& s = get_war3_searcher();
-    uint32_t ptr = s.search_int_in_text(0x73707269);
-    return s.current_function(ptr);
-}
-uint32_t searchSmartPosition_GetLocation() {
-    uint32_t ptr;
-
-    //=========================================
-    // (1)
-    //
-    // push     "()V"
-    // mov      edx, "SetUnitX"
-    // mov      ecx, [SetUnitXº¯ÊýµÄµØÖ·]  <----
-    // call     BindNative
-    //=========================================
-    ptr = get_war3_searcher().search_string("SetUnitX");
-    ptr = ReadMemory(ptr + 0x05);
-
-    //=========================================
-    // (2)
-    //  SetUnitX:
-    //    ...
-    //    call      ConvertHandle
-    //    ...
-    //    call      GetSmartPosition (vfn)
-    //    ...
-    //    call      SmartPosition::GetLocation <----
-    //    
-    //=========================================
+    uint32_t ptr = ReadMemory(get_vfn_ptr(".?AVCAbilityRangerArrow@@") + 0x424);
     ptr = next_opcode(ptr, 0xE8, 5);
     ptr += 5;
-    ptr = next_opcode(ptr, 0xFF, 2);
-    ptr += 2;
     ptr = next_opcode(ptr, 0xE8, 5);
-    ptr = convert_function(ptr);
-
-    return ptr;
+    ptr += 5;
+    ptr = next_opcode(ptr, 0xE8, 5);
+    return convert_function(ptr);
+}
+uint32_t searchSmartPosition_GetLocation() {
+    uint32_t ptr = get_war3_searcher().search_string("SetUnitX");
+    ptr = ReadMemory(ptr + 0x05);
+    ptr = next_opcode(ptr, 0xE8, 5);
+    ptr += 5;
+    ptr = next_opcode(ptr, 0xE8, 5);
+    return convert_function(ptr);
 }
 
 defineEventData(JAPI_PlayerUnitAttackMissEventData, TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_MISS, 0, bool hide;);

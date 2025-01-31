@@ -74,6 +74,9 @@
 for /f "tokens=2-4 delims=/ " %%1 in ('date /t') do for /f "eol=E tokens=5-9 delims=:. " %%4 in ('time^&lt;nul') do echo #define DATETIME "%%1/%%2/%%3 %%4:%%5:%%6.%%7" &gt; "$(projectdir)version.h"
 for /f %%1 in ('git rev-list --count HEAD .') do echo #define COMMIT_COUNT %%1 &gt;&gt; "$(projectdir)version.h"</Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>where sign &gt;nul 2&gt;&amp;1 &amp;&amp; sign "$(OutDir)$(TargetName)$(TargetExt)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -96,6 +99,9 @@ for /f %%1 in ('git rev-list --count HEAD .') do echo #define COMMIT_COUNT %%1 &
 for /f "tokens=2-4 delims=/ " %%1 in ('date /t') do for /f "eol=E tokens=5-9 delims=:. " %%4 in ('time^&lt;nul') do echo #define DATETIME "%%1/%%2/%%3 %%4:%%5:%%6.%%7" &gt; "$(projectdir)version.h"
 for /f %%1 in ('git rev-list --count HEAD .') do echo #define COMMIT_COUNT %%1 &gt;&gt; "$(projectdir)version.h"</Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>where sign &gt;nul 2&gt;&amp;1 &amp;&amp; sign "$(OutDir)$(TargetName)$(TargetExt)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Attack.cpp" />
