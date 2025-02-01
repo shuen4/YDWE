@@ -2,8 +2,8 @@
 #define X_TRIGGEREVENT_UNIT_ATTACK_inc
 
 native X_TriggerRegisterPlayerUnitAttackMissEvent       takes trigger whichTrigger, player whichPlayer returns event
-native X_SetAttackMissEventTextHidden                   takes boolean hide return boolean
-native X_IsAttackMissEventTextHidden                    takes nothing return boolean
+native X_SetAttackMissEventTextHidden                   takes boolean hide returns boolean
+native X_IsAttackMissEventTextHidden                    takes nothing returns boolean
 
 native X_TriggerRegisterPlayerUnitAttackLaunchEvent     takes trigger whichTrigger, player whichPlayer returns event
 native X_GetAttackLaunchEventWeaponIndex                takes nothing returns boolean

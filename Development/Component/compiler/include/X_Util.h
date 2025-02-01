@@ -46,6 +46,9 @@
 /* BHds 无数据 */
 #define X_UnitAddBuff_BHds(target, buffID, level, spellstealpriority, duration)\
     X_UnitAddBuff(target, null, <?= require 'FourCC'.string2hex('BHds') ?>, buffID, level, spellstealpriority, duration, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+/* BNdo 每秒伤害 玩家(整数) 召唤单位类型(整数) 召唤单位数量(整数) 召唤单位持续时间 魔法效果(整数) */
+#define X_UnitAddBuff_BNdo(target, source, buffID, level, spellstealpriority, duration, DPS, player, unitID, count, timelife, buff)\
+    X_UnitAddBuff(target, source, <?= require 'FourCC'.string2hex('BNdo') ?>, buffID, level, spellstealpriority, duration, DPS, X_CastI2R(GetPlayerId(player)), X_CastI2R(unitID), X_CastI2R(count), timelife, X_CastI2R(buff), 0, 0, 0, 0, 0)
 /* BNdi 无数据 */
 #define X_UnitAddBuff_BNdi(target, buffID, level, spellstealpriority, duration)\
     X_UnitAddBuff(target, null, <?= require 'FourCC'.string2hex('BNdi') ?>, buffID, level, spellstealpriority, duration, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)

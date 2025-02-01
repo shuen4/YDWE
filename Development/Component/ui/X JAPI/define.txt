@@ -20,8 +20,8 @@ X_SaveHandleMethod=0,0,0,保存方式,integer
 X_ItemIntegerDataType=0,0,0,物品整数数据类型,integer
 
 [TriggerParams]
-X_PlayerUnitEvent_Damaging=0,X_PlayerUnitEvent,0x134,"接受伤害 (计算护甲前)"
-X_PlayerUnitEvent_Damaged=0,X_PlayerUnitEvent,0x13B,"接受伤害"
+X_PlayerUnitEvent_Damaged=0,X_PlayerUnitEvent,0x134,"接受伤害"
+X_PlayerUnitEvent_Damaging=0,X_PlayerUnitEvent,0x13B,"接受伤害 (计算护甲前)"
 
 X_PlayerUnitEvent_AttackMiss=0,X_PlayerUnitEvent,0x81000,"攻击丢失"
 X_PlayerUnitEvent_AttackLaunch=0,X_PlayerUnitEvent,0x81001,"发动攻击"

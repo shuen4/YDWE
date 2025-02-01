@@ -336,6 +336,41 @@ default = "0"
 [[.args]]
 type = real
 
+[X_UnitAddBuff_BNdo]
+title = "添加魔法效果 BNdo(魔鬼缠身)"
+description = "为单位 ${target} 添加 BNdo(魔鬼缠身) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 每秒伤害 ${DPS} 玩家 ${player} 召唤单位类型 ${unitID} 召唤单位数量 ${count} 召唤单位持续时间 ${timelife} 魔法效果 ${buff}"
+comment = ""
+category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
+[[.args]]
+type = unit
+default = "UnitNull"
+[[.args]]
+type = buffcode
+default = "BNdo"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = integer
+default = "0"
+[[.args]]
+type = real
+[[.args]]
+type = real
+[[.args]]
+type = player
+[[.args]]
+type = unitcode
+[[.args]]
+type = integer
+[[.args]]
+type = real
+[[.args]]
+type = buffcode
+default = "BNdi"
+
 [X_UnitAddBuff_BNdi]
 title = "添加魔法效果 BNdi(魔鬼缠身)"
 description = "为单位 ${target} 添加 BNdi(魔鬼缠身) 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration}"

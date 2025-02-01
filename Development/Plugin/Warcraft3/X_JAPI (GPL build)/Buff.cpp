@@ -56,6 +56,7 @@ uint32_t __cdecl X_UnitAddBuff(uint32_t target_unit, uint32_t src_unit, uint32_t
     case 'Bdef':
     case 'Bdig':
     case 'BHds':
+    case 'BNdo':
     case 'BNdi':
     case 'BNdh':
     case 'BOeq':
@@ -172,7 +173,6 @@ uint32_t __cdecl X_UnitAddBuff(uint32_t target_unit, uint32_t src_unit, uint32_t
     case 'Btrv': // 找不出哪个技能使用 - 实际上似乎是ability
     case 'BUdd': // AOE
     case 'Bdvv': // 绑定技能
-    case 'BNdo': // 复杂
     case 'Bdtb': // 复杂
     case 'Bdcb': // 复杂
     case 'Bdtl': // 复杂
@@ -304,7 +304,20 @@ uint32_t __cdecl X_UnitAddBuff(uint32_t target_unit, uint32_t src_unit, uint32_t
         do_if('Bdig', 0x378, pTargetUnit, pSrcUnit, data1);
         // 无数据
         do_if('BHds', 0x31C, pTargetUnit, duration);
-        // BNdo
+        // 每秒伤害 玩家(整数) 召唤单位类型(整数) 召唤单位数量(整数) 召唤单位持续时间 魔法效果(整数)
+    case 'BNdo':
+    {
+        base::this_call_vf<void>(pBuff, 0x354, pTargetUnit, pSrcUnit, duration, data1);
+        uint32_t pAgent = find_objectid_64({ ReadMemory<uint32_t>(pSrcUnit + 0xC), ReadMemory<uint32_t>(pSrcUnit + 0x10) });
+        if (pAgent && ReadMemory<uint32_t>((uint32_t)pAgent + 0xC) == '+agl')
+            WriteMemory(pBuff + 0xFC, objectid_64(ReadMemory<uint32_t>((uint32_t)pAgent + 0x14), ReadMemory<uint32_t>((uint32_t)pAgent + 0x18)));
+        WriteMemory(pBuff + 0x108, *data2);
+        WriteMemory(pBuff + 0x10C, *data3);
+        WriteMemory(pBuff + 0x110, *data4);
+        WriteMemory(pBuff + 0x118, *data5);
+        WriteMemory(pBuff + 0x11C, *data6);
+    }
+        break;
         // 无数据
         do_if('BNdi', 0x31C, pTargetUnit, duration);
         // Bdtb
