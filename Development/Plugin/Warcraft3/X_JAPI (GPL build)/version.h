@@ -1,2 +1,4 @@
-#define DATETIME "2025/02/01 21:25:06.83" 
-#define COMMIT_COUNT 3 
+// DUMMY FILE
+
+#define DATETIME "UNKNOWN" 
+#define COMMIT_COUNT 0
