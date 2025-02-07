@@ -75,7 +75,8 @@ for /f "tokens=2-4 delims=/ " %%1 in ('date /t') do for /f "eol=E tokens=5-9 del
 for /f %%1 in ('git rev-list --count HEAD .') do echo #define COMMIT_COUNT %%1 &gt;&gt; "$(projectdir)version.h"</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>where sign &gt;nul 2&gt;&amp;1 &amp;&amp; sign "$(OutDir)$(TargetName)$(TargetExt)"</Command>
+      <Command>where sign &gt;nul 2&gt;&amp;1 &amp;&amp; sign "$(OutDir)$(TargetName)$(TargetExt)"
+exit /b 0</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -100,7 +101,8 @@ for /f "tokens=2-4 delims=/ " %%1 in ('date /t') do for /f "eol=E tokens=5-9 del
 for /f %%1 in ('git rev-list --count HEAD .') do echo #define COMMIT_COUNT %%1 &gt;&gt; "$(projectdir)version.h"</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>where sign &gt;nul 2&gt;&amp;1 &amp;&amp; sign "$(OutDir)$(TargetName)$(TargetExt)"</Command>
+      <Command>where sign &gt;nul 2&gt;&amp;1 &amp;&amp; sign "$(OutDir)$(TargetName)$(TargetExt)"
+exit /b 0</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
