@@ -136,8 +136,7 @@ default = "0"
 [[.args]]
 type = real
 [[.args]]
-type = integer
-default = "1"
+type = X_TrueFalseInteger
 
 [X_UnitAddBuff_BFig]
 title = "添加魔法效果 BFig(召唤出来的物品)"
@@ -1107,7 +1106,7 @@ default = "0"
 [[.args]]
 type = real
 [[.args]]
-type = integer
+type = X_TrueFalseInteger
 
 [X_UnitAddBuff_BIcb]
 title = "添加魔法效果 BIcb(腐蚀)"
@@ -1242,7 +1241,7 @@ type = real
 [[.args]]
 type = real
 [[.args]]
-type = integer
+type = X_TargetAllow
 [[.args]]
 type = player
 
@@ -1273,7 +1272,7 @@ type = real
 [[.args]]
 type = real
 [[.args]]
-type = integer
+type = X_TargetAllow
 [[.args]]
 type = player
 
@@ -1304,7 +1303,7 @@ type = real
 [[.args]]
 type = real
 [[.args]]
-type = integer
+type = X_TargetAllow
 [[.args]]
 type = player
 
@@ -1335,7 +1334,7 @@ type = real
 [[.args]]
 type = real
 [[.args]]
-type = integer
+type = X_TargetAllow
 [[.args]]
 type = player
 
@@ -1558,7 +1557,7 @@ type = real
 [[.args]]
 type = integer
 [[.args]]
-type = integer
+type = X_TargetAllow
 [[.args]]
 type = buffcode
 default = "Bmfa"
@@ -2150,7 +2149,7 @@ type = real
 [[.args]]
 type = real
 [[.args]]
-type = integer
+type = X_TrueFalseInteger
 
 [X_UnitAddBuff_Bfrz]
 title = "添加魔法效果 Bfrz(冰冻喷吐)"
@@ -2514,9 +2513,9 @@ default = "0"
 [[.args]]
 type = real
 [[.args]]
-type = integer
+type = X_TrueFalseInteger
 [[.args]]
-type = integer
+type = X_TrueFalseInteger
 
 [X_UnitAddBuff_Bpoc]
 title = "添加魔法效果 Bpoc(占据 (施法者))"

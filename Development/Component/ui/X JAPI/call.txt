@@ -558,6 +558,15 @@ returns = integer
 [[.args]]
 type = X_Color
 
+[X_ConvertTargetArgsStringToFlags]
+title = "转换物编targs字符串为目标允许"
+description = "转换 ${targs} 为 目标允许"
+comment = "物编的技能目标允许"
+category = TC_X_JAPI
+returns = X_TargetAllow
+[[.args]]
+type = string
+
 [X_WEConvertType1]
 title = "转换Sprite为整数"
 description = "转换 ${sprite} 为整数"
@@ -609,5 +618,23 @@ description = "转换 ${整数} 为动画选项"
 comment = ""
 category = TC_X_JAPI_CONV
 returns = X_AnimationFlag
+[[.args]]
+type = integer
+
+[X_WEConvertType7]
+title = "转换目标允许为整数"
+description = "转换 ${目标允许} 为整数"
+comment = ""
+category = TC_X_JAPI_CONV
+returns = integer
+[[.args]]
+type = X_TargetAllow
+
+[X_WEConvertType8]
+title = "转换整数为目标允许"
+description = "转换 ${整数} 为目标允许"
+comment = ""
+category = TC_X_JAPI_CONV
+returns = X_TargetAllow
 [[.args]]
 type = integer

@@ -5,6 +5,8 @@
 #define X_WEConvertType4(x) (x)
 #define X_WEConvertType5(x) (x)
 #define X_WEConvertType6(x) (x)
+#define X_WEConvertType7(x) (x)
+#define X_WEConvertType8(x) (x)
 
 /* 读起来比较流畅 */
 #define X_RemoveEffectTimed_GUI(a, b) X_RemoveEffectTimed(b, a)
@@ -153,16 +155,16 @@
     X_UnitAddBuff(target, null, <?= require 'FourCC'.string2hex('BEia') ?>, buffID, level, spellstealpriority, duration, damage, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 /* BEim 每秒魔法消耗 伤害间隔 影响范围 伤害 目标允许(整数) 玩家(整数) 命令ID?(852177) 绑定技能(ptr) */
 #define X_UnitAddBuff_BEim(target, buffID, level, spellstealpriority, duration, manacost, interval, AOE, damage, targetallow, player)\
-    X_UnitAddBuff(target, null, <?= require 'FourCC'.string2hex('BEim') ?>, buffID, level, spellstealpriority, duration, manacost, interval, AOE, damage, targetallow, X_CastI2R(GetPlayerId(player)), X_CastI2R(852177), X_CastI2R(0), 0, 0, 0)
+    X_UnitAddBuff(target, null, <?= require 'FourCC'.string2hex('BEim') ?>, buffID, level, spellstealpriority, duration, manacost, interval, AOE, damage, X_CastI2R(targetallow), X_CastI2R(GetPlayerId(player)), X_CastI2R(852177), X_CastI2R(0), 0, 0, 0)
 /* BNpi 每秒魔法消耗 伤害间隔 影响范围 伤害 目标允许(整数) 玩家(整数) 命令ID?(852236) 绑定技能(ptr) */
 #define X_UnitAddBuff_BNpi(target, buffID, level, spellstealpriority, duration, manacost, interval, AOE, damage, targetallow, player)\
-    X_UnitAddBuff(target, null, <?= require 'FourCC'.string2hex('BNpi') ?>, buffID, level, spellstealpriority, duration, manacost, interval, AOE, damage, targetallow, X_CastI2R(GetPlayerId(player)), X_CastI2R(852236), X_CastI2R(0), 0, 0, 0)
+    X_UnitAddBuff(target, null, <?= require 'FourCC'.string2hex('BNpi') ?>, buffID, level, spellstealpriority, duration, manacost, interval, AOE, damage, X_CastI2R(targetallow), X_CastI2R(GetPlayerId(player)), X_CastI2R(852236), X_CastI2R(0), 0, 0, 0)
 /* Bpig 每秒魔法消耗 伤害间隔 影响范围 伤害 目标允许(整数) 玩家(整数) 命令ID?(852567) 绑定技能(ptr) */
 #define X_UnitAddBuff_Bpig(target, buffID, level, spellstealpriority, duration, manacost, interval, AOE, damage, targetallow, player)\
-    X_UnitAddBuff(target, null, <?= require 'FourCC'.string2hex('Bpig') ?>, buffID, level, spellstealpriority, duration, manacost, interval, AOE, damage, targetallow, X_CastI2R(GetPlayerId(player)), X_CastI2R(852567), X_CastI2R(0), 0, 0, 0)
+    X_UnitAddBuff(target, null, <?= require 'FourCC'.string2hex('Bpig') ?>, buffID, level, spellstealpriority, duration, manacost, interval, AOE, damage, X_CastI2R(targetallow), X_CastI2R(GetPlayerId(player)), X_CastI2R(852567), X_CastI2R(0), 0, 0, 0)
 /* BIcf 每秒魔法消耗 伤害间隔 影响范围 伤害 目标允许(整数) 玩家(整数) 命令ID?(852289) 绑定技能(ptr) */
 #define X_UnitAddBuff_BIcf(target, buffID, level, spellstealpriority, duration, manacost, interval, AOE, damage, targetallow, player)\
-    X_UnitAddBuff(target, null, <?= require 'FourCC'.string2hex('BIcf') ?>, buffID, level, spellstealpriority, duration, manacost, interval, AOE, damage, targetallow, X_CastI2R(GetPlayerId(player)), X_CastI2R(852289), X_CastI2R(0), 0, 0, 0)
+    X_UnitAddBuff(target, null, <?= require 'FourCC'.string2hex('BIcf') ?>, buffID, level, spellstealpriority, duration, manacost, interval, AOE, damage, X_CastI2R(targetallow), X_CastI2R(GetPlayerId(player)), X_CastI2R(852289), X_CastI2R(0), 0, 0, 0)
 /* BUim 伤害 空中停留时间  */
 #define X_UnitAddBuff_BUim(target, source, buffID, level, spellstealpriority, duration, damage, airduration)\
     X_UnitAddBuff(target, source, <?= require 'FourCC'.string2hex('BUim') ?>, buffID, level, spellstealpriority, duration, damage, airduration, 0, 0, 0, 0, 0, 0, 0, 0, 0)
@@ -189,7 +191,7 @@
     X_UnitAddBuff(target, null, <?= require 'FourCC'.string2hex('Bam2') ?>, buffID, level, spellstealpriority, duration, shield, 0, 0, 0, 0, 0, 0, 0, 0, 0, buff)
 /* Bmfl 影响范围 每点魔法造成伤害(单位) 每点魔法造成伤害(英雄) 最大伤害(单位) 最大伤害(英雄) 施法距离 魔法施法时间 仅溅射伤害有魔法单位(整数) 目标允许(整数) 命令id(852512) 魔法效果(整数) */
 #define X_UnitAddBuff_Bmfl(target, buffID, level, spellstealpriority, duration, AOE, damagepermana, herodamagepermana, maxdamage, heromaxdamage, range, cd, onlyunithavemana, targetallow)\
-    X_UnitAddBuff(target, null, <?= require 'FourCC'.string2hex('Bmfl') ?>, buffID, level, spellstealpriority, duration, AOE, damagepermana, herodamagepermana, maxdamage, heromaxdamage, range, cd, onlyunithavemana, targetallow, X_CastI2R(852512), buff)
+    X_UnitAddBuff(target, null, <?= require 'FourCC'.string2hex('Bmfl') ?>, buffID, level, spellstealpriority, duration, AOE, damagepermana, herodamagepermana, maxdamage, heromaxdamage, range, cd, onlyunithavemana, X_CastI2R(targetallow), X_CastI2R(852512), buff)
 /* BNms 每点魔法抵消的伤害值 伤害吸收(%) */
 #define X_UnitAddBuff_BNms(target, buffID, level, spellstealpriority, duration, damageabsorbpermana, absorbpercent)\
     X_UnitAddBuff(target, null, <?= require 'FourCC'.string2hex('BNms') ?>, buffID, level, spellstealpriority, duration, damageabsorbpermana, absorbpercent, 0, 0, 0, 0, 0, 0, 0, 0, 0)

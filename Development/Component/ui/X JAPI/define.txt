@@ -18,6 +18,8 @@ X_AnimationFlag=1,1,1,动画选项,integer
 X_Color=1,1,1,颜色,integer
 X_SaveHandleMethod=0,0,0,保存方式,integer
 X_ItemIntegerDataType=0,0,0,物品整数数据类型,integer
+X_TrueFalseInteger=0,0,0,布尔值(整数),integer
+X_TargetAllow=1,1,1,目标允许,integer
 
 [TriggerParams]
 X_PlayerUnitEvent_Damaged=0,X_PlayerUnitEvent,0x134,"接受伤害"
@@ -50,3 +52,8 @@ X_ItemIntegerDataType_Powerup=0,X_ItemIntegerDataType,0x3,"拾取时自动使用
 X_ItemIntegerDataType_Sellable=0,X_ItemIntegerDataType,0x4,"可被市场出售"
 X_ItemIntegerDataType_Pawnable=0,X_ItemIntegerDataType,0x5,"可以被抵押"
 X_ItemIntegerDataType_Color=0,X_ItemIntegerDataType,0x6,"颜色"
+
+X_TrueFalseInteger_False=0,X_TrueFalseInteger,0x0,"FALSE"
+X_TrueFalseInteger_True=0,X_TrueFalseInteger,0x1,"TRUE"
+
+X_TargetAllow_NotSelf=0,X_TargetAllow,0x1E000,"别人"

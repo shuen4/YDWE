@@ -58,6 +58,7 @@ namespace warcraft3 {
 		static uint32_t nop = get_version() > version_121b ? 0xCCCCCCCC : 0x90909090;
         static uint32_t nop_func = get_version() > version_121b ? 0xEC8B55CC : 0xEC8B5590;
         static uint32_t nop_func1 = get_version() > version_121b ? 0xEC83CCCC : 0xEC839090;
+        static uint32_t nop_func2 = get_version() > version_121b ? 0xEC83CCC3 : 0xEC8390C3;
         while (1) {
             uint32_t asm_code = *(uint32_t*)ptr;
             if (nop == asm_code)
@@ -65,6 +66,8 @@ namespace warcraft3 {
             else if (0xEC8B55C3 == asm_code) // ret; push ebp; mov ebp, esp
                 return ptr + 1;
             else if (nop_func1 == asm_code) // int 3; sub esp
+                return ptr + 2;
+            else if (nop_func2 == asm_code) // int 3; sub esp
                 return ptr + 2;
             else if (nop_func == asm_code) // int 3; push ebp; mov ebp, esp
                 return ptr + 1;

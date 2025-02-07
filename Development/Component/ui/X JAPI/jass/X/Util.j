@@ -16,5 +16,6 @@ native X_GetColorR                                  takes integer color returns 
 native X_GetColorG                                  takes integer color returns integer
 native X_GetColorB                                  takes integer color returns integer
 native X_GetColorA                                  takes integer color returns integer
+native X_ConvertTargetArgsStringToFlags             takes string targs returns integer
 
 #endif
