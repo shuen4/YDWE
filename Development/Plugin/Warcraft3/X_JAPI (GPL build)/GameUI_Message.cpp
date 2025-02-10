@@ -1,4 +1,4 @@
-#include <base/hook/fp_call.h>
+ï»¿#include <base/hook/fp_call.h>
 #include <base/util/memory.h>
 
 #include <warcraft3/jass.h>
@@ -15,7 +15,7 @@ uint32_t searchClearMessage() {
     //
     // push     "()V"
     // mov      edx, "ClearTextMessages"
-    // mov      ecx, [ClearTextMessagesº¯ÊýµÄµØÖ·] <----
+    // mov      ecx, [ClearTextMessageså‡½æ•°çš„åœ°å€] <----
     // call     BindNative
     //=========================================
     ptr = get_war3_searcher().search_string("ClearTextMessages");
@@ -45,12 +45,12 @@ uint32_t searchClearMessage() {
     return ptr;
 }
 
-// Í¸Ã÷¶ÈÓÐÐ§ µ«Ê±¼äÒ»µ½½¥±ä»áÖØÖÃÍ¸Ã÷¶È
-// Î»ÖÃ:
-// 0 ´íÎóÏûÏ¢ (Ä§·¨Öµ²»¹», ...)
-// 1 ÓÎÏ·ÏûÏ¢ (DisplayTextToPlayer, ...)
-// 2 ÁÄÌìÏûÏ¢ (X_DisplayChat, ...)
-// 3 Î¬ÐÞµÈ¼¶ (µÍÎ¬ÐÞµÈ¼¶, ...)
+// é€æ˜Žåº¦æœ‰æ•ˆ ä½†æ—¶é—´ä¸€åˆ°æ¸å˜ä¼šé‡ç½®é€æ˜Žåº¦
+// ä½ç½®:
+// 0 é”™è¯¯æ¶ˆæ¯ (é­”æ³•å€¼ä¸å¤Ÿ, ...)
+// 1 æ¸¸æˆæ¶ˆæ¯ (DisplayTextToPlayer, ...)
+// 2 èŠå¤©æ¶ˆæ¯ (X_DisplayChat, ...)
+// 3 ç»´ä¿®ç­‰çº§ (ä½Žç»´ä¿®ç­‰çº§, ...)
 uint32_t __cdecl X_DisplayMessage(uint32_t message, float* duration, uint32_t where, uint32_t color) {
     if (where > 3)
         return false;
@@ -68,7 +68,7 @@ uint32_t __cdecl X_DisplayMessage(uint32_t message, float* duration, uint32_t wh
     return true;
 }
 
-// Î»ÖÃÍ¬ÉÏ
+// ä½ç½®åŒä¸Š
 uint32_t __cdecl X_ClearMessage(uint32_t where) {
     if (where > 3)
         return false;
@@ -87,8 +87,8 @@ uint32_t __cdecl X_ClearMessage(uint32_t where) {
     return true;
 }
 
-// ÀÁÈË°æ (¿ÉÄÜÐÔÄÜ±ÈÔÚJASSÓÃÁ½¸önfºÃ)
-// Î»ÖÃÍ¬ÉÏ
+// æ‡’äººç‰ˆ (å¯èƒ½æ€§èƒ½æ¯”åœ¨JASSç”¨ä¸¤ä¸ªnfå¥½)
+// ä½ç½®åŒä¸Š
 uint32_t __cdecl X_SetMessage(uint32_t message, float* duration, uint32_t where, uint32_t color) {
     if (where > 3)
         return false;

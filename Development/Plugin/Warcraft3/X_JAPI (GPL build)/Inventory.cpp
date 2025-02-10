@@ -1,4 +1,4 @@
-#include <warcraft3/war3_searcher.h>
+ï»¿#include <warcraft3/war3_searcher.h>
 #include <warcraft3/jass/hook.h>
 #include <base/hook/inline.h>
 #include <base/hook/fp_call.h>
@@ -33,8 +33,8 @@ uint32_t __cdecl X_TriggerRegisterPlayerUnitUpdateInventoryEvent(uint32_t trigge
 }
 
 init(UnitEvent_Inventory) {
-    // Íæ¼Òµ¥Î»¸üĞÂÎïÆ·À¸ÊÂ¼ş 
-    // ¶ªÆúÎïÆ· »ñÈ¡ÎïÆ· ¿Æ¼¼Éı¼¶ Ö®ÀàµÄ
+    // ç©å®¶å•ä½æ›´æ–°ç‰©å“æ äº‹ä»¶ 
+    // ä¸¢å¼ƒç‰©å“ è·å–ç‰©å“ ç§‘æŠ€å‡çº§ ä¹‹ç±»çš„
     setupEventData_s(X_PlayerUnitUpdateInventoryEventData, TriggerEvent::EVENT_PLAYER_UNIT_UPDATE_INVENTORY);
     real_CUnit_UpdateInventory = searchCUnit_UpdateInventory();
     base::hook::install(&real_CUnit_UpdateInventory, (uint32_t)fake_CUnit_UpdateInventory);

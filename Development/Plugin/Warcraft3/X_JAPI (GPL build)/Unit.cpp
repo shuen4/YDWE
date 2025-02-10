@@ -1,4 +1,4 @@
-#include <base/util/memory.h>
+﻿#include <base/util/memory.h>
 
 #include <warcraft3/jass/hook.h>
 #include <warcraft3/war3_searcher.h>

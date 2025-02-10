@@ -1,4 +1,4 @@
-#include <map>
+ï»¿#include <map>
 
 #include <base/hook/fp_call.h>
 #include <base/util/memory.h>
@@ -11,7 +11,7 @@
 
 std::map<uint32_t, uint32_t> destructable_color;
 uint32_t real_GetDestructableColorById;
-uint32_t* __fastcall fake_GetDestructableColorById(uint32_t* out, uint32_t pDestructableID /* Ô­±¾ÊÇ¿ÉÆÆ»µÎïÀàĞÍ, »»³É lea ÁËËùÒÔÏÖÔÚÊÇÖ¸Õë */) {
+uint32_t* __fastcall fake_GetDestructableColorById(uint32_t* out, uint32_t pDestructableID /* åŸæœ¬æ˜¯å¯ç ´åç‰©ç±»å‹, æ¢æˆ lea äº†æ‰€ä»¥ç°åœ¨æ˜¯æŒ‡é’ˆ */) {
     uint32_t pDestructable = pDestructableID - 0x30;
     auto i = destructable_color.find(pDestructable);
     if (i == destructable_color.end())
@@ -32,7 +32,7 @@ uint32_t __cdecl X_GetDestructableColor(uint32_t destructable) {
     uint32_t pDestructable = handle_to_object(destructable);
     if (!pDestructable || !type_check_s(pDestructable, '+w3d'))
         return 0xFFFFFFFF;
-    return *fake_GetDestructableColorById(&pDestructable/* ¸´ÓÃ±äÁ¿ */, pDestructable + 0x30);
+    return *fake_GetDestructableColorById(&pDestructable/* å¤ç”¨å˜é‡ */, pDestructable + 0x30);
 }
 uint32_t __cdecl X_SetDestructableColor(uint32_t destructable, uint32_t color) {
     uint32_t pDestructable = handle_to_object(destructable);

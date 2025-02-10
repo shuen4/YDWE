@@ -1,4 +1,4 @@
-#include <base/hook/fp_call.h>
+﻿#include <base/hook/fp_call.h>
 
 #include <warcraft3/jass.h>
 #include <warcraft3/jass/hook.h>

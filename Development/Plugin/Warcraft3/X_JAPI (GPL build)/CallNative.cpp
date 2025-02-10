@@ -1,4 +1,4 @@
-#include <warcraft3/jass/opcode.h>
+ï»¿#include <warcraft3/jass/opcode.h>
 #include <warcraft3/hashtable.h>
 #include <warcraft3/war3_searcher.h>
 #include <base/hook/inline.h>
@@ -12,26 +12,26 @@ uint32_t searchJassVM_CallNative() {
     uint32_t addr = game.search_string("config");
     addr += sizeof uint32_t;
 
-    addr = warcraft3::next_opcode(addr, 0xE8, 5);       //ËÑË÷ÏÂÃæµÚÒ»¸öcall
-    addr = warcraft3::convert_function(addr);           //½øÈëÕâ¸öº¯Êı
+    addr = warcraft3::next_opcode(addr, 0xE8, 5);       //æœç´¢ä¸‹é¢ç¬¬ä¸€ä¸ªcall
+    addr = warcraft3::convert_function(addr);           //è¿›å…¥è¿™ä¸ªå‡½æ•°
 
-    addr = warcraft3::next_opcode(addr, 0xE8, 5);       //ËÑË÷µÚÒ»¸öcall
+    addr = warcraft3::next_opcode(addr, 0xE8, 5);       //æœç´¢ç¬¬ä¸€ä¸ªcall
     addr += 0x5;                                        //+5
-    addr = warcraft3::next_opcode(addr, 0xE8, 5);       //ËÑË÷µ½µÚ¶ş¸öcall
-    addr = warcraft3::convert_function(addr);           //½øÈë
+    addr = warcraft3::next_opcode(addr, 0xE8, 5);       //æœç´¢åˆ°ç¬¬äºŒä¸ªcall
+    addr = warcraft3::convert_function(addr);           //è¿›å…¥
 
-    addr = warcraft3::next_opcode(addr, 0xE8, 5);       //ËÑË÷µÚÒ»¸öcall
-    addr = warcraft3::convert_function(addr);           //½øÈë
+    addr = warcraft3::next_opcode(addr, 0xE8, 5);       //æœç´¢ç¬¬ä¸€ä¸ªcall
+    addr = warcraft3::convert_function(addr);           //è¿›å…¥
 
-    addr = warcraft3::next_opcode(addr, 0xFF, 7);       //ËÑË÷µÚÒ»¸öcall
+    addr = warcraft3::next_opcode(addr, 0xFF, 7);       //æœç´¢ç¬¬ä¸€ä¸ªcall
     addr += 0x3;
-    addr = *(uint32_t*)addr;                           //È¡µ½Ìø×ªµØÖ·±íµØÖ·
-    addr += 0x4C;                                       //Ìø×ªµ½Æ«ÒÆ0x13 * 4µÄµØÖ·´¦
+    addr = *(uint32_t*)addr;                           //å–åˆ°è·³è½¬åœ°å€è¡¨åœ°å€
+    addr += 0x4C;                                       //è·³è½¬åˆ°åç§»0x13 * 4çš„åœ°å€å¤„
     addr = *(uint32_t*)addr;
-    addr = warcraft3::next_opcode(addr, 0xE8, 5);       //ËÑË÷µÚÒ»¸öcall
+    addr = warcraft3::next_opcode(addr, 0xE8, 5);       //æœç´¢ç¬¬ä¸€ä¸ªcall
     addr += 0x5;                                        //+5
-    addr = warcraft3::next_opcode(addr, 0xE8, 5);       //ËÑË÷µ½µÚ¶ş¸öcall
-    addr = warcraft3::convert_function(addr);           //½øÈë
+    addr = warcraft3::next_opcode(addr, 0xE8, 5);       //æœç´¢åˆ°ç¬¬äºŒä¸ªcall
+    addr = warcraft3::convert_function(addr);           //è¿›å…¥
 
     return addr;
 
@@ -44,17 +44,17 @@ uint32_t getJassVM_CallNative (){
 
 uint32_t searchConvertFuncAddr() {
     uint32_t addr = getJassVM_CallNative();
-    addr = warcraft3::next_opcode(addr, 0xE8, 5);       //ËÑË÷µÚÒ»¸öcall
+    addr = warcraft3::next_opcode(addr, 0xE8, 5);       //æœç´¢ç¬¬ä¸€ä¸ªcall
     addr += 0x5;                                        //+5
-    addr = warcraft3::next_opcode(addr, 0xE8, 5);       //ËÑË÷µ½µÚ¶ş¸öcall
-    addr = warcraft3::convert_function(addr);           //½øÈë
+    addr = warcraft3::next_opcode(addr, 0xE8, 5);       //æœç´¢åˆ°ç¬¬äºŒä¸ªcall
+    addr = warcraft3::convert_function(addr);           //è¿›å…¥
     return addr;
 }
 
 uint32_t __fastcall fake_JassVM_CallNative(jass_vm_t* _this, uint32_t edx, char* funcName) {
     edx;
     hashtable::native_func_node* nf = get_native_function_hashtable()->find(funcName);
-    char* param = (char*)nf->param_list_ + 1; // Ìø¹ıÇ°ÃæµÄ"("
+    char* param = (char*)nf->param_list_ + 1; // è·³è¿‡å‰é¢çš„"("
     stackframe_t* stack = _this->stackframe;
     uint32_t param_count = nf->param_num_;
     std::vector<uint32_t> args(param_count);
@@ -72,14 +72,14 @@ uint32_t __fastcall fake_JassVM_CallNative(jass_vm_t* _this, uint32_t edx, char*
             break;
         }
         case 'R':
-            args_float[param_count] = *(float*)&var->value_; // ·ÀÖ¹nfĞŞ¸Ä²ÎÊı
+            args_float[param_count] = *(float*)&var->value_; // é˜²æ­¢nfä¿®æ”¹å‚æ•°
             args[param_count] = (uint32_t)&args_float[param_count];
             break;
         case 'S':
             args[param_count] = _this->string_table->get_no_ref(var->value_);
             break;
         case 'H':
-            if (param_count) {// ×îºóÒ»¸ö²ÎÊıÃ»±ØÒªÑ­»·
+            if (param_count) {// æœ€åä¸€ä¸ªå‚æ•°æ²¡å¿…è¦å¾ªç¯
                 while (*++param != ';')
                     ;
                 ++param;
@@ -107,7 +107,7 @@ uint32_t __fastcall fake_JassVM_CallNative(jass_vm_t* _this, uint32_t edx, char*
     }
     */
 
-    _asm mov tmp, esp; // return bug ¿ÉÄÜ»áĞŞ¸Äº¯ÊıÖ¸ÕëÎªµ÷ÓÃstdcallº¯Êı, Õâ±ßÏÈ¼ÆËã²¢±£´æÒ»ÏÂstackÖ¸Õë
+    _asm mov tmp, esp; // return bug å¯èƒ½ä¼šä¿®æ”¹å‡½æ•°æŒ‡é’ˆä¸ºè°ƒç”¨stdcallå‡½æ•°, è¿™è¾¹å…ˆè®¡ç®—å¹¶ä¿å­˜ä¸€ä¸‹stackæŒ‡é’ˆ
     tmp += nf->param_num_ * 4;
     ((uint32_t(__cdecl*)())(nf->func_address_))();
     _asm {
@@ -118,7 +118,7 @@ uint32_t __fastcall fake_JassVM_CallNative(jass_vm_t* _this, uint32_t edx, char*
     return tmp;
 }
 
-// Ô­ÉúÖ»Ö§³Ö15¸ö²ÎÊı, ´óÓÚ15»áÔì³É»º³åÇøÒç³ö
+// åŸç”Ÿåªæ”¯æŒ15ä¸ªå‚æ•°, å¤§äº15ä¼šé€ æˆç¼“å†²åŒºæº¢å‡º
 init(Fix_JassVM_CallNative) {
     uint32_t real_JassVM_CallNative = getJassVM_CallNative();
     base::hook::install(&real_JassVM_CallNative, (uint32_t)fake_JassVM_CallNative);

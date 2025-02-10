@@ -1,4 +1,4 @@
-#include <warcraft3/war3_searcher.h>
+ï»¿#include <warcraft3/war3_searcher.h>
 #include <warcraft3/version.h>
 #include <warcraft3/jass/hook.h>
 #include <warcraft3/jass.h>
@@ -91,7 +91,7 @@ uint32_t __fastcall fake_CAbilityAttack_AttackTarget(uint32_t _this, uint32_t, u
         pEventData->src_x = loc[0];
         pEventData->src_y = loc[1];
 
-        if (ReadMemory(_this + 0x20) & 0x200) { // ¹¥»÷µØÃæ
+        if (ReadMemory(_this + 0x20) & 0x200) { // æ”»å‡»åœ°é¢
             uint32_t pCTaskPoint = GetObjectByHash(ReadMemory(pUnit + 0x174), ReadMemory(pUnit + 0x178));
             pEventData->isPointTarget = true;
             pEventData->target_x = ReadMemory(pCTaskPoint + 0x38);
@@ -190,7 +190,7 @@ uint32_t __cdecl X_SetAttackLaunchEventExposeSource(bool flag) {
     return false;
 }
 init(UnitEvent_Attack) {
-    // Íæ¼Òµ¥Î»¹¥»÷¶ªÊ§ÊÂ¼ş
+    // ç©å®¶å•ä½æ”»å‡»ä¸¢å¤±äº‹ä»¶
     setupEventData_s(X_PlayerUnitAttackMissEventData, TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_MISS);
     real_CreateMissTextAtUnit = searchCreateMissTextAtUnit();
     base::hook::install(&real_CreateMissTextAtUnit, (uint32_t)fake_CreateMissTextAtUnit);
@@ -198,7 +198,7 @@ init(UnitEvent_Attack) {
     jass::japi_add((uint32_t)X_SetAttackMissEventTextHidden,                    "X_SetAttackMissEventTextHidden",                   "(B)B");
     jass::japi_add((uint32_t)X_IsAttackMissEventTextHidden,                     "X_IsAttackMissEventTextHidden",                    "()B");
     
-    // Íæ¼Òµ¥Î»·¢Æğ¹¥»÷ÊÂ¼ş
+    // ç©å®¶å•ä½å‘èµ·æ”»å‡»äº‹ä»¶
     setupEventData_s(X_PlayerUnitAttackLaunchEventData, TriggerEvent::EVENT_PLAYER_UNIT_ATTACK_LAUNCH);
     real_CAbilityAttack_AttackTarget = searchCAbilityAttack_AttackTarget();
     base::hook::install(&real_CAbilityAttack_AttackTarget, (uint32_t)fake_CAbilityAttack_AttackTarget);

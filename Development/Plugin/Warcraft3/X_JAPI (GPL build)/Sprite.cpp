@@ -1,4 +1,4 @@
-#include <base/hook/fp_call.h>
+ï»¿#include <base/hook/fp_call.h>
 #include <base/util/memory.h>
 
 #include <warcraft3/jass.h>
@@ -59,13 +59,13 @@ SpriteType GetSpriteType(uint32_t pSprite) {
         return SpriteType::INVALID;
 
     static uint32_t pCSpriteMini_vtable = get_vfn_ptr(".?AVCSpriteMini_@@");
-    // ×ÓÀàĞÍ
+    // å­ç±»å‹
     static uint32_t pTAllocatedHandleObjectLeaf_CSpriteMini_vtable = get_vfn_ptr(".?AV?$TAllocatedHandleObjectLeaf@VCSpriteMini_@@$0BAA@@@");
     if (ReadMemory(pSprite) == pCSpriteMini_vtable || ReadMemory(pSprite) == pTAllocatedHandleObjectLeaf_CSpriteMini_vtable)
         return SpriteType::MINI;
 
     static uint32_t pCSpriteUber_vtable = get_vfn_ptr(".?AVCSpriteUber_@@");
-    // Í¬ÉÏ
+    // åŒä¸Š
     static uint32_t pTAllocatedHandleObjectLeaf_CSpriteUber_vtable = get_vfn_ptr(".?AV?$TAllocatedHandleObjectLeaf@VCSpriteUber_@@$0IA@@@");
     if (ReadMemory(pSprite) == pCSpriteUber_vtable || ReadMemory(pSprite) == pTAllocatedHandleObjectLeaf_CSpriteUber_vtable)
         return SpriteType::UBER;
@@ -139,7 +139,7 @@ uint32_t __cdecl X_SetSpriteSize(uint32_t pSprite, float* size) {
     checkValid();
     base::this_call_vf<void>(pSprite, 0x24, *size);
     return true;
-    /* »¹ÊÇµ÷ÓÃ vf ±È½ÏºÃ°É
+    /* è¿˜æ˜¯è°ƒç”¨ vf æ¯”è¾ƒå¥½å§
     setupOffset(0x94, 0xE8);
     WriteMemory(pSprite + offset, *size);
     return true;
@@ -218,7 +218,7 @@ uint32_t __cdecl X_SetSpriteTimeScale(uint32_t pSprite, float* timeScale) {
     checkValid();
     base::this_call_vf<void>(pSprite, 0x28, *timeScale);
     return true;
-    /* »¹ÊÇµ÷ÓÃ vf ±È½ÏºÃ°É
+    /* è¿˜æ˜¯è°ƒç”¨ vf æ¯”è¾ƒå¥½å§
     setupOffset(0x48, 0x190);
     WriteMemory(pSprite + offset, *timeScale);
     return true;
@@ -245,7 +245,7 @@ uint32_t __cdecl X_SetSpriteAlpha(uint32_t pSprite, uint32_t alpha) {
 uint32_t __cdecl X_GetSpriteColor(uint32_t pSprite) {
     if (GetSpriteType(pSprite) != SpriteType::INVALID)
         if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
-            if (ReadMemory(pModelComplex + 0xC)) // Geoset ÊıÁ¿
+            if (ReadMemory(pModelComplex + 0xC)) // Geoset æ•°é‡
                 if (uint32_t pUnk = ReadMemory(pModelComplex + 0x20))
                     return ReadMemory(pUnk + 0x4) & 0xFFFFFF;
     return 0xFF;
@@ -254,7 +254,7 @@ uint32_t __cdecl X_GetSpriteColor(uint32_t pSprite) {
 uint32_t __cdecl X_GetSpriteAlpha(uint32_t pSprite) {
     if (GetSpriteType(pSprite) != SpriteType::INVALID)
         if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
-            if (ReadMemory(pModelComplex + 0xC)) // Geoset ÊıÁ¿
+            if (ReadMemory(pModelComplex + 0xC)) // Geoset æ•°é‡
                 if (uint32_t pUnk = ReadMemory(pModelComplex + 0x20))
                     return (uint8_t)(ReadMemory<float>(pUnk + 0xC) * 255.f);
     return 0xFF;
@@ -263,7 +263,7 @@ uint32_t __cdecl X_GetSpriteAlpha(uint32_t pSprite) {
 uint32_t __cdecl X_SetSpriteGeosetColor(uint32_t pSprite, uint32_t index, uint32_t value) {
     if (GetSpriteType(pSprite) != SpriteType::INVALID)
         if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
-            if (ReadMemory(pModelComplex + 0xC) > index) // Geoset ÊıÁ¿
+            if (ReadMemory(pModelComplex + 0xC) > index) // Geoset æ•°é‡
                 if (uint32_t pUnk = ReadMemory(pModelComplex + 0x20)) {
                     WriteMemory(pUnk + 0x4 + index * 0x10, ReadMemory<uint8_t>(pUnk + 0x7 + index * 0x10) | (value & 0xFFFFFF));
                     return true;
@@ -274,7 +274,7 @@ uint32_t __cdecl X_SetSpriteGeosetColor(uint32_t pSprite, uint32_t index, uint32
 uint32_t __cdecl X_SetSpriteGeosetAlpha(uint32_t pSprite, uint32_t index, uint32_t value) {
     if (GetSpriteType(pSprite) != SpriteType::INVALID)
         if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
-            if (ReadMemory(pModelComplex + 0xC) > index) // Geoset ÊıÁ¿
+            if (ReadMemory(pModelComplex + 0xC) > index) // Geoset æ•°é‡
                 if (uint32_t pUnk = ReadMemory(pModelComplex + 0x20)) {
                     WriteMemory(pUnk + 0xC + index * 0x10, (float)(value & 0xFF) / 255.f);
                     return true;
@@ -285,7 +285,7 @@ uint32_t __cdecl X_SetSpriteGeosetAlpha(uint32_t pSprite, uint32_t index, uint32
 uint32_t __cdecl X_GetSpriteGeosetColor(uint32_t pSprite, uint32_t index) {
     if (GetSpriteType(pSprite) != SpriteType::INVALID)
         if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
-            if (ReadMemory(pModelComplex + 0xC) > index) // Geoset ÊıÁ¿
+            if (ReadMemory(pModelComplex + 0xC) > index) // Geoset æ•°é‡
                 if (uint32_t pUnk = ReadMemory(pModelComplex + 0x20))
                     return ReadMemory(pUnk + 0x4 + index * 0x10) & 0xFFFFFF;
     return 0xFF;
@@ -294,7 +294,7 @@ uint32_t __cdecl X_GetSpriteGeosetColor(uint32_t pSprite, uint32_t index) {
 uint32_t __cdecl X_GetSpriteGeosetAlpha(uint32_t pSprite, uint32_t index) {
     if (GetSpriteType(pSprite) != SpriteType::INVALID)
         if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
-            if (ReadMemory(pModelComplex + 0xC) > index) // Geoset ÊıÁ¿
+            if (ReadMemory(pModelComplex + 0xC) > index) // Geoset æ•°é‡
                 if (uint32_t pUnk = ReadMemory(pModelComplex + 0x20))
                     return (uint8_t)(ReadMemory<float>(pUnk + 0xC + index * 0x10) * 255.f);
     return 0xFF;
@@ -368,8 +368,8 @@ init(Sprite) {
     jass::japi_add((uint32_t)X_War3ImageGetSprite,              "X_UnitGetSprite",                  "(Hunit;)I");                // CSpriteUber
     jass::japi_add((uint32_t)X_War3ImageGetSprite,              "X_EffectGetSprite",                "(Heffect;)I");              // CSpriteUber
     jass::japi_add((uint32_t)X_War3ImageGetSprite,              "X_TrackableGetSprite",             "(Htrackable;)I");           // CSpriteUber
-    jass::japi_add((uint32_t)X_War3ImageGetSprite,              "X_ItemGetSprite",                  "(Hitem;)I");                // CSpriteMini, ÎŞ·¨ÓÃSprite½Ó¿ÚÉèÖÃÑÕÉ«(Êµ¼ÊÉÏÊÇ»áÉèÖÃ»ØÈ¥)
-    jass::japi_add((uint32_t)X_War3ImageGetSprite,              "X_DestructableGetSprite",          "(Hdestructable;)I");        // CSpriteMini, ÎŞ·¨ÓÃSprite½Ó¿ÚÉèÖÃÑÕÉ«(Êµ¼ÊÉÏÊÇ»áÉèÖÃ»ØÈ¥)
+    jass::japi_add((uint32_t)X_War3ImageGetSprite,              "X_ItemGetSprite",                  "(Hitem;)I");                // CSpriteMini, æ— æ³•ç”¨Spriteæ¥å£è®¾ç½®é¢œè‰²(å®é™…ä¸Šæ˜¯ä¼šè®¾ç½®å›å»)
+    jass::japi_add((uint32_t)X_War3ImageGetSprite,              "X_DestructableGetSprite",          "(Hdestructable;)I");        // CSpriteMini, æ— æ³•ç”¨Spriteæ¥å£è®¾ç½®é¢œè‰²(å®é™…ä¸Šæ˜¯ä¼šè®¾ç½®å›å»)
 
     jass::japi_add((uint32_t)X_IsSpriteValid,                   "X_IsSpriteValid",                  "(I)B");
     jass::japi_add((uint32_t)X_GetSpriteType,                   "X_GetSpriteType",                  "(I)I");
@@ -399,13 +399,13 @@ init(Sprite) {
     jass::japi_add((uint32_t)X_SetSpriteColor,                  "X_SetSpriteColor",                 "(II)B");
     jass::japi_add((uint32_t)X_SetSpriteAlpha,                  "X_SetSpriteAlpha",                 "(II)B");
     
-    jass::japi_add((uint32_t)X_GetSpriteColor,                  "X_GetSpriteColor",                 "(I)I");        // µÈĞ§ÓÚX_GetSpriteGeosetColor, index 0
-    jass::japi_add((uint32_t)X_GetSpriteAlpha,                  "X_GetSpriteAlpha",                 "(I)I");        // µÈĞ§ÓÚX_GetSpriteGeosetAlpha, index 0
+    jass::japi_add((uint32_t)X_GetSpriteColor,                  "X_GetSpriteColor",                 "(I)I");        // ç­‰æ•ˆäºX_GetSpriteGeosetColor, index 0
+    jass::japi_add((uint32_t)X_GetSpriteAlpha,                  "X_GetSpriteAlpha",                 "(I)I");        // ç­‰æ•ˆäºX_GetSpriteGeosetAlpha, index 0
     
-    jass::japi_add((uint32_t)X_SetSpriteGeosetColor,            "X_SetSpriteGeosetColor",           "(III)B");      // index Ê¼ÓÚ 0
-    jass::japi_add((uint32_t)X_SetSpriteGeosetAlpha,            "X_SetSpriteGeosetAlpha",           "(III)B");      // index Ê¼ÓÚ 0
-    jass::japi_add((uint32_t)X_GetSpriteGeosetColor,            "X_GetSpriteGeosetColor",           "(II)I");       // index Ê¼ÓÚ 0
-    jass::japi_add((uint32_t)X_GetSpriteGeosetAlpha,            "X_GetSpriteGeosetAlpha",           "(II)I");       // index Ê¼ÓÚ 0
+    jass::japi_add((uint32_t)X_SetSpriteGeosetColor,            "X_SetSpriteGeosetColor",           "(III)B");      // index å§‹äº 0
+    jass::japi_add((uint32_t)X_SetSpriteGeosetAlpha,            "X_SetSpriteGeosetAlpha",           "(III)B");      // index å§‹äº 0
+    jass::japi_add((uint32_t)X_GetSpriteGeosetColor,            "X_GetSpriteGeosetColor",           "(II)I");       // index å§‹äº 0
+    jass::japi_add((uint32_t)X_GetSpriteGeosetAlpha,            "X_GetSpriteGeosetAlpha",           "(II)I");       // index å§‹äº 0
 
     jass::japi_add((uint32_t)X_SetSpriteReplaceableTexture,     "X_SetSpriteReplaceableTexture",    "(ISI)B");
     

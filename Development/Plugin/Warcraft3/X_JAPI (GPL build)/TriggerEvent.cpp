@@ -1,4 +1,4 @@
-#include <map>
+ï»¿#include <map>
 #include <string>
 #include <stack>
 
@@ -152,7 +152,7 @@ namespace TriggerEvent {
         //
         // push     "()V"
         // mov      edx, "GetOwningPlayer"
-        // mov      ecx, [GetOwningPlayerº¯ÊıµÄµØÖ·] <----
+        // mov      ecx, [GetOwningPlayerå‡½æ•°çš„åœ°å€] <----
         // call     BindNative
         //=========================================
         ptr = get_war3_searcher().search_string("GetOwningPlayer");
@@ -195,14 +195,14 @@ namespace TriggerEvent {
     }
     uint32_t searchCObserver_IsEventRegistered() {
         war3_searcher& s = get_war3_searcher();
-        for (uint32_t ptr = s.search_int_in_text(524818 /* ÊÂ¼şID */); ptr; ptr = s.search_int_in_text(524818, ptr + 1))
+        for (uint32_t ptr = s.search_int_in_text(524818 /* äº‹ä»¶ID */); ptr; ptr = s.search_int_in_text(524818, ptr + 1))
             if (ReadMemory<uint8_t>(ptr - 1) == 0x68) // push 0x80212
                 return convert_function(next_opcode(ptr, 0xE8, 5));
         return 0;
     }
     uint32_t searchDispatchPlayerUnitEvent() {
         war3_searcher& s = get_war3_searcher();
-        for (uint32_t ptr = s.search_int_in_text(524818 /* ÊÂ¼şID */); ptr; ptr = s.search_int_in_text(524818, ptr + 1)) {
+        for (uint32_t ptr = s.search_int_in_text(524818 /* äº‹ä»¶ID */); ptr; ptr = s.search_int_in_text(524818, ptr + 1)) {
             if (ReadMemory<uint8_t>(ptr - 1) == 0x68) { // push 0x80212
                 ptr = s.search_int_in_text(524818, ptr + 1);
                 if (ReadMemory<uint8_t>(ptr - 1) == 0x68) { // push 0x80212
@@ -240,7 +240,7 @@ namespace TriggerEvent {
     std::map<uint32_t, InstanceGenerator*> Generator;
     std::map<uint32_t, bool> PlayerUnitEventIds;
 
-    // Èç¹ûÊÇ JAPI µÄÍæ¼Òµ¥Î»ÊÂ¼şÔòÁÙÊ±ĞŞ¸ÄÊÂ¼şID
+    // å¦‚æœæ˜¯ JAPI çš„ç©å®¶å•ä½äº‹ä»¶åˆ™ä¸´æ—¶ä¿®æ”¹äº‹ä»¶ID
     std::stack<uint32_t> real_event_id;
     uint32_t real_CPlayerEventReg_ProcessEvent;
     bool __fastcall fake_CPlayerEventReg_ProcessEvent(uint32_t _this, uint32_t, uint32_t pEvent) {
@@ -257,7 +257,7 @@ namespace TriggerEvent {
         return ret;
     }
 
-    // °ÑÊÂ¼şIDĞŞ¸Ä»ØÈ¥
+    // æŠŠäº‹ä»¶IDä¿®æ”¹å›å»
     uint32_t real_CPlayerEventReg_FireEvent;
     void __fastcall fake_CPlayerEventReg_FireEvent(uint32_t _this, uint32_t, uint32_t pEvent) {
         if (!real_event_id.empty()) {
@@ -303,12 +303,12 @@ namespace TriggerEvent {
         static uint32_t pCObserver_vtable = get_vfn_ptr(".?AVCObserver@@");
         // CObserver
         vtable = (CPlayerUnitEventDataBase_vtable*)pCObserver_vtable;
-        CObserver1[0] = 0; // ÒıÓÃ¼ÆÊı
+        CObserver1[0] = 0; // å¼•ç”¨è®¡æ•°
         CObserver1[1] = 0;
         // CAgent
         unk1 = objectid_64(0xFFFFFFFF, 0xFFFFFFFF);
         CObserver2_vtable = pCObserver_vtable;
-        CObserver2[0] = 1; // ÒıÓÃ¼ÆÊı
+        CObserver2[0] = 1; // å¼•ç”¨è®¡æ•°
         CObserver2[1] = 0;
         // CPlayerEventDataBase
         player = objectid_64(0xFFFFFFFF, 0xFFFFFFFF);
@@ -319,13 +319,13 @@ namespace TriggerEvent {
         filterUnit = objectid_64(0xFFFFFFFF, 0xFFFFFFFF);
         unk4 = 0;
     }
-    // ×¢²á´¥·¢Êı¾İ
-    // 0x81000 - 0x81FFF ËÆºõ°²È«
+    // æ³¨å†Œè§¦å‘æ•°æ®
+    // 0x81000 - 0x81FFF ä¼¼ä¹å®‰å…¨
     void RegisterTriggerEventData(uint32_t typeID, Type parentTypeID, std::vector<uint32_t> eventID, uint32_t size, uint32_t batchAllocCount, void(*ctor)(uint32_t)) {
         if (Generator.find(typeID) == Generator.end()) {
             if (Generator.size() == 0) {
                 real_CPlayerEventReg_ProcessEvent = searchCPlayerEventReg_ProcessEvent();
-                base::hook::install(&real_CPlayerEventReg_ProcessEvent, (uint32_t)fake_CPlayerEventReg_ProcessEvent); // ÎÊ¾ÍÊÇÀÁ
+                base::hook::install(&real_CPlayerEventReg_ProcessEvent, (uint32_t)fake_CPlayerEventReg_ProcessEvent); // é—®å°±æ˜¯æ‡’
                 real_CPlayerEventReg_FireEvent = ReadMemory(searchCPlayerEventReg_FireEvent_ptr());
                 base::hook::replace_pointer(searchCPlayerEventReg_FireEvent_ptr(), (uint32_t)fake_CPlayerEventReg_FireEvent);
                 real_CPlayerWar3_Save = searchCPlayerWar3_Save();
@@ -340,7 +340,7 @@ namespace TriggerEvent {
         }
     }
     
-    // ×¢²áÍæ¼Òµ¥Î»ÊÂ¼ş
+    // æ³¨å†Œç©å®¶å•ä½äº‹ä»¶
     uint32_t TriggerRegisterPlayerUnitEvent(uint32_t trigger, uint32_t player, uint32_t eventID, uint32_t boolexpr) {
         uint32_t pTriggerWar3 = handle_to_object(trigger);
         uint32_t pPlayerWar3 = handle_to_object(player);
@@ -360,7 +360,7 @@ namespace TriggerEvent {
         return event;
     }
 
-    // »ñÈ¡µ±Ç°´¥·¢µÄÊÂ¼şID
+    // è·å–å½“å‰è§¦å‘çš„äº‹ä»¶ID
     uint32_t GetTriggerEventId() {
         static auto& s = get_war3_searcher();
         uint32_t pGameState = base::this_call<uint32_t>(s.create_handle.GetDataNode, s.get_gamewar3());
@@ -373,7 +373,7 @@ namespace TriggerEvent {
         return eventid;
     }
 
-    // »ñÈ¡µ±Ç°´¥·¢µÄÊÂ¼şÊı¾İ
+    // è·å–å½“å‰è§¦å‘çš„äº‹ä»¶æ•°æ®
     uint32_t GetTriggerEventData(uint32_t typeID) {
         static auto& s = get_war3_searcher();
         uint32_t pGameState = base::this_call<uint32_t>(s.create_handle.GetDataNode, s.get_gamewar3());
@@ -392,7 +392,7 @@ namespace TriggerEvent {
         return pEventData;
     }
 
-    // ¼ì²éÊÂ¼şIDÊÇ·ñ×¢²á
+    // æ£€æŸ¥äº‹ä»¶IDæ˜¯å¦æ³¨å†Œ
     bool IsEventRegistered(uint32_t pObserver, uint32_t eventID) {
         static uint32_t pCObserver_IsEventRegistered = searchCObserver_IsEventRegistered();
         return base::this_call<bool>(pCObserver_IsEventRegistered, pObserver, TRIGGER_EVENT_ID_BASE + eventID);
@@ -402,7 +402,7 @@ namespace TriggerEvent {
         static uint32_t CUnit_GetOwner = searchCUnit_GetOwner();
         return base::this_call<uint32_t>(CUnit_GetOwner, pUnit);
     }
-    // ÔËĞĞÊÂ¼ş
+    // è¿è¡Œäº‹ä»¶
     void FirePlayerUnitEvent(CPlayerUnitEventDataBase* pPlayerUnitEvent, uint32_t pUnit, uint32_t pUnit2, uint32_t eventID) {
         uint32_t pOwningPlayer = GetUnitOwner(pUnit);
 

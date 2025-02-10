@@ -1,4 +1,4 @@
-#include <base/hook/fp_call.h>
+ï»¿#include <base/hook/fp_call.h>
 #include <base/util/memory.h>
 
 #include <warcraft3/jass/hook.h>
@@ -8,7 +8,7 @@
 
 struct SpriteFrameSetDefaultLight {
     uint32_t createLight;
-    uint32_t setupLight3; // ÀÁµÃÑĞ¾¿º¯Êı¶¯×÷
+    uint32_t setupLight3; // æ‡’å¾—ç ”ç©¶å‡½æ•°åŠ¨ä½œ
     uint32_t spriteFrameSetLight;
 };
 SpriteFrameSetDefaultLight searchCreateLight() {
@@ -41,9 +41,9 @@ bool isSpriteFrame(uint32_t pSpriteFrame) {
     return !IsBadReadPtr((void*)pSpriteFrame, 4) && ReadMemory(pSpriteFrame) != CSpriteFrame_vtable;
 }
 
-// ÒòÎªÀÁµÃÑĞ¾¿º¯Êı ËùÒÔËæ±ãÆğÃû³Æ
-// setupLight1 / setupLight2 Í¨ÓÃ
-// 1 Ö»ÓĞÒ»¸öÊıÖµ 2 ÓĞÈı¸ö
+// å› ä¸ºæ‡’å¾—ç ”ç©¶å‡½æ•° æ‰€ä»¥éšä¾¿èµ·åç§°
+// setupLight1 / setupLight2 é€šç”¨
+// 1 åªæœ‰ä¸€ä¸ªæ•°å€¼ 2 æœ‰ä¸‰ä¸ª
 void setupLight(uint32_t pLight, uint32_t index, float* value) {
     int unk = ReadMemory(ReadMemory(pLight + 16) + 4 * index);
     WriteMemory(unk + 0x10, 0);

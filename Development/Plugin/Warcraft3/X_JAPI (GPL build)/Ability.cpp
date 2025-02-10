@@ -1,4 +1,4 @@
-#include <base/hook/fp_call.h>
+ï»¿#include <base/hook/fp_call.h>
 #include <base/util/memory.h>
 
 #include <warcraft3/jass/hook.h>
@@ -37,7 +37,7 @@ uint32_t __cdecl X_StartUnitAbilityCooldown(uint32_t unit, uint32_t abilID, floa
 
     uint32_t pAgentTimer = pAbility + 0xD0;
     if (ReadMemory(pAbility + 0x20) & 0x200)
-        // µ±Ç°ÒÑÔÚÀäÈ´ÖĞ
+        // å½“å‰å·²åœ¨å†·å´ä¸­
         CAgentTimer_Stop(pAgentTimer);
     else
         WriteMemory(pAbility + 0x20, ReadMemory(pAbility + 0x20) | 0x200);

@@ -1,4 +1,4 @@
-#include <base/hook/fp_call.h>
+﻿#include <base/hook/fp_call.h>
 #include <base/util/memory.h>
 
 #include <warcraft3/event.h>

@@ -1,4 +1,4 @@
-#include <base/hook/fp_call.h>
+ï»¿#include <base/hook/fp_call.h>
 #include <base/util/memory.h>
 
 #include <warcraft3/jass.h>
@@ -28,16 +28,16 @@ float CAgentTimerExtended_GetRemainingTime(uint32_t _this) {
     return out;
 }
 
-void CTimerWar3_SetTimeout(uint32_t pTimerWar3, float timeout) { // ²»ÊÇÄ§ÊŞ±¾ÉíµÄº¯Êı
-    // pTimerWar3 + 0x3C ÓĞ¸öÒ»ÑùµÄ²»ÖªµÀÊ²Ã´ÓÃ
+void CTimerWar3_SetTimeout(uint32_t pTimerWar3, float timeout) { // ä¸æ˜¯é­”å…½æœ¬èº«çš„å‡½æ•°
+    // pTimerWar3 + 0x3C æœ‰ä¸ªä¸€æ ·çš„ä¸çŸ¥é“ä»€ä¹ˆç”¨
     WriteMemory<float>(pTimerWar3 + 0x48, timeout); // TimerGetTimeout
     uint32_t pAgentTimerExtended = pTimerWar3 + 0x24;
     uint32_t ptr = ReadMemory<uint32_t>(pAgentTimerExtended + 0xC);
     if (ptr)
-        WriteMemory<float>(ptr + 0x8, timeout); // ÏÂÒ»´ÎÑ­»·µÄ¼ÆÊ±
+        WriteMemory<float>(ptr + 0x8, timeout); // ä¸‹ä¸€æ¬¡å¾ªç¯çš„è®¡æ—¶
 }
 
-inline bool CTimerWar3_IsRunning(uint32_t pTimerWar3) {// ²»ÊÇÄ§ÊŞ±¾ÉíµÄº¯Êı
+inline bool CTimerWar3_IsRunning(uint32_t pTimerWar3) {// ä¸æ˜¯é­”å…½æœ¬èº«çš„å‡½æ•°
     return !!ReadMemory<uint32_t>(pTimerWar3 + 0x30);
 }
 

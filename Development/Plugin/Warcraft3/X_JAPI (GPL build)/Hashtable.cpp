@@ -1,4 +1,4 @@
-#include <base/hook/fp_call.h>
+ï»¿#include <base/hook/fp_call.h>
 #include <base/util/memory.h>
 
 #include <warcraft3/jass/hook.h>
@@ -13,7 +13,7 @@ uint32_t searchLoadHandleId() {
     //
     // push     "()V"
     // mov      edx, "LoadPlayerHandle"
-    // mov      ecx, [LoadPlayerHandleº¯ÊýµÄµØÖ·]  <----
+    // mov      ecx, [LoadPlayerHandleå‡½æ•°çš„åœ°å€]  <----
     // call     BindNative
     //=========================================
     ptr = get_war3_searcher().search_string("LoadPlayerHandle");
@@ -57,7 +57,7 @@ uint32_t searchSaveHandleId() {
     //
     // push     "()V"
     // mov      edx, "SavePlayerHandle"
-    // mov      ecx, [SavePlayerHandleº¯ÊýµÄµØÖ·]  <----
+    // mov      ecx, [SavePlayerHandleå‡½æ•°çš„åœ°å€]  <----
     // call     BindNative
     //=========================================
     ptr = get_war3_searcher().search_string("SavePlayerHandle");
@@ -112,7 +112,7 @@ uint32_t __cdecl X_LoadHandleId(uint32_t hTable, uint32_t parentKey, uint32_t ch
 }
 
 // type:
-//      1: ËùÓÐÒýÓÃ¼ÆÊýµÄÀàÐÍ (»á¸Ä±ä¼ÆÊý)
+//      1: æ‰€æœ‰å¼•ç”¨è®¡æ•°çš„ç±»åž‹ (ä¼šæ”¹å˜è®¡æ•°)
 //      2: texttag
 //      3: lightning
 //      4: image
@@ -131,7 +131,7 @@ uint32_t __cdecl X_SaveHandleIdEx(uint32_t hTable, uint32_t parentKey, uint32_t 
     return 0;
 }
 
-// ²»¸Ä±ä¼ÆÊý
+// ä¸æ”¹å˜è®¡æ•°
 uint32_t __cdecl X_SaveHandleId(uint32_t hTable, uint32_t parentKey, uint32_t childKey, uint32_t handleId) {
     return X_SaveHandleIdEx(hTable, parentKey, childKey, handleId, 6);
 }

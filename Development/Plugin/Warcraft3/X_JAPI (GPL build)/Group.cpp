@@ -1,4 +1,4 @@
-#include <base/hook/fp_call.h>
+ï»¿#include <base/hook/fp_call.h>
 #include <base/util/memory.h>
 
 #include <warcraft3/jass/hook.h>
@@ -25,7 +25,7 @@ uint32_t searchCUnitSet_At() {
 
 uint32_t __cdecl X_GroupUnitAt(uint32_t group, uint32_t index) {
     uint32_t pGroup = handle_to_object(group);
-    if (!pGroup || !type_check_s(pGroup, '+grp')/* || index >= ReadMemory(pGroup + 0x34) Ô­Éúº¯Êý»á¼ì²é */)
+    if (!pGroup || !type_check_s(pGroup, '+grp')/* || index >= ReadMemory(pGroup + 0x34) åŽŸç”Ÿå‡½æ•°ä¼šæ£€æŸ¥ */)
         return 0;
     static uint32_t pCUnitSet_At = searchCUnitSet_At();
     uint32_t pUnit = base::this_call<uint32_t>(pCUnitSet_At, pGroup + 0x24, index);

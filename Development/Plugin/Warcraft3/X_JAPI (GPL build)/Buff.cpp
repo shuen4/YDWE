@@ -1,4 +1,4 @@
-#include <base/hook/fp_call.h>
+ï»¿#include <base/hook/fp_call.h>
 #include <base/util/memory.h>
 
 #include <warcraft3/jass/hook.h>
@@ -167,79 +167,79 @@ uint32_t __cdecl X_UnitAddBuff(uint32_t target_unit, uint32_t src_unit, uint32_t
     case 'BIsh':
     case 'Bstt':
         break;
-        // ²»Ö§³ÖµÄÌØÊâbuff
-    case 'Boar': // ¹â»·
-    case 'Barm': // ¹â»·
-    case 'Babr': // ¹â»·
-    case 'Bsha': // ÕÒ²»³öÄÄ¸ö¼¼ÄÜÊ¹ÓÃ
-    case 'Btrv': // ÕÒ²»³öÄÄ¸ö¼¼ÄÜÊ¹ÓÃ - Êµ¼ÊÉÏËÆºõÊÇability
+        // ä¸æ”¯æŒçš„ç‰¹æ®Šbuff
+    case 'Boar': // å…‰ç¯
+    case 'Barm': // å…‰ç¯
+    case 'Babr': // å…‰ç¯
+    case 'Bsha': // æ‰¾ä¸å‡ºå“ªä¸ªæŠ€èƒ½ä½¿ç”¨
+    case 'Btrv': // æ‰¾ä¸å‡ºå“ªä¸ªæŠ€èƒ½ä½¿ç”¨ - å®é™…ä¸Šä¼¼ä¹æ˜¯ability
     case 'BUdd': // AOE
-    case 'Bdvv': // °ó¶¨¼¼ÄÜ
-    case 'Bdtb': // ¸´ÔÓ
-    case 'Bdcb': // ¸´ÔÓ
-    case 'Bdtl': // ¸´ÔÓ
-    case 'Bdcl': // ¸´ÔÓ
-    case 'Bdtm': // ¸´ÔÓ
-    case 'Bdcm': // ¸´ÔÓ
-    case 'Bdbb': // ¸´ÔÓ
-    case 'Bdbl': // ¸´ÔÓ
-    case 'Bdbm': // ¸´ÔÓ
+    case 'Bdvv': // ç»‘å®šæŠ€èƒ½
+    case 'Bdtb': // å¤æ‚
+    case 'Bdcb': // å¤æ‚
+    case 'Bdtl': // å¤æ‚
+    case 'Bdcl': // å¤æ‚
+    case 'Bdtm': // å¤æ‚
+    case 'Bdcm': // å¤æ‚
+    case 'Bdbb': // å¤æ‚
+    case 'Bdbl': // å¤æ‚
+    case 'Bdbm': // å¤æ‚
     case 'BOea': // AOE
-    case 'BNef': // °ó¶¨¼¼ÄÜ
+    case 'BNef': // ç»‘å®šæŠ€èƒ½
     case 'BNva': // AOE
-    case 'BHfs': // ²»´¥·¢
-    case 'Bchd': // ²»´¥·¢
-    case 'BIpi': // ¸´ÔÓ
-    case 'BIpb': // ¸´ÔÓ
-    case 'BIpd': // ¸´ÔÓ
+    case 'BHfs': // ä¸è§¦å‘
+    case 'Bchd': // ä¸è§¦å‘
+    case 'BIpi': // å¤æ‚
+    case 'BIpb': // å¤æ‚
+    case 'BIpd': // å¤æ‚
     case 'Blsa': // AOE
-    case 'Bmlt': // ¸´ÔÓ
-    case 'Bmlc': // ¸´ÔÓ
+    case 'Bmlt': // å¤æ‚
+    case 'Bmlc': // å¤æ‚
     case 'Bmfa': // AOE
-    case 'BEme': // °ó¶¨¼¼ÄÜ
-    case 'Bmil': // °ó¶¨¼¼ÄÜ
-    case 'Bpxf': // ¸´ÔÓ
-    case 'Bphx': // °ó¶¨¼¼ÄÜ
-    case 'Bpsd': // ¸´ÔÓ
-    case 'Bssd': // ¸´ÔÓ
-    case 'Bpsi': // ¸´ÔÓ
-    case 'Bpoi': // ¸´ÔÓ
-    case 'Bssi': // ¸´ÔÓ
-    case 'Bspo': // ¸´ÔÓ
+    case 'BEme': // ç»‘å®šæŠ€èƒ½
+    case 'Bmil': // ç»‘å®šæŠ€èƒ½
+    case 'Bpxf': // å¤æ‚
+    case 'Bphx': // ç»‘å®šæŠ€èƒ½
+    case 'Bpsd': // å¤æ‚
+    case 'Bssd': // å¤æ‚
+    case 'Bpsi': // å¤æ‚
+    case 'Bpoi': // å¤æ‚
+    case 'Bssi': // å¤æ‚
+    case 'Bspo': // å¤æ‚
     case 'BNcs': // AOE
     case 'Btdg': // AOE
-    case 'Btsp': // ÌØÊâ
-    case 'Btsa': // ÌØÊâAOE
+    case 'Btsp': // ç‰¹æ®Š
+    case 'Btsa': // ç‰¹æ®ŠAOE
     case 'BOww': // AOE
-    case 'Bbof': // ÌØÊâ
+    case 'Bbof': // ç‰¹æ®Š
     case 'BNhs': // AOE
-    case 'BNcr': // °ó¶¨¼¼ÄÜ
-    case 'BNtm': // ²»´¥·¢
-    case 'BHab': // ¹â»·
-    case 'BOac': // ¹â»·
-    case 'Bakb': // ¹â»·
-    case 'BEar': // ¹â»·
-    case 'BHad': // ¹â»·
-    case 'BOae': // ¹â»·
-    case 'Basl': // ¹â»·
-    case 'Bapl': // ¹â»·
-    case 'BEah': // ¹â»·
-    case 'BUau': // ¹â»·
-    case 'BUav': // ¹â»·
-    case 'BHav': // ¹â»·
-    case 'Bbar': // ²»´¥·¢
-    case 'BHbd': // ²»´¥·¢
+    case 'BNcr': // ç»‘å®šæŠ€èƒ½
+    case 'BNtm': // ä¸è§¦å‘
+    case 'BHab': // å…‰ç¯
+    case 'BOac': // å…‰ç¯
+    case 'Bakb': // å…‰ç¯
+    case 'BEar': // å…‰ç¯
+    case 'BHad': // å…‰ç¯
+    case 'BOae': // å…‰ç¯
+    case 'Basl': // å…‰ç¯
+    case 'Bapl': // å…‰ç¯
+    case 'BEah': // å…‰ç¯
+    case 'BUau': // å…‰ç¯
+    case 'BUav': // å…‰ç¯
+    case 'BHav': // å…‰ç¯
+    case 'Bbar': // ä¸è§¦å‘
+    case 'BHbd': // ä¸è§¦å‘
     case 'BHbz': // AOE
     case 'BNrf': // AOE
-    case 'Bcsd': // ¸´ÔÓ
-    case 'Bcsi': // ¸´ÔÓ
-    case 'Brpl': // ¸´ÔÓµÄ·Çvftable call
-    case 'Brpm': // ¸´ÔÓµÄ·Çvftable call
-    case 'BUcs': // °ó¶¨¼¼ÄÜ
-    case 'BIsv': // °ó¶¨¼¼ÄÜ
-    case 'Bspa': // ²»´¥·¢
-    case 'Bprv': // ÕÒ²»³öÄÄ¸ö¼¼ÄÜÊ¹ÓÃ
-    case 'BTAR': // ÕÒ²»³öÄÄ¸ö¼¼ÄÜÊ¹ÓÃ
+    case 'Bcsd': // å¤æ‚
+    case 'Bcsi': // å¤æ‚
+    case 'Brpl': // å¤æ‚çš„évftable call
+    case 'Brpm': // å¤æ‚çš„évftable call
+    case 'BUcs': // ç»‘å®šæŠ€èƒ½
+    case 'BIsv': // ç»‘å®šæŠ€èƒ½
+    case 'Bspa': // ä¸è§¦å‘
+    case 'Bprv': // æ‰¾ä¸å‡ºå“ªä¸ªæŠ€èƒ½ä½¿ç”¨
+    case 'BTAR': // æ‰¾ä¸å‡ºå“ªä¸ªæŠ€èƒ½ä½¿ç”¨
     default:
         return false;
     }
@@ -261,52 +261,52 @@ uint32_t __cdecl X_UnitAddBuff(uint32_t target_unit, uint32_t src_unit, uint32_t
         spell_steal_priority, // spell steal priority
         (bool)level, // show level
         0, // ??? (bool)
-        0, // normal duration (ËÆºõÃ»ÓÃ)
-        0, // hero/resistance skin duration (ËÆºõÃ»ÓÃ)
+        0, // normal duration (ä¼¼ä¹æ²¡ç”¨)
+        0, // hero/resistance skin duration (ä¼¼ä¹æ²¡ç”¨)
     };
     base::this_call<void>(ReadMemory(ReadMemory(pBuff) + 0x324), pBuff, pBuffInfo);
 #define do_if(typeID, vfOff, ...) case typeID: base::this_call_vf<void>(pBuff, vfOff, __VA_ARGS__); break
     switch (typeID) {
-        // Boar °´°Ù·Ö±È»Ø¸´(ÕûÊı)
+        // Boar æŒ‰ç™¾åˆ†æ¯”å›å¤(æ•´æ•°)
         // do_if('Boar', 0x36C, pSrcUnit, pTargetUnit, *data1);
-        // Barm °´°Ù·Ö±È»Ø¸´(ÕûÊı)
+        // Barm æŒ‰ç™¾åˆ†æ¯”å›å¤(æ•´æ•°)
         // do_if('Barm', 0x36C, pSrcUnit, pTargetUnit, *data1);
-        // Babr °´°Ù·Ö±È»Ø¸´(ÕûÊı)
+        // Babr æŒ‰ç™¾åˆ†æ¯”å›å¤(æ•´æ•°)
         // do_if('Babr', 0x36C, pSrcUnit, pTargetUnit, *data1);
-        // Íæ¼Ò(ÕûÊı) Õì²éÀàĞÍ(ÕûÊı)
+        // ç©å®¶(æ•´æ•°) ä¾¦æŸ¥ç±»å‹(æ•´æ•°)
         do_if('Bdet', 0x354, pTargetUnit, *data1, duration, *data2);
         // Bsha
         // do_if('Bsha', 0x354, pTargetUnit, ?, ?, ?);
         // Btrv
         // do_if('Btrv', 0x84, pTargetUnit);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         // do_if('BUan', 0x31C, pTargetUnit, duration);
-        // ÊÇ·ñÎŞµĞ(ÕûÊı) Î´Öª(1)
+        // æ˜¯å¦æ— æ•Œ(æ•´æ•°) æœªçŸ¥(1)
         do_if('BUan', 0x364, pTargetUnit, duration, *data1, *data2);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BFig', 0x31C, pTargetUnit, duration);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BEfn', 0x31C, pTargetUnit, duration);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('Bhwd', 0x31C, pTargetUnit, duration);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('Bplg', 0x31C, pTargetUnit, duration);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('Brai', 0x31C, pTargetUnit, duration);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BHwe', 0x31C, pTargetUnit, duration);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BTLF', 0x31C, pTargetUnit, duration);
         // BUdd
-        // »¤¼×
+        // æŠ¤ç”²
         do_if('Bdef', 0x354, pTargetUnit, duration, data1);
-        // Bdvv Íæ¼Ò(ÕûÊı) Î´Öª(0xFFFFFFFF)
+        // Bdvv ç©å®¶(æ•´æ•°) æœªçŸ¥(0xFFFFFFFF)
         // do_if('Bdvv', 0x354, pSrcUnit, duration, *data1, duration?, 0xFFFFFFFF);
-        // Ã¿ÃëÉËº¦
+        // æ¯ç§’ä¼¤å®³
         do_if('Bdig', 0x378, pTargetUnit, pSrcUnit, data1);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BHds', 0x31C, pTargetUnit, duration);
-        // Ã¿ÃëÉËº¦ Íæ¼Ò(ÕûÊı) ÕÙ»½µ¥Î»ÀàĞÍ(ÕûÊı) ÕÙ»½µ¥Î»ÊıÁ¿(ÕûÊı) ÕÙ»½µ¥Î»³ÖĞøÊ±¼ä Ä§·¨Ğ§¹û(ÕûÊı)
+        // æ¯ç§’ä¼¤å®³ ç©å®¶(æ•´æ•°) å¬å”¤å•ä½ç±»å‹(æ•´æ•°) å¬å”¤å•ä½æ•°é‡(æ•´æ•°) å¬å”¤å•ä½æŒç»­æ—¶é—´ é­”æ³•æ•ˆæœ(æ•´æ•°)
     case 'BNdo':
     {
         base::this_call_vf<void>(pBuff, 0x354, pTargetUnit, pSrcUnit, duration, data1);
@@ -320,7 +320,7 @@ uint32_t __cdecl X_UnitAddBuff(uint32_t target_unit, uint32_t src_unit, uint32_t
         WriteMemory(pBuff + 0x11C, *data6);
     }
         break;
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BNdi', 0x31C, pTargetUnit, duration);
         // Bdtb
         // Bdcb
@@ -331,140 +331,140 @@ uint32_t __cdecl X_UnitAddBuff(uint32_t target_unit, uint32_t src_unit, uint32_t
         // Bdbb
         // Bdbl
         // Bdbm
-        // ÒÆËÙÔö¼Ó(%) ¹¥ËÙÔö¼Ó(%) ½ûÖ¹ÀàĞÍ(ÕûÊı) Ê§Îó¼¸ÂÊ(%)
+        // ç§»é€Ÿå¢åŠ (%) æ”»é€Ÿå¢åŠ (%) ç¦æ­¢ç±»å‹(æ•´æ•°) å¤±è¯¯å‡ ç‡(%)
         do_if('BNdh', 0x35C, pTargetUnit, duration, pSrcUnit, data1, data2, *data3, data4);
-        // ÒÆËÙÔö¼Ó(%) ¹¥ËÙÔö¼Ó(%)
+        // ç§»é€Ÿå¢åŠ (%) æ”»é€Ÿå¢åŠ (%)
         do_if('BOeq', 0x354, pTargetUnit, duration, pSrcUnit, data1, data2);
-        // BOea Î´Öªptr(1) Î´Öªptr(0)
+        // BOea æœªçŸ¥ptr(1) æœªçŸ¥ptr(0)
         // do_if('BOea', 0x354, pTargetUnit, duration, pSrcUnit, data1, data2);
-        // ×ÜÉúÃü»Ö¸´ ×ÜÄ§·¨»Ö¸´ Î´Öª(0) Î´Öª(0)
+        // æ€»ç”Ÿå‘½æ¢å¤ æ€»é­”æ³•æ¢å¤ æœªçŸ¥(0) æœªçŸ¥(0)
         do_if('Beat', 0x354, pTargetUnit, duration, data1, data2, *data3, *data4);
-        // ¹¥»÷´ÎÊı(ÕûÊı) ½ûÓÃË÷Òı(ÕûÊı) ÆôÓÃË÷Òı(ÕûÊı) Ê÷Ä¾ÀàĞÍ(ÕûÊı)
+        // æ”»å‡»æ¬¡æ•°(æ•´æ•°) ç¦ç”¨ç´¢å¼•(æ•´æ•°) å¯ç”¨ç´¢å¼•(æ•´æ•°) æ ‘æœ¨ç±»å‹(æ•´æ•°)
         do_if('Bgra', 0x354, pTargetUnit, duration, *data1, *data2, *data3, *data4);
         // BNef
         // do_if('BNef', 0x354, pTargetUnit, duration, pAbility);
-        // Íæ¼Ò(ÕûÊı) ¿ÕÖĞµ¥Î»×¹ÂäÊ±¼ä ¿ÕÖĞµ¥Î»¸ß¶È ½üÕ½¹¥»÷·¶Î§
+        // ç©å®¶(æ•´æ•°) ç©ºä¸­å•ä½å è½æ—¶é—´ ç©ºä¸­å•ä½é«˜åº¦ è¿‘æˆ˜æ”»å‡»èŒƒå›´
         do_if('Bena', 0x35C, pTargetUnit, pSrcUnit, *data1, duration, data2, data3, data4);
-        // Íæ¼Ò(ÕûÊı) ¿ÕÖĞµ¥Î»×¹ÂäÊ±¼ä ¿ÕÖĞµ¥Î»¸ß¶È ½üÕ½¹¥»÷·¶Î§
+        // ç©å®¶(æ•´æ•°) ç©ºä¸­å•ä½å è½æ—¶é—´ ç©ºä¸­å•ä½é«˜åº¦ è¿‘æˆ˜æ”»å‡»èŒƒå›´
         do_if('Beng', 0x35C, pTargetUnit, pSrcUnit, *data1, duration, data2, data3, data4);
-        // Íæ¼Ò(ÕûÊı) ¿ÕÖĞµ¥Î»×¹ÂäÊ±¼ä ¿ÕÖĞµ¥Î»¸ß¶È ½üÕ½¹¥»÷·¶Î§
+        // ç©å®¶(æ•´æ•°) ç©ºä¸­å•ä½å è½æ—¶é—´ ç©ºä¸­å•ä½é«˜åº¦ è¿‘æˆ˜æ”»å‡»èŒƒå›´
         do_if('Bwea', 0x35C, pTargetUnit, pSrcUnit, *data1, duration, data2, data3, data4);
-        // Íæ¼Ò(ÕûÊı) ¿ÕÖĞµ¥Î»×¹ÂäÊ±¼ä ¿ÕÖĞµ¥Î»¸ß¶È ½üÕ½¹¥»÷·¶Î§
+        // ç©å®¶(æ•´æ•°) ç©ºä¸­å•ä½å è½æ—¶é—´ ç©ºä¸­å•ä½é«˜åº¦ è¿‘æˆ˜æ”»å‡»èŒƒå›´
         do_if('Bweb', 0x35C, pTargetUnit, pSrcUnit, *data1, duration, data2, data3, data4);
-        // Ã¿ÃëÉËº¦
+        // æ¯ç§’ä¼¤å®³
         do_if('BEer', 0x354, pTargetUnit, pSrcUnit, duration, data1);
-        // Ê§Îó¼¸ÂÊ(%)
+        // å¤±è¯¯å‡ ç‡(%)
         do_if('Bcrs', 0x354, pTargetUnit, duration, pSrcUnit, data1);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('Beye', 0x31C, pTargetUnit, duration);
-        // ¹²ÏíÊÓÒ°¸øÍæ¼Ò(ÕûÊı) »¤¼×¼õÉÙ
+        // å…±äº«è§†é‡ç»™ç©å®¶(æ•´æ•°) æŠ¤ç”²å‡å°‘
         do_if('Bfae', 0x35C, pTargetUnit, duration, *data1, data2);
-        // ¹²ÏíÊÓÒ°¸øÍæ¼Ò(ÕûÊı) Î´Öª(-1)
+        // å…±äº«è§†é‡ç»™ç©å®¶(æ•´æ•°) æœªçŸ¥(-1)
         do_if('Bshs', 0x354, pTargetUnit, *data1, duration, *data2);
-        // Íæ¼Ò(ÕûÊı), Î´Öª(0), ÉËº¦Öµ½±Àø, È«ÉËº¦·¶Î§, È«ÉËº¦, °ëÉËº¦·¶Î§, °ëÉËº¦, ÑÓ³Ù
+        // ç©å®¶(æ•´æ•°), æœªçŸ¥(0), ä¼¤å®³å€¼å¥–åŠ±, å…¨ä¼¤å®³èŒƒå›´, å…¨ä¼¤å®³, åŠä¼¤å®³èŒƒå›´, åŠä¼¤å®³, å»¶è¿Ÿ
         do_if('BNic', 0x354, pTargetUnit, duration, pSrcUnit, *data1, *data2, data3, data4, data5, data6, data7, data8);
-        // ·ÖÁÑ´ÎÊı(ÕûÊı), ·ÖÁÑÑÓ³Ù, ·ÖÁÑËùĞè¹¥»÷´ÎÊı(ÕûÊı), ×î´óÉúÃüÖµ²ÎÊı, ·ÖÁÑÉúÃüÖÜÆÚ½±Àø, ×î´ó·ÖÁÑ´ÎÊı(ÕûÊı), Ê£Óà·ÖÁÑ´ÎÊı(ÕûÊı) ·ÖÁÑ¾àÀë
+        // åˆ†è£‚æ¬¡æ•°(æ•´æ•°), åˆ†è£‚å»¶è¿Ÿ, åˆ†è£‚æ‰€éœ€æ”»å‡»æ¬¡æ•°(æ•´æ•°), æœ€å¤§ç”Ÿå‘½å€¼å‚æ•°, åˆ†è£‚ç”Ÿå‘½å‘¨æœŸå¥–åŠ±, æœ€å¤§åˆ†è£‚æ¬¡æ•°(æ•´æ•°), å‰©ä½™åˆ†è£‚æ¬¡æ•°(æ•´æ•°) åˆ†è£‚è·ç¦»
         do_if('BNlm', 0x364, pTargetUnit, duration, *data1, data2, *data3, data4, data5, *data6, *data7, data8);
-        // ÉËº¦ ÉËº¦ÖÜÆÚ ÒÆËÙ¼õÉÙ(%) ¹¥ËÙ¼õÉÙ(%) ¹¥»÷¼õÉÙ(%)
+        // ä¼¤å®³ ä¼¤å®³å‘¨æœŸ ç§»é€Ÿå‡å°‘(%) æ”»é€Ÿå‡å°‘(%) æ”»å‡»å‡å°‘(%)
         do_if('BNso', 0x364, pTargetUnit, duration, pSrcUnit, data1, data2, data3, data4, data5);
         // BNva
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BPSE', 0x358, pTargetUnit, duration, pSrcUnit);
         // BHfs
-        // ÉËº¦Öµ Î´Öª(0)
+        // ä¼¤å®³å€¼ æœªçŸ¥(0)
         do_if('BHfa', 0x35C, pTargetUnit, duration, data1, *data2);
-        // ¹¥»÷µ¥Î»¼õËÙÊ±¼ä »¤¼×Ôö¼Ó Î´Öª(0)
+        // æ”»å‡»å•ä½å‡é€Ÿæ—¶é—´ æŠ¤ç”²å¢åŠ  æœªçŸ¥(0)
         do_if('BUfa', 0x354, pTargetUnit, duration, data1, data2, *data3);
-        // ÊÇ·ñÎª¾µÏñ
+        // æ˜¯å¦ä¸ºé•œåƒ
         // do_if('Bfro', 0x35C, pTargetUnit, duration, pSrcUnit, *data1);
-    case 'Bfro': // ÒÆËÙÔö¼Ó(%) ¹¥ËÙÔö¼Ó(%)
+    case 'Bfro': // ç§»é€Ÿå¢åŠ (%) æ”»é€Ÿå¢åŠ (%)
         base::this_call_vf<void>(pBuff, 0x354, pTargetUnit, duration, pSrcUnit, data1, data2); {
-        // µ¥Î»ÑÕÉ«
+        // å•ä½é¢œè‰²
             uint32_t frostCounter = ReadMemory(pTargetUnit + 0x150);
             WriteMemory(pTargetUnit + 0x150, ++frostCounter);
             if (frostCounter == 1)
-                base::this_call_vf<void>(pTargetUnit, 0xB4); // ¸üĞÂµ¥Î»ÑÕÉ«
+                base::this_call_vf<void>(pTargetUnit, 0xB4); // æ›´æ–°å•ä½é¢œè‰²
         }
         break;
-        // µ¥Î»ÀàĞÍ(ÕûÊı) Î´Öªptr(0)
+        // å•ä½ç±»å‹(æ•´æ•°) æœªçŸ¥ptr(0)
         do_if('BOhx', 0x358, pTargetUnit, duration, pSrcUnit, *data1, data2);
-        // ÉËº¦Ôö¼Ó(%) »¤¼×Ôö¼Ó ÉúÃü»Ö¸´Ôö¼Ó Ä§·¨»Ö¸´Ôö¼Ó
+        // ä¼¤å®³å¢åŠ (%) æŠ¤ç”²å¢åŠ  ç”Ÿå‘½æ¢å¤å¢åŠ  é­”æ³•æ¢å¤å¢åŠ 
         do_if('BNht', 0x354, pTargetUnit, duration, data1, data2, data3, data4);
-        // ÒÆËÙ¸üĞÂ´ÎÊı ¹¥ËÙ¸üĞÂ´ÎÊı µ¥Î»Âé±ÔÊ±¼ä Ó¢ĞÛÂé±ÔÊ±¼ä
+        // ç§»é€Ÿæ›´æ–°æ¬¡æ•° æ”»é€Ÿæ›´æ–°æ¬¡æ•° å•ä½éº»ç—¹æ—¶é—´ è‹±é›„éº»ç—¹æ—¶é—´
         do_if('Bprg', 0x354, pTargetUnit, duration, pSrcUnit, data1, data2, data3, data4);
-        // Bchd ÒÆËÙ¸üĞÂ´ÎÊı ¹¥ËÙ¸üĞÂ´ÎÊı
+        // Bchd ç§»é€Ÿæ›´æ–°æ¬¡æ•° æ”»é€Ÿæ›´æ–°æ¬¡æ•°
         // do_if('Bchd', 0x354, pTargetUnit, duration, pSrcUnit, duration, data1, data2);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('Bhea', 0x354, pTargetUnit, duration, pSrcUnit);
-        // ×ÜÉúÃü»Ö¸´ ×ÜÄ§·¨»Ö¸´ Î´Öª(1) Î´Öª(2)
+        // æ€»ç”Ÿå‘½æ¢å¤ æ€»é­”æ³•æ¢å¤ æœªçŸ¥(1) æœªçŸ¥(2)
         do_if('Brej', 0x354, pTargetUnit, duration, data1, data2, *data3, *data4);
-        // ×ÜÄ§·¨»Ö¸´ Î´Öª(0) ¹¥»÷ÇıÉ¢(ÕûÊı)
+        // æ€»é­”æ³•æ¢å¤ æœªçŸ¥(0) æ”»å‡»é©±æ•£(æ•´æ•°)
         do_if('BIrm', 0x368, pTargetUnit, duration, data1, *data2, *data3);
-        // ×ÜÉúÃü»Ö¸´ Î´Öª(0) ¹¥»÷ÇıÉ¢(ÕûÊı)
+        // æ€»ç”Ÿå‘½æ¢å¤ æœªçŸ¥(0) æ”»å‡»é©±æ•£(æ•´æ•°)
         do_if('BIrl', 0x368, pTargetUnit, duration, data1, *data2, *data3);
-        // ×ÜÉúÃü»Ö¸´ ×ÜÄ§·¨»Ö¸´ Î´Öª(0) Î´Öª(0) ¹¥»÷ÇıÉ¢(ÕûÊı)
+        // æ€»ç”Ÿå‘½æ¢å¤ æ€»é­”æ³•æ¢å¤ æœªçŸ¥(0) æœªçŸ¥(0) æ”»å‡»é©±æ•£(æ•´æ•°)
         do_if('BIrg', 0x360, pTargetUnit, duration, data1, data2, *data3, *data4, *data5);
-        // ÊÇ·ñÎª¾µÏñ(ÕûÊı)
+        // æ˜¯å¦ä¸ºé•œåƒ(æ•´æ•°)
         do_if('Bfre', 0x364, pTargetUnit, duration, pSrcUnit, *data1);
         // BIpi
         // BIpb
         // BIpd
-        // »¤¼×¼õÉÙ
+        // æŠ¤ç”²å‡å°‘
         do_if('BIcb', 0x354, pTargetUnit, duration, data1);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BIrb', 0x31C, pTargetUnit, duration);
-        // ÉúÃüÍµÈ¡Öµ(%) ÉËº¦½±Àø
+        // ç”Ÿå‘½å·å–å€¼(%) ä¼¤å®³å¥–åŠ±
         do_if('BIpv', 0x354, pTargetUnit, duration, data1, data2);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BUcb', 0x368, pTargetUnit, duration, pSrcUnit);
-        // ÉËº¦
+        // ä¼¤å®³
         do_if('BEia', 0x358, pTargetUnit, duration, data1);
-        // Ã¿ÃëÄ§·¨ÏûºÄ ÉËº¦¼ä¸ô Ó°Ïì·¶Î§ ÉËº¦ Ä¿±êÔÊĞí(ÕûÊı) Íæ¼Ò(ÕûÊı) ÃüÁîID?(852177) °ó¶¨¼¼ÄÜ(ptr)
+        // æ¯ç§’é­”æ³•æ¶ˆè€— ä¼¤å®³é—´éš” å½±å“èŒƒå›´ ä¼¤å®³ ç›®æ ‡å…è®¸(æ•´æ•°) ç©å®¶(æ•´æ•°) å‘½ä»¤ID?(852177) ç»‘å®šæŠ€èƒ½(ptr)
         do_if('BEim', 0x368, pTargetUnit, duration, data1, data2, data3, data4, *data5, *data6, *data7, *data8);
-        // Ã¿ÃëÄ§·¨ÏûºÄ ÉËº¦¼ä¸ô Ó°Ïì·¶Î§ ÉËº¦ Ä¿±êÔÊĞí(ÕûÊı) Íæ¼Ò(ÕûÊı) ÃüÁîID?(852236) °ó¶¨¼¼ÄÜ(ptr)
+        // æ¯ç§’é­”æ³•æ¶ˆè€— ä¼¤å®³é—´éš” å½±å“èŒƒå›´ ä¼¤å®³ ç›®æ ‡å…è®¸(æ•´æ•°) ç©å®¶(æ•´æ•°) å‘½ä»¤ID?(852236) ç»‘å®šæŠ€èƒ½(ptr)
         do_if('BNpi', 0x368, pTargetUnit, duration, data1, data2, data3, data4, *data5, *data6, *data7, *data8);
-        // Ã¿ÃëÄ§·¨ÏûºÄ ÉËº¦¼ä¸ô Ó°Ïì·¶Î§ ÉËº¦ Ä¿±êÔÊĞí(ÕûÊı) Íæ¼Ò(ÕûÊı) ÃüÁîID?(852567) °ó¶¨¼¼ÄÜ(ptr)
+        // æ¯ç§’é­”æ³•æ¶ˆè€— ä¼¤å®³é—´éš” å½±å“èŒƒå›´ ä¼¤å®³ ç›®æ ‡å…è®¸(æ•´æ•°) ç©å®¶(æ•´æ•°) å‘½ä»¤ID?(852567) ç»‘å®šæŠ€èƒ½(ptr)
         do_if('Bpig', 0x368, pTargetUnit, duration, data1, data2, data3, data4, *data5, *data6, *data7, *data8);
-        // Ã¿ÃëÄ§·¨ÏûºÄ ÉËº¦¼ä¸ô Ó°Ïì·¶Î§ ÉËº¦ Ä¿±êÔÊĞí(ÕûÊı) Íæ¼Ò(ÕûÊı) ÃüÁîID?(852289) °ó¶¨¼¼ÄÜ(ptr)
+        // æ¯ç§’é­”æ³•æ¶ˆè€— ä¼¤å®³é—´éš” å½±å“èŒƒå›´ ä¼¤å®³ ç›®æ ‡å…è®¸(æ•´æ•°) ç©å®¶(æ•´æ•°) å‘½ä»¤ID?(852289) ç»‘å®šæŠ€èƒ½(ptr)
         do_if('BIcf', 0x368, pTargetUnit, duration, data1, data2, data3, data4, *data5, *data6, *data7, *data8);
-        // ÉËº¦ ¿ÕÖĞÍ£ÁôÊ±¼ä 
+        // ä¼¤å®³ ç©ºä¸­åœç•™æ—¶é—´ 
         do_if('BUim', 0x360, pTargetUnit, pSrcUnit, duration, data1, data2);
-        // Ä¿±êX Ä¿±êY
+        // ç›®æ ‡X ç›®æ ‡Y
         do_if('BNin', 0x364, pTargetUnit, duration, pSrcUnit, data1, data2);
-        // ¹¥»÷Ôö¼Ó(%) ·ÀÓùÔö¼Ó ÉúÃü»Ö¸´ËÙ¶È Ä§·¨»Ö¸´ËÙ¶È
+        // æ”»å‡»å¢åŠ (%) é˜²å¾¡å¢åŠ  ç”Ÿå‘½æ¢å¤é€Ÿåº¦ é­”æ³•æ¢å¤é€Ÿåº¦
         do_if('Binf', 0x354, pTargetUnit, duration, data1, data2, data3, data4);
-        // ½¥ÒşÊ±¼ä
+        // æ¸éšæ—¶é—´
         do_if('Binv', 0x354, pTargetUnit, duration, data1);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('Bvul', 0x31C, pTargetUnit, duration);
-        // ÉËº¦¼ä¸ô Ó°Ïì·¶Î§ ÉËº¦ Î´Öª(2) Î´Öª(0) ÃüÁîID?(852110) °ó¶¨¼¼ÄÜ(ptr)
+        // ä¼¤å®³é—´éš” å½±å“èŒƒå›´ ä¼¤å®³ æœªçŸ¥(2) æœªçŸ¥(0) å‘½ä»¤ID?(852110) ç»‘å®šæŠ€èƒ½(ptr)
         do_if('Blsh', 0x358, pTargetUnit, duration, data1, data2, data3, *data4, *data5, *data6, *data7);
-        // Blsa Î´Öªptr(0)
+        // Blsa æœªçŸ¥ptr(0)
         // do_if('Blsa', 0x358, pTargetUnit, duration, data1);
-        // Î´Öªptr(0, ÎŞĞ§, ÒÉËÆÄ§·¨ÉËº¦¼õÉÙ)
+        // æœªçŸ¥ptr(0, æ— æ•ˆ, ç–‘ä¼¼é­”æ³•ä¼¤å®³å‡å°‘)
         do_if('Bams', 0x354, pTargetUnit, duration, data1);
-        // »¤¶ÜÉúÃü
+        // æŠ¤ç›¾ç”Ÿå‘½
         do_if('Bam2', 0x354, pTargetUnit, duration, data1);
         // Bmlt
         // Bmlc
         // Bmfa
-        // Ó°Ïì·¶Î§ Ã¿µãÄ§·¨Ôì³ÉÉËº¦(µ¥Î») Ã¿µãÄ§·¨Ôì³ÉÉËº¦(Ó¢ĞÛ) ×î´óÉËº¦(µ¥Î») ×î´óÉËº¦(Ó¢ĞÛ) Ê©·¨¾àÀë Ä§·¨Ê©·¨Ê±¼ä ½ö½¦ÉäÉËº¦ÓĞÄ§·¨µ¥Î»(ÕûÊı) Ä¿±êÔÊĞí(ÕûÊı) ÃüÁîid(852512) Ä§·¨Ğ§¹û(ÕûÊı)
+        // å½±å“èŒƒå›´ æ¯ç‚¹é­”æ³•é€ æˆä¼¤å®³(å•ä½) æ¯ç‚¹é­”æ³•é€ æˆä¼¤å®³(è‹±é›„) æœ€å¤§ä¼¤å®³(å•ä½) æœ€å¤§ä¼¤å®³(è‹±é›„) æ–½æ³•è·ç¦» é­”æ³•æ–½æ³•æ—¶é—´ ä»…æº…å°„ä¼¤å®³æœ‰é­”æ³•å•ä½(æ•´æ•°) ç›®æ ‡å…è®¸(æ•´æ•°) å‘½ä»¤id(852512) é­”æ³•æ•ˆæœ(æ•´æ•°)
         do_if('Bmfl', 0x360, pTargetUnit, duration, data1, data2, data3, data4, data5, data6, data7, *data8, *data9, *data10, *data11);
-        // Ã¿µãÄ§·¨µÖÏûµÄÉËº¦Öµ ÉËº¦ÎüÊÕ(%)
+        // æ¯ç‚¹é­”æ³•æŠµæ¶ˆçš„ä¼¤å®³å€¼ ä¼¤å®³å¸æ”¶(%)
         do_if('BNms', 0x354, pTargetUnit, duration, data1, data2);
-        // BEme °ó¶¨¼¼ÄÜ(ptr)
+        // BEme ç»‘å®šæŠ€èƒ½(ptr)
         // do_if('BEme', 0x358, pTargetUnit, duration, 0);
-        // Bmil °ó¶¨¼¼ÄÜ(ptr)
+        // Bmil ç»‘å®šæŠ€èƒ½(ptr)
         //do_if('Bmil', 0x358, pTargetUnit, duration, 0);
-        // Ê©¼ÓÉËº¦(%) ËùÊÜÉËº¦(%) Íæ¼Ò(ÕûÊı)
+        // æ–½åŠ ä¼¤å®³(%) æ‰€å—ä¼¤å®³(%) ç©å®¶(æ•´æ•°)
         do_if('BOmi', 0x364, pTargetUnit, duration, data1, data2, *data3);
-        // Ê©¼ÓÉËº¦(%) ËùÊÜÉËº¦(%) Íæ¼Ò(ÕûÊı)
+        // æ–½åŠ ä¼¤å®³(%) æ‰€å—ä¼¤å®³(%) ç©å®¶(æ•´æ•°)
         do_if('BIil', 0x364, pTargetUnit, duration, data1, data2, *data4);
-        // Ã¿ÃëÉËº¦ ÒÆËÙ¼õÉÙ(%) ¹¥ËÙ¼õÉÙ(%) µş¼ÓÀàĞÍ(ÕûÊı) µ¥Î»ÀàĞÍ(ÕûÊı) ÕÙ»½µ¥Î»ÊıÁ¿(ÕûÊı) ÕÙ»½µ¥Î»³ÖĞøÊ±¼ä ÕÙ»½µ¥Î»ËùÊôÍæ¼Ò(ÕûÊı) Ä§·¨Ğ§¹û(ÕûÊı)
+        // æ¯ç§’ä¼¤å®³ ç§»é€Ÿå‡å°‘(%) æ”»é€Ÿå‡å°‘(%) å åŠ ç±»å‹(æ•´æ•°) å•ä½ç±»å‹(æ•´æ•°) å¬å”¤å•ä½æ•°é‡(æ•´æ•°) å¬å”¤å•ä½æŒç»­æ—¶é—´ å¬å”¤å•ä½æ‰€å±ç©å®¶(æ•´æ•°) é­”æ³•æ•ˆæœ(æ•´æ•°)
         do_if('BNpa', 0x388, pTargetUnit, duration, pSrcUnit, data1, data2, data3, *data4, *data5, *data6, data7, *data8, *data9);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BNpm', 0x31C, pTargetUnit, duration);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('Bpsh', 0x358, pTargetUnit, duration, pSrcUnit);
         // Bpxf
         // Bphx
@@ -473,183 +473,183 @@ uint32_t __cdecl X_UnitAddBuff(uint32_t target_unit, uint32_t src_unit, uint32_t
         // Bpoi
         // Bssi
         // Bspo
-        // µ¥Î»ÀàĞÍ(ÕûÊı)  Î´Öªptr(0)
+        // å•ä½ç±»å‹(æ•´æ•°)  æœªçŸ¥ptr(0)
         do_if('Bply', 0x358, pTargetUnit, duration, pSrcUnit, *data1, data2);
-        // »Ø¸´ÑÓ³Ù Ã¿ÃëÉúÃü»Ö¸´ Ä§·¨ÉËº¦²ÎÊı
+        // å›å¤å»¶è¿Ÿ æ¯ç§’ç”Ÿå‘½æ¢å¤ é­”æ³•ä¼¤å®³å‚æ•°
         do_if('BNsa', 0x354, pTargetUnit, duration, data1, data2, data3);
         // Btau
-        // ÒÆËÙÔö¼Ó(%) ¹¥ËÙÔö¼Ó(%)
+        // ç§»é€Ÿå¢åŠ (%) æ”»é€Ÿå¢åŠ (%)
         do_if('BHtc', 0x354, pTargetUnit, duration, pSrcUnit, data1, data2);
-        // ÒÆËÙÔö¼Ó(%) ¹¥ËÙÔö¼Ó(%)
+        // ç§»é€Ÿå¢åŠ (%) æ”»é€Ÿå¢åŠ (%)
         do_if('BCtc', 0x354, pTargetUnit, duration, pSrcUnit, data1, data2);
-        // Éú²úµ¥Î»¼ä¸ô Éú²úµ¥Î»ÀàĞÍ(ÕûÊı) Éú²úµ¥Î»³ÖĞøÊ±¼ä Ä§·¨Ğ§¹û(ÕûÊı) Éú²úµ¥Î»Î»ÒÆ Ô¼Êø·¶Î§
+        // ç”Ÿäº§å•ä½é—´éš” ç”Ÿäº§å•ä½ç±»å‹(æ•´æ•°) ç”Ÿäº§å•ä½æŒç»­æ—¶é—´ é­”æ³•æ•ˆæœ(æ•´æ•°) ç”Ÿäº§å•ä½ä½ç§» çº¦æŸèŒƒå›´
         do_if('BNfy', 0x364, pTargetUnit, duration, data1, *data2, data3, *data4, data5, data6);
-        // ÖĞĞÄX(½öÀ´Ô´ÎªNULLÊ±Ê¹ÓÃ) ÖĞĞÄY(½öÀ´Ô´ÎªNULLÊ±Ê¹ÓÃ) Ô¼Êø·¶Î§
-        do_if('BNcg', 0x364, pTargetUnit, duration, src_unit == 0 ? NULL : pSrcUnit /* Õâ±ßÔÊĞíÊ¹ÓÃnull */, data1, data2, data3);
-        // BNcs Î´Öªptr(0) Î´Öªptr(0)
+        // ä¸­å¿ƒX(ä»…æ¥æºä¸ºNULLæ—¶ä½¿ç”¨) ä¸­å¿ƒY(ä»…æ¥æºä¸ºNULLæ—¶ä½¿ç”¨) çº¦æŸèŒƒå›´
+        do_if('BNcg', 0x364, pTargetUnit, duration, src_unit == 0 ? NULL : pSrcUnit /* è¿™è¾¹å…è®¸ä½¿ç”¨null */, data1, data2, data3);
+        // BNcs æœªçŸ¥ptr(0) æœªçŸ¥ptr(0)
         // do_if('BNcs', 0x358, pTargetUnit, duration, data1, data2);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BNto', 0x31C, pTargetUnit, duration);
         // Btdg
         // Btsp
         // Btsa
-        // Ã¿ÃëÉËº¦ ¹¥ËÙÔö¼Ó(%)
+        // æ¯ç§’ä¼¤å®³ æ”»é€Ÿå¢åŠ (%)
         do_if('Buhf', 0x378, pTargetUnit, duration, pSrcUnit, data1, data2);
-        // »ØÊÕ×ÊÔ´ÂÊ(%) Ã¿ÃëÉËº¦
+        // å›æ”¶èµ„æºç‡(%) æ¯ç§’ä¼¤å®³
         do_if('Buns', 0x354, pTargetUnit, pSrcUnit, data1, data2);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BOvc', 0x31C, pTargetUnit, duration);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BOvd', 0x31C, pTargetUnit, duration);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BOwd', 0x31C, pTargetUnit, duration);
-        // Ó°ÏìÇøÓò ¼¤»îÑÓ³Ù ÒıÓÕ¼ä¸ô
+        // å½±å“åŒºåŸŸ æ¿€æ´»å»¶è¿Ÿ å¼•è¯±é—´éš”
         do_if('BImo', 0x364, pTargetUnit, duration, data1, data2, data3);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BNwm', 0x31C, pTargetUnit, duration);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('Bmec', 0x31C, pTargetUnit, duration);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BNsg', 0x31C, pTargetUnit, duration);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BNsq', 0x31C, pTargetUnit, duration);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BNsw', 0x31C, pTargetUnit, duration);
         // BOww
-        // ×ª±äÊ±¼ä ÒÆËÙÔö¼Ó(%) ¹¥»÷ÉËº¦¼Ó³É AOE(ÓĞÊ²Ã´ÓÃ?) °ó¶¨¼¼ÄÜ(ÕûÊı) ¼¼ÄÜID(ÕûÊı) ÆôÓÃÉËº¦¼Ó³É(ÕûÊı)
+        // è½¬å˜æ—¶é—´ ç§»é€Ÿå¢åŠ (%) æ”»å‡»ä¼¤å®³åŠ æˆ AOE(æœ‰ä»€ä¹ˆç”¨?) ç»‘å®šæŠ€èƒ½(æ•´æ•°) æŠ€èƒ½ID(æ•´æ•°) å¯ç”¨ä¼¤å®³åŠ æˆ(æ•´æ•°)
         do_if('BOwk', 0x358, pTargetUnit, duration, data1, data2, data3, data4, *data5, *data6, data7);
-        // Bbof È«ÉËº¦ÊıÖµ È«ÉËº¦¼ä¸ô °ëÉËº¦ÊıÖµ °ëÉËº¦¼ä¸ô ½¨ÖşÉËº¦ÒòÊı(%)
+        // Bbof å…¨ä¼¤å®³æ•°å€¼ å…¨ä¼¤å®³é—´éš” åŠä¼¤å®³æ•°å€¼ åŠä¼¤å®³é—´éš” å»ºç­‘ä¼¤å®³å› æ•°(%)
         // do_if('Bbof', 0x378, pTargetUnit, pSrcUnit, data1, data2, data3, data4, data5);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('Bfrz', 0x364, pTargetUnit, pSrcUnit, duration);
-        // Ã¿ÃëÉËº¦ ÒÆËÙ¼õÉÙ(%) ¹¥ËÙ¼õÉÙ(%) ÔÊĞíĞŞÀí(ÕûÊı)
+        // æ¯ç§’ä¼¤å®³ ç§»é€Ÿå‡å°‘(%) æ”»é€Ÿå‡å°‘(%) å…è®¸ä¿®ç†(æ•´æ•°)
         do_if('Bliq', 0x378, pTargetUnit, pSrcUnit, duration, data1, data2, data3, *data4);
         // BNhs
-        // »¤¼×¼õÉÙ ÉËº¦ÊıÖµ ÉËº¦¼ä¸ô ÒÆËÙ¼õÉÙ(%) ¹¥ËÙ¼õÉÙ(%)
+        // æŠ¤ç”²å‡å°‘ ä¼¤å®³æ•°å€¼ ä¼¤å®³é—´éš” ç§»é€Ÿå‡å°‘(%) æ”»é€Ÿå‡å°‘(%)
         do_if('BNab', 0x388, pTargetUnit, pSrcUnit, duration, data1, data2, data3, data4, data5);
         // BNcr
         // BNtm
         // do_if('BNtm', 0x368, pTargetUnit, duration, pSrcUnit, ?, ?, ?, ?);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BNsl', 0x354, pTargetUnit, duration, pSrcUnit);
-        // BHab °´°Ù·Ö±È»Ö¸´(ÕûÊı)
+        // BHab æŒ‰ç™¾åˆ†æ¯”æ¢å¤(æ•´æ•°)
         // do_if('BHab', 0x36C, pSrcUnit, pTargetUnit, *data1);
-        // BOac ½üÕ½½±Àø(ÕûÊı) Ô¶³Ì½±Àø(ÕûÊı) Ê¹ÓÃÖ¸¶¨ÊıÖµ(ÕûÊı)
+        // BOac è¿‘æˆ˜å¥–åŠ±(æ•´æ•°) è¿œç¨‹å¥–åŠ±(æ•´æ•°) ä½¿ç”¨æŒ‡å®šæ•°å€¼(æ•´æ•°)
         // do_if('BOac', 0x36C, pSrcUnit, pTargetUnit, *data1, *data2, *data3);
-        // Bakb ½üÕ½½±Àø(ÕûÊı) Ô¶³Ì½±Àø(ÕûÊı) Ê¹ÓÃÖ¸¶¨ÊıÖµ(ÕûÊı)
+        // Bakb è¿‘æˆ˜å¥–åŠ±(æ•´æ•°) è¿œç¨‹å¥–åŠ±(æ•´æ•°) ä½¿ç”¨æŒ‡å®šæ•°å€¼(æ•´æ•°)
         // do_if('Bakb', 0x36C, pSrcUnit, pTargetUnit, *data1, *data2, *data3);
-        // BEar ½üÕ½½±Àø(ÕûÊı) Ô¶³Ì½±Àø(ÕûÊı) Ê¹ÓÃÖ¸¶¨ÊıÖµ(ÕûÊı)
+        // BEar è¿‘æˆ˜å¥–åŠ±(æ•´æ•°) è¿œç¨‹å¥–åŠ±(æ•´æ•°) ä½¿ç”¨æŒ‡å®šæ•°å€¼(æ•´æ•°)
         // do_if('BEar', 0x36C, pSrcUnit, pTargetUnit, *data1, *data2, *data3);BHad
-        // BHad °Ù·Ö±È½±Àø(ÕûÊı)
+        // BHad ç™¾åˆ†æ¯”å¥–åŠ±(æ•´æ•°)
         // do_if('BHad', 0x36C, pSrcUnit, pTargetUnit, *data1);
-        // BOae ÎŞÊı¾İ
+        // BOae æ— æ•°æ®
         // do_if('BOae', 0x354, pSrcUnit, pTargetUnit);
-        // Basl ÎŞÊı¾İ
+        // Basl æ— æ•°æ®
         // do_if('Basl', 0x354, pSrcUnit, pTargetUnit);
         // Bapl
-        // BEah ÎŞÊı¾İ
+        // BEah æ— æ•°æ®
         // do_if('BEah', 0x354, pSrcUnit, pTargetUnit);
-        // BUau °´°Ù·Ö±È·´µ¯(ÕûÊı)
+        // BUau æŒ‰ç™¾åˆ†æ¯”åå¼¹(æ•´æ•°)
         // do_if('BUau', 0x36C, pSrcUnit, pTargetUnit, *data1);
-        // BUav ÎŞÊı¾İ
+        // BUav æ— æ•°æ®
         // do_if('BUav', 0x354, pSrcUnit, pTargetUnit);
         // BHav
-        // ÒÆËÙÔö¼Ó(%) ¹¥ËÙÔö¼Ó(%)
+        // ç§»é€Ÿå¢åŠ (%) æ”»é€Ÿå¢åŠ (%)
         do_if('BHbn', 0x354, pTargetUnit, duration, pSrcUnit, data1, data2);
         // Bbar
-        // ÒÆËÙÔö¼Ó(%) ¹¥ËÙÔö¼Ó(%) ËùÊÜÉËº¦Ôö¼Ó(%)
+        // ç§»é€Ÿå¢åŠ (%) æ”»é€Ÿå¢åŠ (%) æ‰€å—ä¼¤å®³å¢åŠ (%)
         do_if('Bbsk', 0x35C, pTargetUnit, duration, pSrcUnit, data1, data2, data3);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BNdm', 0x31C, pTargetUnit, duration);
-        // Íæ¼ÒID(ÕûÊı) ÕÙ»½µ¥Î»ÀàĞÍ(ÕûÊı) ÕÙ»½µ¥Î»ÊıÁ¿(ÕûÊı) ÕÙ»½µ¥Î»³ÖĞøÊ±¼ä Ä§·¨Ğ§¹û(ÕûÊı)
+        // ç©å®¶ID(æ•´æ•°) å¬å”¤å•ä½ç±»å‹(æ•´æ•°) å¬å”¤å•ä½æ•°é‡(æ•´æ•°) å¬å”¤å•ä½æŒç»­æ—¶é—´ é­”æ³•æ•ˆæœ(æ•´æ•°)
         do_if('BNba', 0x354, pTargetUnit, duration, pSrcUnit, *data1, *data2, *data3, data4, *data5);
         // BHbd
-        // BHbz ÉËº¦Öµ
+        // BHbz ä¼¤å®³å€¼
         // do_if('BHbz', 0x358, pTargetUnit, duration, data1);
-        // Ã¿ÃëÉËº¦ Î´Öª(1)
+        // æ¯ç§’ä¼¤å®³ æœªçŸ¥(1)
         // do_if('BNrd', 0x0, pTargetUnit, duration, pSrcUnit, data1, 1);
-    case 'BNrd': // Ã¿ÃëÉËº¦
+    case 'BNrd': // æ¯ç§’ä¼¤å®³
         base::this_call_vf<void>(pBuff, 0x354, pTargetUnit, duration, pSrcUnit, data1);
         // if (1)
         WriteMemory(pBuff + 0x20, ReadMemory(pBuff + 0x20) | 0x100);
         break;
         // BNrf
-        // ÒÆËÙÔö¼Ó(%) ¹¥ËÙÔö¼Ó(%) Ä£ĞÍ·Å´ó±ÈÀı(%)
+        // ç§»é€Ÿå¢åŠ (%) æ”»é€Ÿå¢åŠ (%) æ¨¡å‹æ”¾å¤§æ¯”ä¾‹(%)
         do_if('Bblo', 0x35C, pTargetUnit, duration, pSrcUnit, data1, data2, data3);
-        // ÒÆËÙÔö¼Ó(%) ¹¥ËÙÔö¼Ó(%) Ä£ĞÍ·Å´ó±ÈÀı(%, ½öËõ·ÅÑ¡ÔñÈ¦)
+        // ç§»é€Ÿå¢åŠ (%) æ”»é€Ÿå¢åŠ (%) æ¨¡å‹æ”¾å¤§æ¯”ä¾‹(%, ä»…ç¼©æ”¾é€‰æ‹©åœˆ)
         do_if('Bfzy', 0x35C, pTargetUnit, duration, pSrcUnit, data1, data2, data3);
-        // Ã¿ÃëÉËº¦ Î´Öª(1)
+        // æ¯ç§’ä¼¤å®³ æœªçŸ¥(1)
         // do_if('BNbf', 0x0, pTargetUnit, pSrcUnit, duration, data1, 1);
-    case 'BNbf': // Ã¿ÃëÉËº¦
+    case 'BNbf': // æ¯ç§’ä¼¤å®³
         base::this_call_vf<void>(pBuff, 0x354, pTargetUnit, duration, pSrcUnit, data1);
         // if (1)
         WriteMemory(pBuff + 0x20, ReadMemory(pBuff + 0x20) | 0x100);
         break;
-        // Ã¿ÃëÉËº¦ Î´Öª(1)
+        // æ¯ç§’ä¼¤å®³ æœªçŸ¥(1)
         // do_if('BCbf', 0x0, pTargetUnit, pSrcUnit, duration, data1, 1);
-    case 'BCbf': // Ã¿ÃëÉËº¦
+    case 'BCbf': // æ¯ç§’ä¼¤å®³
         base::this_call_vf<void>(pBuff, 0x354, pTargetUnit, duration, pSrcUnit, data1);
         // if (1)
         WriteMemory(pBuff + 0x20, ReadMemory(pBuff + 0x20) | 0x100);
         break;
-        // Ä¿±êÎŞµĞ(ÕûÊı) Ä¿±êÄ§·¨ÃâÒß(ÕûÊı)
+        // ç›®æ ‡æ— æ•Œ(æ•´æ•°) ç›®æ ‡é­”æ³•å…ç–«(æ•´æ•°)
         do_if('Bpos', 0x368, pTargetUnit, duration, pSrcUnit, *data1, *data2);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('Bpoc', 0x31C, pTargetUnit, duration);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('Bcmg', 0x31C, pTargetUnit, duration);
-        // ÒÆËÙÔö¼Ó(%) ¹¥ËÙÔö¼Ó(%) ½ûÖ¹ÀàĞÍ(ÕûÊı) Ê§Îó¸ÅÂÊ(%)
+        // ç§»é€Ÿå¢åŠ (%) æ”»é€Ÿå¢åŠ (%) ç¦æ­¢ç±»å‹(æ•´æ•°) å¤±è¯¯æ¦‚ç‡(%)
         do_if('Bclf', 0x35C, pTargetUnit, duration, pSrcUnit, data1, data2, *data3, data4);
         // Bcsd
         // Bcsi
-        // Î´Öªptr(0) ÒÆËÙ¼õÉÙ(%) ¹¥ËÙ¼õÉÙ(%) µş¼Ó²ÎÊı
+        // æœªçŸ¥ptr(0) ç§»é€Ÿå‡å°‘(%) æ”»é€Ÿå‡å°‘(%) å åŠ å‚æ•°
         do_if('BHca', 0x378, pTargetUnit, pSrcUnit, duration, data1, data2, data3, *data4);
-        // ÒÆËÙ¼õÉÙ(%) ¹¥ËÙ¼õÉÙ(%) ÉËº¦¼õÉÙ(%)
+        // ç§»é€Ÿå‡å°‘(%) æ”»é€Ÿå‡å°‘(%) ä¼¤å®³å‡å°‘(%)
         do_if('Bcri', 0x35C, pTargetUnit, duration, pSrcUnit, data1, data2, data3);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('Bcy2', 0x354, pTargetUnit, pSrcUnit, duration);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('Bcyc', 0x354, pTargetUnit, pSrcUnit, duration);
         // Brpl
         // do_if('Brpl', 0x0, pTargetUnit, pSrcUnit, duration);
         // Brpm
         // do_if('Brpm', 0x0, pTargetUnit, pSrcUnit, duration);
-        // ¹¥»÷Ôö¼Ó(%) ·ÀÓùÔö¼Ó ÉúÃü»Ö¸´ËÙ¶È Ä§·¨ÔÙÉú
+        // æ”»å‡»å¢åŠ (%) é˜²å¾¡å¢åŠ  ç”Ÿå‘½æ¢å¤é€Ÿåº¦ é­”æ³•å†ç”Ÿ
         do_if('Broa', 0x354, pTargetUnit, duration, data1, data2, data3, data4);
-        // ¹¥»÷Ôö¼Ó ·ÀÓùÔö¼Ó ÉúÃü»Ö¸´ËÙ¶È Ä§·¨ÔÙÉú
+        // æ”»å‡»å¢åŠ  é˜²å¾¡å¢åŠ  ç”Ÿå‘½æ¢å¤é€Ÿåº¦ é­”æ³•å†ç”Ÿ
         do_if('BNbr', 0x354, pTargetUnit, duration, data1, data2, data3, data4);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BEst', 0x31C, pTargetUnit, duration);
-        // ³ÖĞøÉËº¦ ÉËº¦¼ä¸ô ÒÆËÙ¼õÉÙ(%) ¹¥ËÙ¼õÉÙ(%) ËÙ¶ÈË¥¼õ·ù¶È
+        // æŒç»­ä¼¤å®³ ä¼¤å®³é—´éš” ç§»é€Ÿå‡å°‘(%) æ”»é€Ÿå‡å°‘(%) é€Ÿåº¦è¡°å‡å¹…åº¦
         do_if('BEsh', 0x388, pTargetUnit, pSrcUnit, duration, data1, data2, data3, data4, data5);
         // BUcs
-        // ÒÆËÙÔö¼Ó(%) ¹¥ËÙÔö¼Ó(%) ½ûÖ¹ÀàĞÍ(ÕûÊı) Ê§Îó¼¸ÂÊ(%)
+        // ç§»é€Ÿå¢åŠ (%) æ”»é€Ÿå¢åŠ (%) ç¦æ­¢ç±»å‹(æ•´æ•°) å¤±è¯¯å‡ ç‡(%)
         do_if('BNsi', 0x35C, pTargetUnit, duration, pSrcUnit, data1, data2, *data3, data4);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BUsl', 0x354, pTargetUnit, duration, pSrcUnit);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BUsp', 0x358, pTargetUnit, duration, pSrcUnit);
-        // µ¥Î»ÀàĞÍ(ÕûÊı) // Ê±¼ä¹Ì¶¨6Ãë
+        // å•ä½ç±»å‹(æ•´æ•°) // æ—¶é—´å›ºå®š6ç§’
         do_if('BNdc', 0x35C, pTargetUnit, duration, pSrcUnit, *data1);
-        // ÒÆËÙÔö¼Ó(%) ¹¥ËÙÔö¼Ó(%)
+        // ç§»é€Ÿå¢åŠ (%) æ”»é€Ÿå¢åŠ (%)
         do_if('Bslo', 0x354, pTargetUnit, duration, pSrcUnit, data1, data2);
-        // BIsv ÎŞÊı¾İ
+        // BIsv æ— æ•°æ®
         // do_if('BIsv', 0x31C, pTargetUnit, duration);
-        // ÒÆËÙÔö¼Ó(%) ¹¥ËÙÔö¼Ó(%)
+        // ç§»é€Ÿå¢åŠ (%) æ”»é€Ÿå¢åŠ (%)
         do_if('Bspe', 0x354, pTargetUnit, duration, pSrcUnit, data1, data2);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BNss', 0x31C, pTargetUnit, duration);
-        // ·Ö²¼ÉËº¦²ÎÊı(%)
+        // åˆ†å¸ƒä¼¤å®³å‚æ•°(%)
         do_if('Bspl', 0x354, pTargetUnit, duration, data1);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BEsv', 0x31C, pTargetUnit, duration);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('Bvng', 0x368, pTargetUnit, duration, pSrcUnit);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BOsf', 0x364, pTargetUnit, duration, pSrcUnit);
-        // ÎŞÊı¾İ
+        // æ— æ•°æ®
         do_if('BIsh', 0x364, pTargetUnit, duration, pSrcUnit);
-        // ¼¤»îÑÓ³Ù Õì²é·¶Î§ Î´Öªptr(0) ±¬Õ¨·¶Î§ Ñ£ÔÎ³ÖĞøÊ±¼ä(µ¥Î») Ñ£ÔÎ³ÖĞøÊ±¼ä(Ó¢ĞÛ)
+        // æ¿€æ´»å»¶è¿Ÿ ä¾¦æŸ¥èŒƒå›´ æœªçŸ¥ptr(0) çˆ†ç‚¸èŒƒå›´ çœ©æ™•æŒç»­æ—¶é—´(å•ä½) çœ©æ™•æŒç»­æ—¶é—´(è‹±é›„)
         do_if('Bstt', 0x364, pTargetUnit, duration, data1, data2, data3, data4, data5, data6);
         // Bspa
         // Bprv
