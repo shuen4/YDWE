@@ -106,8 +106,10 @@ exit /b 0</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Ability.cpp" />
     <ClCompile Include="Attack.cpp" />
     <ClCompile Include="Buff.cpp" />
+    <ClCompile Include="CAgentTimer.cpp" />
     <ClCompile Include="CallNative.cpp" />
     <ClCompile Include="ChannelFlag.cpp" />
     <ClCompile Include="Damage.cpp" />
@@ -118,6 +120,7 @@ exit /b 0</Command>
     <ClCompile Include="GameUI_Message.cpp" />
     <ClCompile Include="Group.cpp" />
     <ClCompile Include="Hashtable.cpp" />
+    <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="JassVM.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -128,6 +131,7 @@ exit /b 0</Command>
     <ClCompile Include="Util.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CAgentTimer.h" />
     <ClInclude Include="qmatrix.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="TriggerEvent.h" />

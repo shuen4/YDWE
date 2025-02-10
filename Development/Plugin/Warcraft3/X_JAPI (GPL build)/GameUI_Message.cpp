@@ -1,9 +1,11 @@
+#include <base/hook/fp_call.h>
+#include <base/util/memory.h>
+
 #include <warcraft3/jass.h>
 #include <warcraft3/jass/hook.h>
 #include <warcraft3/war3_searcher.h>
-#include <base/hook/fp_call.h>
+
 #include "util.h"
-#include <base/util/memory.h>
 
 uint32_t searchClearMessage() {
     uint32_t ptr;

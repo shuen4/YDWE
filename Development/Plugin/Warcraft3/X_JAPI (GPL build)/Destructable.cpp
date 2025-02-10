@@ -1,9 +1,12 @@
-#include <base/hook/fp_call.h>
-#include <warcraft3/jass/hook.h>
-#include <warcraft3/war3_searcher.h>    
 #include <map>
+
+#include <base/hook/fp_call.h>
 #include <base/util/memory.h>
+
 #include <warcraft3/event.h>
+#include <warcraft3/jass/hook.h>
+#include <warcraft3/war3_searcher.h>
+
 #include "util.h"
 
 std::map<uint32_t, uint32_t> destructable_color;
@@ -27,20 +30,20 @@ void patchCDestructable_UpdateColor() {
 
 uint32_t __cdecl X_GetDestructableColor(uint32_t destructable) {
     uint32_t pDestructable = handle_to_object(destructable);
-    if (!pDestructable || !type_check(get_object_type(pDestructable), '+w3d'))
+    if (!pDestructable || !type_check_s(pDestructable, '+w3d'))
         return 0xFFFFFFFF;
     return *fake_GetDestructableColorById(&pDestructable/* ∏¥”√±‰¡ø */, pDestructable + 0x30);
 }
 uint32_t __cdecl X_SetDestructableColor(uint32_t destructable, uint32_t color) {
     uint32_t pDestructable = handle_to_object(destructable);
-    if (!pDestructable || !type_check(get_object_type(pDestructable), '+w3d'))
+    if (!pDestructable || !type_check_s(pDestructable, '+w3d'))
         return false;
     destructable_color[pDestructable] = color;
     return true;
 }
 uint32_t __cdecl X_ResetDestructableColor(uint32_t destructable) {
     uint32_t pDestructable = handle_to_object(destructable);
-    if (!pDestructable || !type_check(get_object_type(pDestructable), '+w3d'))
+    if (!pDestructable || !type_check_s(pDestructable, '+w3d'))
         return false;
     auto i = destructable_color.find(pDestructable);
     if (i == destructable_color.end())

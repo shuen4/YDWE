@@ -1,7 +1,9 @@
+#include <base/util/memory.h>
+
 #include <warcraft3/jass/hook.h>
 #include <warcraft3/war3_searcher.h>
+
 #include "util.h"
-#include <base/util/memory.h>
 
 uint32_t _cdecl X_IsUnitInvulnerable(uint32_t unit) {
     uint32_t pUnit = handle_to_object(unit);

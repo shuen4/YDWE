@@ -1,8 +1,10 @@
 #include <base/hook/fp_call.h>
-#include <warcraft3/jass/hook.h>
-#include <warcraft3/war3_searcher.h>    
-#include <warcraft3/version.h>
 #include <base/util/memory.h>
+
+#include <warcraft3/jass/hook.h>
+#include <warcraft3/version.h>
+#include <warcraft3/war3_searcher.h>
+
 #include "util.h"
 
 uint32_t searchCUnit_AddAbility() {

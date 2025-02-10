@@ -1,16 +1,19 @@
+#include <map>
+#include <string>
+#include <stack>
+
 #include <base/hook/fp_call.h>
 #include <base/hook/iat.h>
 #include <base/hook/inline.h>
 #include <base/hook/replace_pointer.h>
+#include <base/util/memory.h>
+
+#include <warcraft3/hashtable.h>
 #include <warcraft3/jass/hook.h>
 #include <warcraft3/jass.h>
 #include <warcraft3/version.h>
-#include <warcraft3/war3_searcher.h>    
-#include <warcraft3/hashtable.h>
-#include <base/util/memory.h>
-#include <map>
-#include <string>
-#include <stack>
+#include <warcraft3/war3_searcher.h>
+
 #include "TriggerEvent.h"
 #include "util.h"
 
@@ -342,9 +345,9 @@ namespace TriggerEvent {
         uint32_t pTriggerWar3 = handle_to_object(trigger);
         uint32_t pPlayerWar3 = handle_to_object(player);
         uint32_t pBooleanExpr = handle_to_object(boolexpr);
-        if (!pTriggerWar3 || !pPlayerWar3 || !type_check(get_object_type(pTriggerWar3), '+trg') || !type_check(get_object_type(pPlayerWar3), '+ply'))
+        if (!pTriggerWar3 || !pPlayerWar3 || !type_check_s(pTriggerWar3, '+trg') || !type_check_s(pPlayerWar3, '+ply'))
             return 0;
-        if (pBooleanExpr && !type_check(get_object_type(pTriggerWar3), 'bExp'))
+        if (pBooleanExpr && !type_check_s(pBooleanExpr, 'bExp'))
             pBooleanExpr = NULL;
         PlayerUnitEventIds[eventID + TRIGGER_EVENT_ID_BASE] = true;
         uint32_t pPlayerEventReg = create_by_typeid('pevt');
@@ -384,7 +387,7 @@ namespace TriggerEvent {
         if (!eventdata)
             return 0;
         uint32_t pEventData = handle_to_object(eventdata);
-        if (!pEventData || !type_check(get_object_type(pEventData), typeID))
+        if (!pEventData || !type_check_s(pEventData, typeID))
             return 0;
         return pEventData;
     }

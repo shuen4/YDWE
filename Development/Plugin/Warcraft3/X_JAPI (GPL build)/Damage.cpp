@@ -85,7 +85,7 @@ struct event_damage_data {
     }
 };
 
-defineEventData(JAPI_PlayerUnitDamageEventData, 'pumd', 0, uint32_t amount;);
+defineEventData(X_PlayerUnitDamageEventData, 'pumd', 0, uint32_t amount;);
 
 std::deque<event_damage_data> g_edd;
 
@@ -100,7 +100,7 @@ uint32_t __cdecl FakeGetEventDamage() {
     switch (TriggerEvent::GetTriggerEventId()) {
     case EVENT_PLAYER_UNIT_DAMAGED:
     case EVENT_PLAYER_UNIT_DAMAGING:
-        if (JAPI_PlayerUnitDamageEventData* pEventData = (JAPI_PlayerUnitDamageEventData*)TriggerEvent::GetTriggerEventData('pumd'))
+        if (X_PlayerUnitDamageEventData* pEventData = (X_PlayerUnitDamageEventData*)TriggerEvent::GetTriggerEventData('pumd'))
             return pEventData->amount;
         else
             return 0;
@@ -114,7 +114,7 @@ uint32_t __cdecl fake_GetEventDamageSource() {
     switch (TriggerEvent::GetTriggerEventId()) {
     case EVENT_PLAYER_UNIT_DAMAGED:
     case EVENT_PLAYER_UNIT_DAMAGING:
-        if (JAPI_PlayerUnitDamageEventData* pEventData = (JAPI_PlayerUnitDamageEventData*)TriggerEvent::GetTriggerEventData('pumd'))
+        if (X_PlayerUnitDamageEventData* pEventData = (X_PlayerUnitDamageEventData*)TriggerEvent::GetTriggerEventData('pumd'))
             return create_handle(GetObjectByHash(pEventData->filterUnit.a, pEventData->filterUnit.b));
         else
             return 0;
@@ -128,7 +128,7 @@ uint32_t __fastcall FakeUnitDamageFunc(uint32_t _this, uint32_t _edx, uint32_t a
     g_edd.push_back(event_damage_data(is_physical, ptr));
 
     if (TriggerEvent::IsEventRegistered(TriggerEvent::GetUnitOwner(_this), EVENT_PLAYER_UNIT_DAMAGING)) {
-        JAPI_PlayerUnitDamageEventData* pPlayerUnitDamageEventData = (JAPI_PlayerUnitDamageEventData*)create_by_typeid('pumd');
+        X_PlayerUnitDamageEventData* pPlayerUnitDamageEventData = (X_PlayerUnitDamageEventData*)create_by_typeid('pumd');
 
         pPlayerUnitDamageEventData->amount = ptr->amount;
 
@@ -201,7 +201,7 @@ uint32_t __cdecl X_SetDamageEventDamageValue(uint32_t value) {
 uint32_t real_CUnit_RunDamagedEvent = 0;
 uint32_t __fastcall fake_CUnit_RunDamagedEvent(uint32_t _this, uint32_t, float* amount, uint32_t pSrcUnit) {
     if (TriggerEvent::IsEventRegistered(TriggerEvent::GetUnitOwner(_this), EVENT_PLAYER_UNIT_DAMAGED)) {
-        JAPI_PlayerUnitDamageEventData* pPlayerUnitDamageEventData = (JAPI_PlayerUnitDamageEventData*)create_by_typeid('pumd');
+        X_PlayerUnitDamageEventData* pPlayerUnitDamageEventData = (X_PlayerUnitDamageEventData*)create_by_typeid('pumd');
 
         pPlayerUnitDamageEventData->amount = ReadMemory((uint32_t)amount);
 
@@ -246,7 +246,8 @@ uint32_t __cdecl X_SetDamageEventWeaponType(uint32_t type) {
 }
 
 init(UnitEvent_DamageData) {
-    setupEventData(JAPI_PlayerUnitDamageEventData, 'pumd', EVENT_PLAYER_UNIT_DAMAGING, EVENT_PLAYER_UNIT_DAMAGED);
+    // TODO: 添加 指定单位事件 后重搞这整个源代码 (不使用 g_edd)
+    setupEventData(X_PlayerUnitDamageEventData, 'pumd', EVENT_PLAYER_UNIT_DAMAGING, EVENT_PLAYER_UNIT_DAMAGED);
 
     // 覆盖掉 yd_jass_api.dll 的 hook
     RealUnitDamageFunc = getUnitDamageFunc();

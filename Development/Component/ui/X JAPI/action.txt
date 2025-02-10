@@ -48,6 +48,18 @@ category = TC_X_JAPI_EVENT_FEEDBACK
 [[.args]]
 type = real
 
+[X_StartUnitAbilityCooldown]
+title = "单位技能 - 开始冷却"
+description = "为单位 ${u} 的技能 ${abil} 开始冷却, 时长为: ${cooldown}"
+comment = "UI 显示的冷却模型会取这个函数的参数计算百分比"
+category = TC_X_JAPI
+[[.args]]
+type = unit
+[[.args]]
+type = abilcode
+[[.args]]
+type = real
+
 [X_UnitAddBuff]
 title = "单位添加魔法效果"
 description = "为单位 ${u} 添加魔法效果 来源单位: ${src}, 效果: ${ID}, 显示效果: ${BuffID}, 等级: ${等级}, 魔法盗取优先级: ${优先级}, 持续时间: ${duration}, 数据1: ${data1}, 数据2: ${data2}, 数据3: ${data3}, 数据4: ${data4}, 数据5: ${data5}, 数据6: ${data6}, 数据7: ${data7}, 数据8: ${data8}, 数据9: ${data9}, 数据10: ${data10}, 数据11: ${data11}"

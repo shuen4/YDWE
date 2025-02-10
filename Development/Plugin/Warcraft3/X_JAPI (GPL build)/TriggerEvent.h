@@ -8,6 +8,7 @@ namespace TriggerEvent {
     enum JAPI_eventid : uint32_t {
         EVENT_PLAYER_UNIT_ATTACK_MISS = 0x81000,
         EVENT_PLAYER_UNIT_ATTACK_LAUNCH,
+        EVENT_PLAYER_UNIT_UPDATE_INVENTORY,
     };
     class CPlayerUnitEventDataBase_vtable {
     public:

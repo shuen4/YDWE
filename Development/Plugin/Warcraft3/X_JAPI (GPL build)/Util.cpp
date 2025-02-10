@@ -1,7 +1,9 @@
 #include <base/hook/fp_call.h>
+
 #include <warcraft3/jass.h>
 #include <warcraft3/jass/hook.h>
 #include <warcraft3/war3_searcher.h>
+
 #include "util.h"
 
 uint32_t __cdecl X_BitAnd(uint32_t a, uint32_t b) {

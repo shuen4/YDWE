@@ -1,8 +1,11 @@
-#include <warcraft3/jass/hook.h>
-#include <warcraft3/war3_searcher.h>
 #include <base/hook/fp_call.h>
 #include <base/util/memory.h>
+
+#include <warcraft3/jass/hook.h>
 #include <warcraft3/version.h>
+#include <warcraft3/war3_searcher.h>
+
+#include "CAgentTimer.h"
 #include "util.h"
 
 uint32_t searchSmartPositionSetLocation() {
@@ -185,24 +188,6 @@ uint32_t searchSetSpriteAnimationByIndex() {
     ptr += 5;
     ptr = next_opcode(ptr, 0xE8, 5);
     return convert_function(ptr);
-}
-
-uint32_t searchCAgentTimer_Start() {
-    war3_searcher& s = get_war3_searcher();
-    uint32_t str = s.search_string_ptr("EffectDeathTime", sizeof("EffectDeathTime"));
-
-    for (uint32_t ptr = s.search_int_in_text(str); ptr; ptr = s.search_int_in_text(str, ptr + 1)) {
-        uint32_t func = s.current_function(ptr);
-        if (ptr - func > 0x10) {
-            ptr += 4;
-            ptr = next_opcode(ptr, 0xE8, 5);
-            ptr += 5;
-            ptr = next_opcode(ptr, 0xE8, 5);
-            return convert_function(ptr);
-        }
-    }
-
-    return 0;
 }
 
 uint32_t __cdecl X_SetEffectTimeScale(uint32_t effect, float* pspeed) {
@@ -456,11 +441,12 @@ uint32_t __cdecl X_RemoveEffect(uint32_t effect) {
     uint32_t pEffect = handle_to_object(effect);
     if (!pEffect)
         return false;
+    CAgentTimer_Stop(pEffect + 0x2C);
     base::this_call_vf<void>(pEffect, 0x5C);
     return true;
 }
 
-uint32_t __cdecl X_RemoveEffectTimed(uint32_t effect, float duration) {
+uint32_t __cdecl X_RemoveEffectTimed(uint32_t effect, float* duration) {
     uint32_t pEffect = handle_to_object(effect);
     if (!pEffect)
         return false;
@@ -473,8 +459,7 @@ uint32_t __cdecl X_RemoveEffectTimed(uint32_t effect, float duration) {
     ) // 上面的检查是复制魔兽的逻辑
         dontRemove = 1;
 
-    static uint32_t pAgentTimer_Start = searchCAgentTimer_Start();
-    base::this_call<void>(pAgentTimer_Start, pEffect + 0x2C, duration, 0xD01C4, pEffect, 0 /* 是否循环? */, dontRemove /* 回调的第二参数? */);
+    CAgentTimer_Start(pEffect + 0x2C, duration, 0xD01C4, pEffect, 0, dontRemove);
     return true;
 }
 

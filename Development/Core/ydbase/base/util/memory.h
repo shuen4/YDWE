@@ -1,5 +1,6 @@
 #pragma once
 #include <stdint.h>
+#include <Windows.h>
 
 // 只是为了方便理解
 template<class t = uint32_t>

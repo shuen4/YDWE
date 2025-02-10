@@ -1,11 +1,14 @@
+#include <map>
+
 #include <base/hook/fp_call.h>
+#include <base/util/memory.h>
+
+#include <warcraft3/event.h>  
+#include <warcraft3/hashtable.h>
 #include <warcraft3/jass/hook.h>
 #include <warcraft3/version.h>
-#include <warcraft3/war3_searcher.h>    
-#include <warcraft3/hashtable.h>
-#include <map>
-#include <base/util/memory.h>
-#include <warcraft3/event.h>
+#include <warcraft3/war3_searcher.h>  
+
 #include "util.h"
 
 static uint32_t hashid(uint32_t id) {
@@ -148,20 +151,20 @@ void patchCItem_UpdateColor() {
 
 uint32_t __cdecl X_GetItemColor(uint32_t item) {
     uint32_t pItem = handle_to_object(item);
-    if (!pItem || !type_check(get_object_type(pItem), 'item'))
+    if (!pItem || !type_check_s(pItem, 'item'))
         return 0xFFFFFFFF;
     return *fake_GetItemColorById(&pItem/* ∏¥”√±‰¡ø */, pItem + 0x30);
 }
 uint32_t __cdecl X_SetItemColor(uint32_t item, uint32_t color) {
     uint32_t pItem = handle_to_object(item);
-    if (!pItem || !type_check(get_object_type(pItem), 'item'))
+    if (!pItem || !type_check_s(pItem, 'item'))
         return false;
     item_color[pItem] = color;
     return true;
 }
 uint32_t __cdecl X_ResetItemColor(uint32_t item) {
     uint32_t pItem = handle_to_object(item);
-    if (!pItem || !type_check(get_object_type(pItem), 'item'))
+    if (!pItem || !type_check_s(pItem, 'item'))
         return false;
     auto i = item_color.find(pItem);
     if (i == item_color.end())

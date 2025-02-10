@@ -1,12 +1,13 @@
-#include <warcraft3/jass.h>
-#include <warcraft3/jass/hook.h>
-#include <warcraft3/war3_searcher.h>
 #include <base/hook/fp_call.h>
 #include <base/util/memory.h>
+
+#include <warcraft3/jass.h>
+#include <warcraft3/jass/hook.h>
 #include <warcraft3/version.h>
-#include "util.h"
+#include <warcraft3/war3_searcher.h>
 
 #include "qmatrix.h"
+#include "util.h"
 
 uint32_t searchSetSpriteTeamColor();
 struct SetSpriteAnimationByNameAddress {
@@ -43,7 +44,7 @@ uint32_t __cdecl X_SpriteFrameGetSprite(uint32_t pSpriteFrame) {
 
 uint32_t __cdecl X_War3ImageGetSprite(uint32_t handle) {
     uint32_t pObj = handle_to_object(handle);
-    if (!pObj || !type_check(get_object_type(pObj), '+w3i'))
+    if (!pObj || !type_check_s(pObj, '+w3i'))
         return 0;
     return ReadMemory(pObj + 0x28);
 }

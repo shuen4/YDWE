@@ -1,5 +1,5 @@
-﻿#include <windows.h>
-#include <vector>
+﻿#include <vector>
+#include <windows.h>
 
 std::vector<void(*)()>* init_func = NULL;
 // Development\Component\script\war3\main.lua line:68
