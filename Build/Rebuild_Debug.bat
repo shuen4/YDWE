@@ -1,1 +1,1 @@
-call "%~dp0Build.bat" Debug
+call "%~dp0Build.bat" Debug true

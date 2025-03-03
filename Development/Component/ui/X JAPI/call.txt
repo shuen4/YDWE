@@ -85,9 +85,20 @@ returns = boolean
 [X_IsAttackLaunchEventExposeSource]
 title = "发动攻击事件 - 是否暴露攻击单位"
 description = "发动攻击事件 - 暴露攻击单位"
-comment = "攻击地面(G)"
+comment = ""
 category = TC_X_JAPI_EVENT_FEEDBACK
 returns = boolean
+
+[X_IsUnitAbilityInCooldown]
+title = "单位技能 - 冷却中"
+description = "单位 ${u} 的技能 ${abil} 正在冷却中"
+comment = ""
+category = TC_X_JAPI
+returns = boolean
+[[.args]]
+type = unit
+[[.args]]
+type = abilcode
 
 [X_GetDestructableColor]
 title = "可破坏物 - 获取颜色值"
@@ -199,12 +210,15 @@ type = item
 
 [X_SpriteFrameGetSprite]
 title = "Sprite - 获取CSpriteFrame的Sprite"
-description = "获取 ${CSpriteFrame} 的Sprite"
+description = "获取 ${CSpriteFrame} 第 ${index} 的Sprite"
 comment = "CSpriteFrame / SPRITE"
 category = TC_X_JAPI
 returns = X_Sprite
 [[.args]]
 type = integer
+[[.args]]
+type = integer
+default = "0"
 
 [X_UnitGetSprite]
 title = "Sprite - 获取单位的Sprite"
@@ -218,7 +232,7 @@ type = unit
 [X_EffectGetSprite]
 title = "Sprite - 获取特效的Sprite"
 description = "获取 ${特效} 的Sprite"
-comment = ""
+comment = "绝大多数函数对于绑定目标的特效都无法使用, 因为其取绑定目标的数据"
 category = TC_X_JAPI
 returns = X_Sprite
 [[.args]]
@@ -236,7 +250,7 @@ type = trackable
 [X_DestructableGetSprite]
 title = "Sprite - 获取可破坏物的Sprite"
 description = "获取 ${可破坏物} 的Sprite"
-comment = "无法更改颜色 (会自动设置回去), 使用 可破坏物 - 设置颜色 代替"
+comment = ""
 category = TC_X_JAPI
 returns = X_Sprite
 [[.args]]
@@ -245,7 +259,7 @@ type = destructable
 [X_ItemGetSprite]
 title = "Sprite - 获取物品的Sprite"
 description = "获取 ${物品} 的Sprite"
-comment = "无法更改颜色 (会自动设置回去), 使用 物品 - 设置颜色 代替"
+comment = ""
 category = TC_X_JAPI
 returns = X_Sprite
 [[.args]]
@@ -258,7 +272,7 @@ comment = ""
 category = TC_X_JAPI
 returns = boolean
 [[.args]]
-type = integer
+type = X_Sprite
 
 [X_GetSpriteType]
 title = "Sprite - 获取类型"
@@ -267,7 +281,7 @@ comment = ""
 category = TC_X_JAPI
 returns = X_SpriteType
 [[.args]]
-type = integer
+type = X_Sprite
 
 [X_GetSpriteGeosetCount]
 title = "Sprite - 获取Geoset数量"
@@ -276,7 +290,7 @@ comment = ""
 category = TC_X_JAPI
 returns = integer
 [[.args]]
-type = integer
+type = X_Sprite
 
 [X_GetSpriteX]
 title = "Sprite - 获取X坐标"
@@ -285,7 +299,7 @@ comment = ""
 category = TC_X_JAPI
 returns = real
 [[.args]]
-type = integer
+type = X_Sprite
 
 [X_GetSpriteY]
 title = "Sprite - 获取Y坐标"
@@ -294,7 +308,7 @@ comment = ""
 category = TC_X_JAPI
 returns = real
 [[.args]]
-type = integer
+type = X_Sprite
 
 [X_GetSpriteZ]
 title = "Sprite - 获取Z坐标"
@@ -303,7 +317,7 @@ comment = ""
 category = TC_X_JAPI
 returns = real
 [[.args]]
-type = integer
+type = X_Sprite
 
 [X_GetSpriteSize]
 title = "Sprite - 获取大小"
@@ -312,7 +326,7 @@ comment = ""
 category = TC_X_JAPI
 returns = real
 [[.args]]
-type = integer
+type = X_Sprite
 
 [X_GetSpriteTimeScale]
 title = "Sprite - 获取动画速度"
@@ -321,16 +335,16 @@ comment = ""
 category = TC_X_JAPI
 returns = real
 [[.args]]
-type = integer
+type = X_Sprite
 
 [X_GetSpriteColor]
 title = "Sprite - 获取颜色"
 description = "获取 ${sprite} 的颜色"
 comment = "不包括透明度"
 category = TC_X_JAPI
-returns = integer
+returns = X_Color
 [[.args]]
-type = integer
+type = X_Sprite
 
 [X_GetSpriteAlpha]
 title = "Sprite - 获取透明度"
@@ -339,19 +353,19 @@ comment = ""
 category = TC_X_JAPI
 returns = integer
 [[.args]]
-type = integer
+type = X_Sprite
 
 [X_GetSpriteGeosetColor]
 title = "Sprite - 获取Geoset颜色"
 description = "获取 ${sprite}, Geoset${index}的颜色"
 comment = "不包括透明度"
 category = TC_X_JAPI
-returns = integer
+returns = X_Color
+[[.args]]
+type = X_Sprite
 [[.args]]
 type = integer
 default = "0"
-[[.args]]
-type = integer
 
 [X_GetSpriteGeosetAlpha]
 title = "Sprite - 获取Geoset透明度"
@@ -360,10 +374,10 @@ comment = ""
 category = TC_X_JAPI
 returns = integer
 [[.args]]
-type = integer
-default = "0"
+type = X_Sprite
 [[.args]]
 type = integer
+default = "0"
 
 [X_GetTerrainZ]
 title = "地形 - 获取Z轴"
@@ -448,8 +462,8 @@ returns = integer
 type = real
 
 [X_ConvertColor]
-title = "转换颜色为整数 (ARGB)"
-description = "转换 (${a}, ${r}, ${g}, ${b}) 为整数"
+title = "转换(ARGB)为颜色"
+description = "转换 (${a}, ${r}, ${g}, ${b}) 为颜色"
 comment = ""
 category = TC_X_JAPI_CONV
 returns = X_Color
@@ -566,6 +580,24 @@ category = TC_X_JAPI
 returns = X_TargetAllow
 [[.args]]
 type = string
+
+[X_FourCC]
+title = "转换字符串ID为整数ID"
+description = "转换 ${fourCC} 为 整数ID"
+comment = "'A001' -> 1093677105"
+category = TC_X_JAPI
+returns = integer
+[[.args]]
+type = string
+
+[X_FourCC2String]
+title = "转换整数ID为字符串ID"
+description = "转换 ${id} 为 字符串ID"
+comment = "1093677105 -> 'A001'"
+category = TC_X_JAPI
+returns = string
+[[.args]]
+type = integer
 
 [X_WEConvertType1]
 title = "转换Sprite为整数"

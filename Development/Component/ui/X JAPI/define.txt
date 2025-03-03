@@ -25,10 +25,10 @@ X_TargetAllow=1,1,1,目标允许,integer
 X_PlayerUnitEvent_Damaged=0,X_PlayerUnitEvent,0x134,"接受伤害"
 X_PlayerUnitEvent_Damaging=0,X_PlayerUnitEvent,0x13B,"接受伤害 (计算护甲前)"
 
-X_PlayerUnitEvent_AttackMiss=0,X_PlayerUnitEvent,0x81000,"攻击丢失"
-X_PlayerUnitEvent_AttackLaunch=0,X_PlayerUnitEvent,0x81001,"发动攻击"
+X_PlayerUnitEvent_AttackMiss=0,X_PlayerUnitEvent,0x1000,"攻击丢失"
+X_PlayerUnitEvent_AttackLaunch=0,X_PlayerUnitEvent,0x1001,"发动攻击"
 
-X_PlayerUnitEvent_UpdateInventory=0,X_PlayerUnitEvent,0x81002,"更新物品栏"
+X_PlayerUnitEvent_UpdateInventory=0,X_PlayerUnitEvent,0x1002,"更新物品栏"
 
 X_MessageLoc_Unit=0,X_MessageLoc,0x00,"单位提示"
 X_MessageLoc_Game=0,X_MessageLoc,0x01,"游戏消息"

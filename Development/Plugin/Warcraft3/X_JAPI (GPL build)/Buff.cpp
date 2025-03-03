@@ -1,46 +1,6 @@
-﻿#include <base/hook/fp_call.h>
-#include <base/util/memory.h>
-
-#include <warcraft3/jass/hook.h>
-#include <warcraft3/version.h>
-#include <warcraft3/war3_searcher.h>
+﻿#include <warcraft3/jass/hook.h>
 
 #include "util.h"
-
-uint32_t searchCUnit_AddAbility() {
-    uint32_t ptr = get_vfn_ptr(".?AVCAbilityNeutral@@");
-    ptr = ReadMemory(ptr + 0x80); // vftable + 0x80
-    ptr = next_opcode(ptr, 0xE8, 5);
-    ptr += 5;
-    ptr = next_opcode(ptr, 0xE8, 5);
-    ptr += 5;
-    ptr = next_opcode(ptr, 0xE8, 5);
-    ptr += 5;
-    ptr = next_opcode(ptr, 0xE8, 5);
-    ptr += 5;
-    ptr = next_opcode(ptr, 0xE8, 5);
-    ptr += 5;
-    ptr = next_opcode(ptr, 0xE8, 5);
-    if (get_war3_searcher().get_version() >= version_127a) {
-        ptr += 5;
-        ptr = next_opcode(ptr, 0xE8, 5);
-    }
-    return convert_function(ptr);
-}
-
-uint32_t searchCBuff_UpdateDisplay() {
-    uint32_t ptr = get_vfn_ptr(".?AVCBuff@@");
-    ptr = ReadMemory(ptr + 0xA4); // vftable + 0xA4
-    ptr = next_opcode(ptr, 0xE8, 5);
-    return convert_function(ptr);
-}
-
-void CUnit_AddBuff(uint32_t pUnit, uint32_t pBuff) {
-    static uint32_t pCUnit_AddAbility = searchCUnit_AddAbility();
-    base::this_call<void>(pCUnit_AddAbility, pUnit, pBuff);
-    static uint32_t pCBuff_UpdateDisplay = searchCBuff_UpdateDisplay();
-    base::this_call<void>(pCBuff_UpdateDisplay, pBuff);
-}
 
 uint32_t __cdecl X_UnitAddBuff(uint32_t target_unit, uint32_t src_unit, uint32_t typeID, uint32_t buffID, uint32_t level, uint32_t spell_steal_priority, uint32_t* duration, uint32_t* data1, uint32_t* data2, uint32_t* data3, uint32_t* data4, uint32_t* data5, uint32_t* data6, uint32_t* data7, uint32_t* data8, uint32_t* data9, uint32_t* data10, uint32_t* data11) {
     if (!target_unit)
@@ -79,6 +39,7 @@ uint32_t __cdecl X_UnitAddBuff(uint32_t target_unit, uint32_t src_unit, uint32_t
     case 'BPSE':
     case 'BHfa':
     case 'BUfa':
+    case 'Bfro':
     case 'BOhx':
     case 'BNht':
     case 'Bprg':
@@ -139,8 +100,11 @@ uint32_t __cdecl X_UnitAddBuff(uint32_t target_unit, uint32_t src_unit, uint32_t
     case 'Bbsk':
     case 'BNdm':
     case 'BNba':
+    case 'BNrd':
     case 'Bblo':
     case 'Bfzy':
+    case 'BNbf':
+    case 'BCbf':
     case 'Bpos':
     case 'Bpoc':
     case 'Bcmg':
@@ -243,18 +207,18 @@ uint32_t __cdecl X_UnitAddBuff(uint32_t target_unit, uint32_t src_unit, uint32_t
     default:
         return false;
     }
-    uint32_t pTargetUnit = handle_to_object(target_unit);
+    CUnit* pTargetUnit = ConvertHandle<CUnit>(target_unit);
     if (!pTargetUnit)
         return false;
-    uint32_t pSrcUnit = NULL;
+    CUnit* pSrcUnit = NULL;
     if (src_unit)
-        pSrcUnit = handle_to_object(src_unit);
+        pSrcUnit = ConvertHandle<CUnit>(src_unit);
     if (!pSrcUnit)
         pSrcUnit = pTargetUnit;
-    uint32_t pBuff = create_by_typeid(typeID);
+    CBuff* pBuff = (CBuff*)Agile::CreateObject(typeID, false);
     if (!pBuff)
         return false;
-    uint32_t pBuffInfo[] = {
+    CBuff::BuffInfo BuffInfo = {
         buffID,
         0, // ???
         level ? level - 1 : 0,
@@ -264,7 +228,7 @@ uint32_t __cdecl X_UnitAddBuff(uint32_t target_unit, uint32_t src_unit, uint32_t
         0, // normal duration (似乎没用)
         0, // hero/resistance skin duration (似乎没用)
     };
-    base::this_call<void>(ReadMemory(ReadMemory(pBuff) + 0x324), pBuff, pBuffInfo);
+    pBuff->Init(&BuffInfo);
 #define do_if(typeID, vfOff, ...) case typeID: base::this_call_vf<void>(pBuff, vfOff, __VA_ARGS__); break
     switch (typeID) {
         // Boar 按百分比回复(整数)
@@ -310,14 +274,15 @@ uint32_t __cdecl X_UnitAddBuff(uint32_t target_unit, uint32_t src_unit, uint32_t
     case 'BNdo':
     {
         base::this_call_vf<void>(pBuff, 0x354, pTargetUnit, pSrcUnit, duration, data1);
-        uint32_t pAgent = find_objectid_64({ ReadMemory<uint32_t>(pSrcUnit + 0xC), ReadMemory<uint32_t>(pSrcUnit + 0x10) });
-        if (pAgent && ReadMemory<uint32_t>((uint32_t)pAgent + 0xC) == '+agl')
-            WriteMemory(pBuff + 0xFC, objectid_64(ReadMemory<uint32_t>((uint32_t)pAgent + 0x14), ReadMemory<uint32_t>((uint32_t)pAgent + 0x18)));
-        WriteMemory(pBuff + 0x108, *data2);
-        WriteMemory(pBuff + 0x10C, *data3);
-        WriteMemory(pBuff + 0x110, *data4);
-        WriteMemory(pBuff + 0x118, *data5);
-        WriteMemory(pBuff + 0x11C, *data6);
+        CBuffDoom* pBuffDoom = ConvertAgent<CBuffDoom>(pBuff);
+        if (!pBuffDoom)
+            __debugbreak();
+        pBuffDoom->source_unit = UTIL::GetAgentTag(pSrcUnit);
+        pBuffDoom->player_id = *data2;
+        pBuffDoom->summon_unit_id = *data3;
+        pBuffDoom->summon_unit_count = *data4;
+        pBuffDoom->summon_unit_duration.value = *data5;
+        pBuffDoom->summon_unit_buff_id = *data6;
     }
         break;
         // 无数据
@@ -378,13 +343,10 @@ uint32_t __cdecl X_UnitAddBuff(uint32_t target_unit, uint32_t src_unit, uint32_t
         // 是否为镜像
         // do_if('Bfro', 0x35C, pTargetUnit, duration, pSrcUnit, *data1);
     case 'Bfro': // 移速增加(%) 攻速增加(%)
-        base::this_call_vf<void>(pBuff, 0x354, pTargetUnit, duration, pSrcUnit, data1, data2); {
+        base::this_call_vf<void>(pBuff, 0x354, pTargetUnit, duration, pSrcUnit, data1, data2);
         // 单位颜色
-            uint32_t frostCounter = ReadMemory(pTargetUnit + 0x150);
-            WriteMemory(pTargetUnit + 0x150, ++frostCounter);
-            if (frostCounter == 1)
-                base::this_call_vf<void>(pTargetUnit, 0xB4); // 更新单位颜色
-        }
+        if (pTargetUnit->frost_counter++ == 0)
+            base::this_call_vf<void>(pTargetUnit, 0xB4); // 更新单位颜色
         break;
         // 单位类型(整数) 未知ptr(0)
         do_if('BOhx', 0x358, pTargetUnit, duration, pSrcUnit, *data1, data2);
@@ -461,7 +423,7 @@ uint32_t __cdecl X_UnitAddBuff(uint32_t target_unit, uint32_t src_unit, uint32_t
         // 施加伤害(%) 所受伤害(%) 玩家(整数)
         do_if('BIil', 0x364, pTargetUnit, duration, data1, data2, *data4);
         // 每秒伤害 移速减少(%) 攻速减少(%) 叠加类型(整数) 单位类型(整数) 召唤单位数量(整数) 召唤单位持续时间 召唤单位所属玩家(整数) 魔法效果(整数)
-        do_if('BNpa', 0x388, pTargetUnit, duration, pSrcUnit, data1, data2, data3, *data4, *data5, *data6, data7, *data8, *data9);
+        do_if('BNpa', 0x388, pTargetUnit, pSrcUnit, duration, data1, data2, data3, *data4, *data5, *data6, data7, *data8, *data9);
         // 无数据
         do_if('BNpm', 0x31C, pTargetUnit, duration);
         // 无数据
@@ -570,8 +532,7 @@ uint32_t __cdecl X_UnitAddBuff(uint32_t target_unit, uint32_t src_unit, uint32_t
         // do_if('BNrd', 0x0, pTargetUnit, duration, pSrcUnit, data1, 1);
     case 'BNrd': // 每秒伤害
         base::this_call_vf<void>(pBuff, 0x354, pTargetUnit, duration, pSrcUnit, data1);
-        // if (1)
-        WriteMemory(pBuff + 0x20, ReadMemory(pBuff + 0x20) | 0x100);
+        pBuff->agent_flag |= CBuffDoT::agent_flag_can_kill_unit;
         break;
         // BNrf
         // 移速增加(%) 攻速增加(%) 模型放大比例(%)
@@ -582,15 +543,13 @@ uint32_t __cdecl X_UnitAddBuff(uint32_t target_unit, uint32_t src_unit, uint32_t
         // do_if('BNbf', 0x0, pTargetUnit, pSrcUnit, duration, data1, 1);
     case 'BNbf': // 每秒伤害
         base::this_call_vf<void>(pBuff, 0x354, pTargetUnit, duration, pSrcUnit, data1);
-        // if (1)
-        WriteMemory(pBuff + 0x20, ReadMemory(pBuff + 0x20) | 0x100);
+        pBuff->agent_flag |= CBuffDoT::agent_flag_can_kill_unit;
         break;
         // 每秒伤害 未知(1)
         // do_if('BCbf', 0x0, pTargetUnit, pSrcUnit, duration, data1, 1);
     case 'BCbf': // 每秒伤害
         base::this_call_vf<void>(pBuff, 0x354, pTargetUnit, duration, pSrcUnit, data1);
-        // if (1)
-        WriteMemory(pBuff + 0x20, ReadMemory(pBuff + 0x20) | 0x100);
+        pBuff->agent_flag |= CBuffDoT::agent_flag_can_kill_unit;
         break;
         // 目标无敌(整数) 目标魔法免疫(整数)
         do_if('Bpos', 0x368, pTargetUnit, duration, pSrcUnit, *data1, *data2);
@@ -658,10 +617,10 @@ uint32_t __cdecl X_UnitAddBuff(uint32_t target_unit, uint32_t src_unit, uint32_t
         return false;
     }
 #undef do_if
-    CUnit_AddBuff(pTargetUnit, pBuff);
+    pTargetUnit->AddBuff(pBuff);
     return true;
 }
 
-init(Buff) {
-    jass::japi_add((uint32_t)X_UnitAddBuff, "X_UnitAddBuff", "(Hunit;Hunit;IIIIRRRRRRRRRRRR)B");
+init_L(Buff) {
+    jass::japi_add((uint32_t)X_UnitAddBuff,         "X_UnitAddBuff",        "(Hunit;Hunit;IIIIRRRRRRRRRRRR)B");
 }

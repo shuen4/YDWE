@@ -34,7 +34,7 @@
     <Filter Include="事件\共享库">
       <UniqueIdentifier>{8d5250bd-c749-48ed-98c1-8189ec08293f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="魔兽函数">
+    <Filter Include="魔兽">
       <UniqueIdentifier>{73856b22-898c-42c6-afc4-079f886c98b6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -52,17 +52,14 @@
     <ClInclude Include="resource.h">
       <Filter>资源文件</Filter>
     </ClInclude>
-    <ClInclude Include="qmatrix.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="TriggerEvent.h">
       <Filter>事件\共享库</Filter>
     </ClInclude>
     <ClInclude Include="util.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="CAgentTimer.h">
-      <Filter>魔兽函数</Filter>
+    <ClInclude Include="war3.h">
+      <Filter>魔兽</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -130,8 +127,8 @@
     <ClCompile Include="Ability.cpp">
       <Filter>X JAPI 函数</Filter>
     </ClCompile>
-    <ClCompile Include="CAgentTimer.cpp">
-      <Filter>魔兽函数</Filter>
+    <ClCompile Include="war3.cpp">
+      <Filter>魔兽</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

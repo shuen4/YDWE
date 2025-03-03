@@ -51,7 +51,7 @@ type = real
 [X_StartUnitAbilityCooldown]
 title = "单位技能 - 开始冷却"
 description = "为单位 ${u} 的技能 ${abil} 开始冷却, 时长为: ${cooldown}"
-comment = "UI 显示的冷却模型会取这个函数的参数计算百分比"
+comment = "同时也会修改 UI 的显示进度"
 category = TC_X_JAPI
 [[.args]]
 type = unit
@@ -59,6 +59,16 @@ type = unit
 type = abilcode
 [[.args]]
 type = real
+
+[X_EndUnitAbilityCooldown]
+title = "单位技能 - 结束冷却"
+description = "为单位 ${u} 的技能 ${abil} 结束冷却"
+comment = ""
+category = TC_X_JAPI
+[[.args]]
+type = unit
+[[.args]]
+type = abilcode
 
 [X_UnitAddBuff]
 title = "单位添加魔法效果"
@@ -1865,22 +1875,24 @@ type = real
 
 [X_UnitAddBuff_BNcg]
 title = "添加魔法效果 BNcg(人工地精)"
-description = "为单位 ${target} 添加 BNcg(人工地精) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 中心X ${x} 中心Y ${y}"
+description = "为单位 ${target} 添加 BNcg(人工地精) 来源为 ${source} 显示为 ${buffID} 等级 ${level} 魔法盗取优先级 ${spell_steal_priority} 持续时间 ${duration} 中心X ${x} 中心Y ${y} 约束范围 ${range}"
 comment = "x y 仅在单位为 null 时使用"
 category = TC_X_JAPI_BUFF
+[[.args]]
+type = unit
 [[.args]]
 type = unit
 [[.args]]
 type = buffcode
 default = "BNcg"
 [[.args]]
-type = unit
-[[.args]]
 type = integer
 default = "0"
 [[.args]]
 type = integer
 default = "0"
+[[.args]]
+type = real
 [[.args]]
 type = real
 [[.args]]
@@ -3270,9 +3282,9 @@ description = "在 ${duration} 秒延迟后, 立即删除 ${特效} "
 comment = "不会播放死亡动画且时间到会立即删除特效"
 category = TC_X_JAPI
 [[.args]]
-type = effect
-[[.args]]
 type = real
+[[.args]]
+type = effect
 
 [X_SpriteFrameSetDefaultLight]
 title = "界面 - 设置SpriteFrame的默认光照"
@@ -3419,7 +3431,7 @@ default = "OnOffOff"
 [X_SetSpriteX]
 title = "Sprite - 设置X坐标"
 description = "设置 ${sprite} 的X坐标为 ${x}"
-comment = ""
+comment = "无效: 单位 物品"
 category = TC_X_JAPI
 [[.args]]
 type = X_Sprite
@@ -3429,7 +3441,7 @@ type = real
 [X_SetSpriteY]
 title = "Sprite - 设置Y坐标"
 description = "设置 ${sprite} 的Y坐标为 ${y}"
-comment = ""
+comment = "无效: 单位 物品"
 category = TC_X_JAPI
 [[.args]]
 type = X_Sprite
@@ -3439,7 +3451,7 @@ type = real
 [X_SetSpriteZ]
 title = "Sprite - 设置Z坐标"
 description = "设置 ${sprite} 的Z坐标为 ${z}"
-comment = ""
+comment = "无效: 单位 物品"
 category = TC_X_JAPI
 [[.args]]
 type = X_Sprite
@@ -3478,7 +3490,7 @@ type = degree
 
 [X_SpriteMatrixRotateZ]
 title = "Sprite - 绕Z轴旋转"
-description = "使 ${sprite} 绕X轴旋转 ${z} 度"
+description = "使 ${sprite} 绕Z轴旋转 ${z} 度"
 comment = "多次调用，效果会叠加，不想叠加需要先重置为初始状态。"
 category = TC_X_JAPI
 [[.args]]
@@ -3525,7 +3537,7 @@ default = "1"
 [X_SetSpriteColor]
 title = "Sprite - 设置颜色"
 description = "设置 ${sprite} 的颜色为 ${color} "
-comment = "无法更改 物品/可破坏物 的颜色 (会自动设置回去), 使用 物品/可破坏物 - 设置颜色 代替"
+comment = "无效: 可破坏物 物品"
 category = TC_X_JAPI
 [[.args]]
 type = X_Sprite
@@ -3536,7 +3548,7 @@ default = "X_Color_All"
 [X_SetSpriteAlpha]
 title = "Sprite - 设置透明度"
 description = "设置 ${sprite} 的透明度为 ${alpha} "
-comment = ""
+comment = "无效: 可破坏物 物品"
 category = TC_X_JAPI
 [[.args]]
 type = X_Sprite
@@ -3549,7 +3561,7 @@ max = 255
 [X_SetSpriteGeosetColor]
 title = "Sprite - 设置Geoset颜色"
 description = "设置 ${sprite} 的 Geoset${i} 颜色为 ${color}"
-comment = "无法更改 物品/可破坏物 的颜色 (会自动设置回去), 使用 物品/可破坏物 - 设置颜色 代替"
+comment = "无效(一旦修改Geoset 0会重置所有Geoset的颜色): 可破坏物 物品, CSpriteUber?(至少特效会) 会在重新渲染时丢失设置值"
 category = TC_X_JAPI
 [[.args]]
 type = X_Sprite
@@ -3563,7 +3575,7 @@ default = "X_Color_All"
 [X_SetSpriteGeosetAlpha]
 title = "Sprite - 设置Geoset透明度"
 description = "设置 ${sprite} 的 Geoset${i} 透明度为 ${alpha}"
-comment = ""
+comment = "无效(一旦修改Geoset 0会重置所有Geoset的颜色): 可破坏物 物品, CSpriteUber?(至少特效会) 会在重新渲染时丢失设置值"
 category = TC_X_JAPI
 [[.args]]
 type = X_Sprite

@@ -1,7 +1,7 @@
 #ifndef X_SPRITE_inc
 #define X_SPRITE_inc
 
-native X_SpriteFrameGetSprite                           takes integer spriteframe returns integer
+native X_SpriteFrameGetSprite                           takes integer spriteframe, integer index returns integer
 native X_UnitGetSprite                                  takes unit whichUnit returns integer
 native X_EffectGetSprite                                takes effect whichEffect returns integer
 native X_TrackableGetSprite                             takes trackable whichTrackable returns integer

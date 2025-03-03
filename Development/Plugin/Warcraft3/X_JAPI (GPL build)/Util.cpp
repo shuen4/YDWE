@@ -1,8 +1,5 @@
-﻿#include <base/hook/fp_call.h>
-
-#include <warcraft3/jass.h>
+﻿#include <warcraft3/jass.h>
 #include <warcraft3/jass/hook.h>
-#include <warcraft3/war3_searcher.h>
 
 #include "util.h"
 
@@ -66,18 +63,33 @@ uint32_t __cdecl X_GetColorA(uint32_t color) {
     return color & 0xFF000000;
 }
 
-uint32_t searchDecodeTargetArgsString() {
-    war3_searcher& s = get_war3_searcher();
-    uint32_t ptr = s.search_string("Unknown Target Flag: \"%s\"", sizeof("Unknown Target Flag: \"%s\""));
-    return s.current_function(ptr);
-}
-
 uint32_t __cdecl X_ConvertTargetArgsStringToFlags(uint32_t targs) {
-    static uint32_t pDecodeTargetArgsString = searchDecodeTargetArgsString();
-    return base::this_call<uint32_t>(pDecodeTargetArgsString, jass::from_string(targs));
+    return FUNC::DecodeTargetArgsString(jass::from_string(targs));
 }
 
-init(Util) {
+uint32_t __cdecl X_FourCC(uint32_t fourCC) {
+    const char* s = jass::from_string(fourCC);
+    if (strlen(s) != 4)
+        return 0;
+    return 
+        ((uint32_t)ReadMemory<uint8_t>((uint32_t)s + 0) << 24) | 
+        ((uint32_t)ReadMemory<uint8_t>((uint32_t)s + 1) << 16) |
+        ((uint32_t)ReadMemory<uint8_t>((uint32_t)s + 2) <<  8) |
+        ((uint32_t)ReadMemory<uint8_t>((uint32_t)s + 3) <<  0);
+}
+
+uint32_t __cdecl X_FourCC2String(uint32_t fourCC) {
+    char s[5] = {
+        (char)((fourCC >> 24) & 0xFF),
+        (char)((fourCC >> 16) & 0xFF),
+        (char)((fourCC >>  8) & 0xFF),
+        (char)((fourCC >>  0) & 0xFF),
+        NULL
+    };
+    return jass::create_string(s);
+}
+
+init_L(Util) {
     jass::japi_add((uint32_t)X_BitAnd,                              "X_BitAnd",                             "(II)I");
     jass::japi_add((uint32_t)X_BitOr,                               "X_BitOr",                              "(II)I");
     jass::japi_add((uint32_t)X_BitXor,                              "X_BitXor",                             "(II)I");
@@ -94,4 +106,6 @@ init(Util) {
     jass::japi_add((uint32_t)X_GetColorB,                           "X_GetColorB",                          "(I)I");
     jass::japi_add((uint32_t)X_GetColorA,                           "X_GetColorA",                          "(I)I");
     jass::japi_add((uint32_t)X_ConvertTargetArgsStringToFlags,      "X_ConvertTargetArgsStringToFlags",     "(S)I");
+    jass::japi_add((uint32_t)X_FourCC,                              "X_FourCC",                             "(S)I");
+    jass::japi_add((uint32_t)X_FourCC2String,                       "X_FourCC2String",                      "(I)S");
 }

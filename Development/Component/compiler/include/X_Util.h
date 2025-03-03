@@ -104,7 +104,7 @@
     X_UnitAddBuff(target, source, <?= require 'FourCC'.string2hex('BPSE') ?>, buffID, level, spellstealpriority, duration, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 /* BHfa 伤害值 未知(0) */
 #define X_UnitAddBuff_BHfa(target, buffID, level, spellstealpriority, duration, damage)\
-    X_UnitAddBuff(target, <?= require 'FourCC'.string2hex('BHfa') ?>, buffID, level, spellstealpriority, duration, damage, X_CastI2R(0), 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    X_UnitAddBuff(target, null, <?= require 'FourCC'.string2hex('BHfa') ?>, buffID, level, spellstealpriority, duration, damage, X_CastI2R(0), 0, 0, 0, 0, 0, 0, 0, 0, 0)
 /* BUfa 攻击单位减速时间 护甲增加 未知(0) */
 #define X_UnitAddBuff_BUfa(target, buffID, level, spellstealpriority, duration, debuffduration, armor)\
     X_UnitAddBuff(target, null, <?= require 'FourCC'.string2hex('BUfa') ?>, buffID, level, spellstealpriority, duration, debuffduration, armor, X_CastI2R(0), 0, 0, 0, 0, 0, 0, 0, 0)
@@ -188,9 +188,9 @@
     X_UnitAddBuff(target, null, <?= require 'FourCC'.string2hex('Bams') ?>, buffID, level, spellstealpriority, duration, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 /* Bam2 护盾生命 */
 #define X_UnitAddBuff_Bam2(target, buffID, level, spellstealpriority, duration, shield)\
-    X_UnitAddBuff(target, null, <?= require 'FourCC'.string2hex('Bam2') ?>, buffID, level, spellstealpriority, duration, shield, 0, 0, 0, 0, 0, 0, 0, 0, 0, buff)
+    X_UnitAddBuff(target, null, <?= require 'FourCC'.string2hex('Bam2') ?>, buffID, level, spellstealpriority, duration, shield, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 /* Bmfl 影响范围 每点魔法造成伤害(单位) 每点魔法造成伤害(英雄) 最大伤害(单位) 最大伤害(英雄) 施法距离 魔法施法时间 仅溅射伤害有魔法单位(整数) 目标允许(整数) 命令id(852512) 魔法效果(整数) */
-#define X_UnitAddBuff_Bmfl(target, buffID, level, spellstealpriority, duration, AOE, damagepermana, herodamagepermana, maxdamage, heromaxdamage, range, cd, onlyunithavemana, targetallow)\
+#define X_UnitAddBuff_Bmfl(target, buffID, level, spellstealpriority, duration, AOE, damagepermana, herodamagepermana, maxdamage, heromaxdamage, range, cd, onlyunithavemana, targetallow, buff)\
     X_UnitAddBuff(target, null, <?= require 'FourCC'.string2hex('Bmfl') ?>, buffID, level, spellstealpriority, duration, AOE, damagepermana, herodamagepermana, maxdamage, heromaxdamage, range, cd, onlyunithavemana, X_CastI2R(targetallow), X_CastI2R(852512), buff)
 /* BNms 每点魔法抵消的伤害值 伤害吸收(%) */
 #define X_UnitAddBuff_BNms(target, buffID, level, spellstealpriority, duration, damageabsorbpermana, absorbpercent)\
@@ -247,8 +247,8 @@
 #define X_UnitAddBuff_BOwd(target, buffID, level, spellstealpriority, duration)\
     X_UnitAddBuff(target, null, <?= require 'FourCC'.string2hex('BOwd') ?>, buffID, level, spellstealpriority, duration, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 /* BImo 影响区域 激活延迟 引诱间隔 */
-#define X_UnitAddBuff_(target, buffID, level, spellstealpriority, duration, AOE, delay, interval)\
-    X_UnitAddBuff(target, null, <?= require 'FourCC'.string2hex('') ?>, buffID, level, spellstealpriority, duration, AOE, delay, interval, 0, 0, 0, 0, 0, 0, 0, 0)
+#define X_UnitAddBuff_BImo(target, buffID, level, spellstealpriority, duration, AOE, delay, interval)\
+    X_UnitAddBuff(target, null, <?= require 'FourCC'.string2hex('BImo') ?>, buffID, level, spellstealpriority, duration, AOE, delay, interval, 0, 0, 0, 0, 0, 0, 0, 0)
 /* BNwm 无数据 */
 #define X_UnitAddBuff_BNwm(target, buffID, level, spellstealpriority, duration)\
     X_UnitAddBuff(target, null, <?= require 'FourCC'.string2hex('BNwm') ?>, buffID, level, spellstealpriority, duration, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
@@ -371,13 +371,13 @@
     X_UnitAddBuff(target, null, <?= require 'FourCC'.string2hex('BEsv') ?>, buffID, level, spellstealpriority, duration, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 /* Bvng 无数据 */
 #define X_UnitAddBuff_Bvng(target, source, buffID, level, spellstealpriority, duration)\
-    X_UnitAddBuff(target, source, null, <?= require 'FourCC'.string2hex('Bvng') ?>, buffID, level, spellstealpriority, duration, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    X_UnitAddBuff(target, source, <?= require 'FourCC'.string2hex('Bvng') ?>, buffID, level, spellstealpriority, duration, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 /* BOsf 无数据 */
 #define X_UnitAddBuff_BOsf(target, source, buffID, level, spellstealpriority, duration)\
-    X_UnitAddBuff(target, source, null, <?= require 'FourCC'.string2hex('BOsf') ?>, buffID, level, spellstealpriority, duration, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    X_UnitAddBuff(target, source, <?= require 'FourCC'.string2hex('BOsf') ?>, buffID, level, spellstealpriority, duration, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 /* BIsh 无数据 */
 #define X_UnitAddBuff_BIsh(target, source, buffID, level, spellstealpriority, duration)\
-    X_UnitAddBuff(target, source, null, <?= require 'FourCC'.string2hex('BIsh') ?>, buffID, level, spellstealpriority, duration, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    X_UnitAddBuff(target, source, <?= require 'FourCC'.string2hex('BIsh') ?>, buffID, level, spellstealpriority, duration, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 /* Bstt 无数据 */
 #define X_UnitAddBuff_Bstt(target, source, buffID, level, spellstealpriority, duration)\
-    X_UnitAddBuff(target, source, null, <?= require 'FourCC'.string2hex('Bstt') ?>, buffID, level, spellstealpriority, duration, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    X_UnitAddBuff(target, source, <?= require 'FourCC'.string2hex('Bstt') ?>, buffID, level, spellstealpriority, duration, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)

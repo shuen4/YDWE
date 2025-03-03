@@ -1,313 +1,339 @@
-﻿#include <base/hook/fp_call.h>
-#include <base/util/memory.h>
-
-#include <warcraft3/jass.h>
+﻿#include <warcraft3/jass.h>
 #include <warcraft3/jass/hook.h>
-#include <warcraft3/version.h>
-#include <warcraft3/war3_searcher.h>
 
-#include "qmatrix.h"
 #include "util.h"
 
-uint32_t searchSetSpriteTeamColor();
-struct SetSpriteAnimationByNameAddress {
-    uint32_t GetAnimationDataFromJassString;
-    uint32_t SetSpriteAnimation;
-};
-SetSpriteAnimationByNameAddress searchSetSpriteAnimation();
-uint32_t searchSetSpriteAnimationByIndex();
+#define M_PI       3.14159265358979323846
 
-uint32_t searchCSprite_SetReplacableTexture() {
-    uint32_t ptr = searchSetSpriteTeamColor();
-    ptr = next_opcode(ptr, 0xE8, 5);
-    ptr += 5;
-    ptr = next_opcode(ptr, 0xE8, 5);
-    return convert_function(ptr);
-}
-uint32_t searchLoadTexture() {
-    uint32_t ptr = get_war3_searcher().search_string("ui\\widgets\\escmenu\\human\\observer-icon.blp");
-    ptr += 4;
-    ptr = next_opcode(ptr, 0xE8, 5);
-    ptr = convert_function(ptr);
-    ptr = next_opcode(ptr, 0xE8, 5);
-    return convert_function(ptr);
+CSprite* __cdecl X_SpriteFrameGetSprite(uint32_t pSpriteFrame_raw, uint32_t index) {
+    CSpriteFrame* pSpriteFrame = ConvertPtr(CSpriteFrame, pSpriteFrame_raw);
+
+    if (pSpriteFrame->sprite.size < index)
+        return NULL;
+
+    return pSpriteFrame->sprite.data[index];
 }
 
-bool isSpriteFrame(uint32_t pSpriteFrame);
+CSprite* __cdecl X_War3ImageGetSprite(uint32_t handle) {
+    CWar3Image* pWar3Image = ConvertHandle<CWar3Image>(handle);
 
-uint32_t __cdecl X_SpriteFrameGetSprite(uint32_t pSpriteFrame) {
-    if (isSpriteFrame(pSpriteFrame) && ReadMemory(pSpriteFrame + 0x174))
-        return ReadMemory(ReadMemory(pSpriteFrame + 0x178));
-    else
+    if (!pWar3Image)
         return 0;
+
+    return pWar3Image->sprite;
 }
 
-uint32_t __cdecl X_War3ImageGetSprite(uint32_t handle) {
-    uint32_t pObj = handle_to_object(handle);
-    if (!pObj || !type_check_s(pObj, '+w3i'))
-        return 0;
-    return ReadMemory(pObj + 0x28);
-}
-
-enum class SpriteType : int {
-    INVALID,
-    MINI,
-    UBER,
-};
-SpriteType GetSpriteType(uint32_t pSprite) {
-    if (!pSprite || IsBadReadPtr((void*)pSprite, 4))
-        return SpriteType::INVALID;
-
-    static uint32_t pCSpriteMini_vtable = get_vfn_ptr(".?AVCSpriteMini_@@");
-    // 子类型
-    static uint32_t pTAllocatedHandleObjectLeaf_CSpriteMini_vtable = get_vfn_ptr(".?AV?$TAllocatedHandleObjectLeaf@VCSpriteMini_@@$0BAA@@@");
-    if (ReadMemory(pSprite) == pCSpriteMini_vtable || ReadMemory(pSprite) == pTAllocatedHandleObjectLeaf_CSpriteMini_vtable)
-        return SpriteType::MINI;
-
-    static uint32_t pCSpriteUber_vtable = get_vfn_ptr(".?AVCSpriteUber_@@");
-    // 同上
-    static uint32_t pTAllocatedHandleObjectLeaf_CSpriteUber_vtable = get_vfn_ptr(".?AV?$TAllocatedHandleObjectLeaf@VCSpriteUber_@@$0IA@@@");
-    if (ReadMemory(pSprite) == pCSpriteUber_vtable || ReadMemory(pSprite) == pTAllocatedHandleObjectLeaf_CSpriteUber_vtable)
-        return SpriteType::UBER;
-
-    return SpriteType::INVALID;
-}
-uint32_t GetOffsetBySpriteType(SpriteType type, uint32_t offsetMini, uint32_t offsetUber) {
-    if (type == SpriteType::MINI)
+uint32_t GetOffsetBySpriteType(CSprite::Type type, uint32_t offsetMini, uint32_t offsetUber) {
+    if (type == CSprite::Type::MINI)
         return offsetMini;
-    else if (type == SpriteType::UBER)
+    else if (type == CSprite::Type::UBER)
         return offsetUber;
     return 0;
 }
 
-uint32_t __cdecl X_IsSpriteValid(uint32_t pSprite) {
-    return GetSpriteType(pSprite) != SpriteType::INVALID;
+uint32_t __cdecl X_IsSpriteValid(CSprite* pSprite) {
+    return pSprite->GetSpriteType() != CSprite::Type::INVALID;
 }
 
-SpriteType __cdecl X_GetSpriteType(uint32_t pSprite) {
-    return GetSpriteType(pSprite);
+CSprite::Type __cdecl X_GetSpriteType(CSprite* pSprite) {
+    return pSprite->GetSpriteType();
 }
 
 #define setupOffset(offsetMini, offsetUber)                                                             \
-uint32_t offset = GetOffsetBySpriteType(GetSpriteType(pSprite), offsetMini, offsetUber);            \
+uint32_t offset = GetOffsetBySpriteType(pSprite->GetSpriteType(), offsetMini, offsetUber);              \
     if (!offset)                                                                                        \
         return false
 #define checkValid()                                                                                    \
-    if (GetSpriteType(pSprite) == SpriteType::INVALID)                                                  \
+    if (pSprite->GetSpriteType() == CSprite::Type::INVALID)                                             \
         return false
 
-uint32_t __cdecl X_GetSpriteGeosetCount(uint32_t pSprite) {
-    if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
-        return ReadMemory(pModelComplex + 0xC);
+uint32_t __cdecl X_GetSpriteGeosetCount(CSprite* pSprite) {
+    checkValid();
+    if (CModel* pModel = pSprite->model)
+        return pModel->geoset.size;
     return 0;
 }
 
-uint32_t __cdecl X_SetSpriteX(uint32_t pSprite, float* x) {
-    setupOffset(0x88, 0xC0);
-    WriteMemory(pSprite + offset, *x);
-    return true;
+uint32_t __cdecl X_GetSpriteGeosetColorCount(CSprite* pSprite) {
+    if (CModel* pModel = pSprite->model)
+        return pModel->geoset_color.size;
+    return 0;
 }
 
-uint32_t __cdecl X_SetSpriteY(uint32_t pSprite, float* y) {
-    setupOffset(0x8C, 0xC4);
-    WriteMemory(pSprite + offset, *y);
-    return true;
+uint32_t __cdecl X_SetSpriteX(CSprite* pSprite, float* x) {
+    switch (pSprite->GetSpriteType()) {
+    case CSprite::Type::MINI:
+        ((CSpriteMini_*)pSprite)->position.x = *x;
+        return true;
+    case CSprite::Type::UBER:
+        ((CSpriteUber_*)pSprite)->position.managed_data.x = *x;
+        return true;
+    default:
+        return false;
+    }
 }
 
-uint32_t __cdecl X_SetSpriteZ(uint32_t pSprite, float* z) {
-    setupOffset(0x90, 0xC8);
-    WriteMemory(pSprite + offset, *z);
-    return true;
+uint32_t __cdecl X_SetSpriteY(CSprite* pSprite, float* y) {
+    switch (pSprite->GetSpriteType()) {
+    case CSprite::Type::MINI:
+        ((CSpriteMini_*)pSprite)->position.y = *y;
+        return true;
+    case CSprite::Type::UBER:
+        ((CSpriteUber_*)pSprite)->position.managed_data.y = *y;
+        return true;
+    default:
+        return false;
+    }
 }
 
-uint32_t __cdecl X_GetSpriteX(uint32_t pSprite) {
-    setupOffset(0x88, 0xC0);
-    return ReadMemory(pSprite + offset);
+uint32_t __cdecl X_SetSpriteZ(CSprite* pSprite, float* z) {
+    switch (pSprite->GetSpriteType()) {
+    case CSprite::Type::MINI:
+        ((CSpriteMini_*)pSprite)->position.z = *z;
+        return true;
+    case CSprite::Type::UBER:
+        ((CSpriteUber_*)pSprite)->position.managed_data.z = *z;
+        return true;
+    default:
+        return false;
+    }
 }
 
-uint32_t __cdecl X_GetSpriteY(uint32_t pSprite) {
-    setupOffset(0x8C, 0xC4);
-    return ReadMemory(pSprite + offset);
+uint32_t __cdecl X_GetSpriteX(CSprite* pSprite) {
+    switch (pSprite->GetSpriteType()) {
+    case CSprite::Type::MINI:
+        return ((CSpriteMini_*)pSprite)->position.x;
+    case CSprite::Type::UBER:
+        return ((CSpriteUber_*)pSprite)->position.managed_data.x;
+    default:
+        return 0;
+    }
 }
 
-uint32_t __cdecl X_GetSpriteZ(uint32_t pSprite) {
-    setupOffset(0x90, 0xC8);
-    return ReadMemory(pSprite + offset);
+uint32_t __cdecl X_GetSpriteY(CSprite* pSprite) {
+    switch (pSprite->GetSpriteType()) {
+    case CSprite::Type::MINI:
+        return ((CSpriteMini_*)pSprite)->position.y;
+    case CSprite::Type::UBER:
+        return ((CSpriteUber_*)pSprite)->position.managed_data.y;
+    default:
+        return 0;
+    }
 }
 
-uint32_t __cdecl X_SetSpriteSize(uint32_t pSprite, float* size) {
+uint32_t __cdecl X_GetSpriteZ(CSprite* pSprite) {
+    switch (pSprite->GetSpriteType()) {
+    case CSprite::Type::MINI:
+        return ((CSpriteMini_*)pSprite)->position.z;
+    case CSprite::Type::UBER:
+        return ((CSpriteUber_*)pSprite)->position.managed_data.z;
+    default:
+        return 0;
+    }
+}
+
+uint32_t __cdecl X_SetSpriteSize(CSprite* pSprite, float* size) {
     checkValid();
-    base::this_call_vf<void>(pSprite, 0x24, *size);
+    pSprite->SetSize(*size);
     return true;
-    /* 还是调用 vf 比较好吧
-    setupOffset(0x94, 0xE8);
-    WriteMemory(pSprite + offset, *size);
-    return true;
-    */
 }
 
-uint32_t __cdecl X_GetSpriteSize(uint32_t pSprite) {
-    setupOffset(0x94, 0xE8);
-    return ReadMemory(pSprite + offset);
+uint32_t __cdecl X_GetSpriteSize(CSprite* pSprite) {
+    switch (pSprite->GetSpriteType()) {
+    case CSprite::Type::MINI:
+        return ((CSpriteMini_*)pSprite)->scale;
+    case CSprite::Type::UBER:
+        return ((CSpriteUber_*)pSprite)->scale.managed_data;
+    default:
+        return 0;
+    }
 }
 
-uint32_t __cdecl X_SpriteMatrixRotateX(uint32_t pSprite, float* angle) {
-    setupOffset(0x64, 0x108);
+uint32_t __cdecl X_SpriteMatrixRotateX(CSprite* pSprite, float* angle) {
+    checkValid();
+
     float angle_radians = *angle * float(M_PI / 180.);
-    qmatrix<float> mat((float*)(pSprite + offset));
-    qmatrix<float>::value_type m = {
+    float m[3][3] = {
         { 1.f, 0.f, 0.f },
         { 0.f, cosf(angle_radians), sinf(angle_radians) },
         { 0.f, -sinf(angle_radians), cosf(angle_radians) },
     };
-    mat *= m;
+
+    switch (pSprite->GetSpriteType()) {
+    case CSprite::Type::MINI:
+        ((CSpriteMini_*)pSprite)->matrix *= m;
+        return true;
+    case CSprite::Type::UBER:
+        ((CSpriteUber_*)pSprite)->matrix.managed_data *= m;
+        return true;
+    }
     return true;
 }
 
-uint32_t __cdecl X_SpriteMatrixRotateY(uint32_t pSprite, float* angle) {
-    setupOffset(0x64, 0x108);
+uint32_t __cdecl X_SpriteMatrixRotateY(CSprite* pSprite, float* angle) {
+    checkValid();
+
     float angle_radians = *angle * float(M_PI / 180.);
-    qmatrix<float> mat((float*)(pSprite + offset));
-    qmatrix<float>::value_type m = {
+    float m[3][3] = {
         { cosf(angle_radians), 0.f, -sinf(angle_radians) },
         { 0.f, 1.f, 0.f },
         { sinf(angle_radians), 0.f, cosf(angle_radians) },
     };
-    mat *= m;
+
+    switch (pSprite->GetSpriteType()) {
+    case CSprite::Type::MINI:
+        ((CSpriteMini_*)pSprite)->matrix *= m;
+        return true;
+    case CSprite::Type::UBER:
+        ((CSpriteUber_*)pSprite)->matrix.managed_data *= m;
+        return true;
+    }
     return true;
 }
 
-uint32_t __cdecl X_SpriteMatrixRotateZ(uint32_t pSprite, float* angle) {
-    setupOffset(0x64, 0x108);
+uint32_t __cdecl X_SpriteMatrixRotateZ(CSprite* pSprite, float* angle) {
+    checkValid();
+
     float angle_radians = *angle * float(M_PI / 180.);
-    qmatrix<float> mat((float*)(pSprite + offset));
-    qmatrix<float>::value_type m = {
+    float m[3][3] = {
         { cosf(angle_radians), sinf(angle_radians), 0.f },
         { -sinf(angle_radians), cosf(angle_radians), 0.f },
         { 0.f, 0.f, 1.f },
     };
-    mat *= m;
+
+    switch (pSprite->GetSpriteType()) {
+    case CSprite::Type::MINI:
+        ((CSpriteMini_*)pSprite)->matrix *= m;
+        return true;
+    case CSprite::Type::UBER:
+        ((CSpriteUber_*)pSprite)->matrix.managed_data *= m;
+        return true;
+    }
     return true;
 }
 
-uint32_t __cdecl X_SpriteMatrixScale(uint32_t pSprite, float* x, float* y, float* z) {
-    setupOffset(0x64, 0x108);
-    qmatrix<float> mat((float*)(pSprite + offset));
-    qmatrix<float>::value_type m = {
+uint32_t __cdecl X_SpriteMatrixScale(CSprite* pSprite, float* x, float* y, float* z) {
+    checkValid();
+
+    float m[3][3] = {
         { *x, 0.f, 0.f },
         { 0.f, *y, 0.f },
         { 0.f, 0.f, *z },
     };
-    mat *= m;
+
+    switch (pSprite->GetSpriteType()) {
+    case CSprite::Type::MINI:
+        ((CSpriteMini_*)pSprite)->matrix *= m;
+        return true;
+    case CSprite::Type::UBER:
+        ((CSpriteUber_*)pSprite)->matrix.managed_data *= m;
+        return true;
+    }
     return true;
 }
 
-uint32_t __cdecl X_SpriteMatrixReset(uint32_t pSprite) {
-    setupOffset(0x64, 0x108);
-    qmatrix<float> mat((float*)(pSprite + offset));
-    qmatrix<float>::value_type m = {
+uint32_t __cdecl X_SpriteMatrixReset(CSprite* pSprite) {
+    checkValid();
+
+    float m[3][3] = {
         { 1.f, 0.f, 0.f },
         { 0.f, 1.f, 0.f },
         { 0.f, 0.f, 1.f },
     };
-    mat = m;
+
+    switch (pSprite->GetSpriteType()) {
+    case CSprite::Type::MINI:
+        ((CSpriteMini_*)pSprite)->matrix = m;
+        return true;
+    case CSprite::Type::UBER:
+        ((CSpriteUber_*)pSprite)->matrix.managed_data = m;
+        return true;
+    }
     return true;
 }
 
-uint32_t __cdecl X_SetSpriteTimeScale(uint32_t pSprite, float* timeScale) {
+uint32_t __cdecl X_SetSpriteTimeScale(CSprite* pSprite, float* timeScale) {
     checkValid();
-    base::this_call_vf<void>(pSprite, 0x28, *timeScale);
+    pSprite->SetTimeScale(*timeScale);
     return true;
-    /* 还是调用 vf 比较好吧
-    setupOffset(0x48, 0x190);
-    WriteMemory(pSprite + offset, *timeScale);
-    return true;
-    */
 }
 
-uint32_t __cdecl X_GetSpriteTimeScale(uint32_t pSprite) {
-    setupOffset(0x48, 0x190);
-    return ReadMemory(pSprite + offset);
-}
-
-uint32_t __cdecl X_SetSpriteColor(uint32_t pSprite, uint32_t color) {
+uint32_t __cdecl X_GetSpriteTimeScale(CSprite* pSprite) {
     checkValid();
-    base::this_call_vf<void>(pSprite, 0x30, color & 0xFFFFFF);
-    return true;
+    return __any(pSprite->GetTimeScale());
 }
 
-uint32_t __cdecl X_SetSpriteAlpha(uint32_t pSprite, uint32_t alpha) {
+uint32_t __cdecl X_SetSpriteColor(CSprite* pSprite, uint32_t color) {
     checkValid();
-    base::this_call_vf<void>(pSprite, 0x34, alpha & 0xFF);
+    pSprite->SetColor(color & 0xFFFFFF);
     return true;
 }
 
-uint32_t __cdecl X_GetSpriteColor(uint32_t pSprite) {
-    if (GetSpriteType(pSprite) != SpriteType::INVALID)
-        if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
-            if (ReadMemory(pModelComplex + 0xC)) // Geoset 数量
-                if (uint32_t pUnk = ReadMemory(pModelComplex + 0x20))
-                    return ReadMemory(pUnk + 0x4) & 0xFFFFFF;
+uint32_t __cdecl X_SetSpriteAlpha(CSprite* pSprite, uint32_t alpha) {
+    checkValid();
+    pSprite->SetAlpha(alpha & 0xFF);
+    return true;
+}
+
+uint32_t __cdecl X_GetSpriteColor(CSprite* pSprite) {
+    checkValid();
+    
+    if (CModel* pModel = pSprite->model)
+        if (pModel->geoset_color.size)
+            return pModel->geoset_color.data[0].color.ARGB & 0xFFFFFF;
+    return 0xFFFFFF;
+}
+
+uint32_t __cdecl X_GetSpriteAlpha(CSprite* pSprite) {
+    checkValid();
+
+    if (CModel* pModel = pSprite->model)
+        if (pModel->geoset_color.size)
+            return (uint8_t)(pModel->geoset_color.data[0].alpha * 255.f);
     return 0xFF;
 }
 
-uint32_t __cdecl X_GetSpriteAlpha(uint32_t pSprite) {
-    if (GetSpriteType(pSprite) != SpriteType::INVALID)
-        if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
-            if (ReadMemory(pModelComplex + 0xC)) // Geoset 数量
-                if (uint32_t pUnk = ReadMemory(pModelComplex + 0x20))
-                    return (uint8_t)(ReadMemory<float>(pUnk + 0xC) * 255.f);
-    return 0xFF;
-}
+uint32_t __cdecl X_SetSpriteGeosetColor(CSprite* pSprite, uint32_t index, uint32_t value) {
+    checkValid();
 
-uint32_t __cdecl X_SetSpriteGeosetColor(uint32_t pSprite, uint32_t index, uint32_t value) {
-    if (GetSpriteType(pSprite) != SpriteType::INVALID)
-        if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
-            if (ReadMemory(pModelComplex + 0xC) > index) // Geoset 数量
-                if (uint32_t pUnk = ReadMemory(pModelComplex + 0x20)) {
-                    WriteMemory(pUnk + 0x4 + index * 0x10, ReadMemory<uint8_t>(pUnk + 0x7 + index * 0x10) | (value & 0xFFFFFF));
-                    return true;
-                }
+    if (CModel* pModel = pSprite->model)
+        if (pModel->geoset_color.size > index) {
+            pModel->geoset_color.data[index].color.ARGB = ((uint32_t)pModel->geoset_color.data[index].color.A << 24) | (value & 0xFFFFFF);
+            return true;
+        }
     return false;
 }
 
-uint32_t __cdecl X_SetSpriteGeosetAlpha(uint32_t pSprite, uint32_t index, uint32_t value) {
-    if (GetSpriteType(pSprite) != SpriteType::INVALID)
-        if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
-            if (ReadMemory(pModelComplex + 0xC) > index) // Geoset 数量
-                if (uint32_t pUnk = ReadMemory(pModelComplex + 0x20)) {
-                    WriteMemory(pUnk + 0xC + index * 0x10, (float)(value & 0xFF) / 255.f);
-                    return true;
-                }
+uint32_t __cdecl X_SetSpriteGeosetAlpha(CSprite* pSprite, uint32_t index, uint32_t value) {
+    checkValid();
+
+    if (CModel* pModel = pSprite->model)
+        if (pModel->geoset_color.size > index)
+            pModel->geoset_color.data[index].alpha = (float)(value & 0xFF) / 255.f;
     return false;
 }
 
-uint32_t __cdecl X_GetSpriteGeosetColor(uint32_t pSprite, uint32_t index) {
-    if (GetSpriteType(pSprite) != SpriteType::INVALID)
-        if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
-            if (ReadMemory(pModelComplex + 0xC) > index) // Geoset 数量
-                if (uint32_t pUnk = ReadMemory(pModelComplex + 0x20))
-                    return ReadMemory(pUnk + 0x4 + index * 0x10) & 0xFFFFFF;
-    return 0xFF;
-}
-
-uint32_t __cdecl X_GetSpriteGeosetAlpha(uint32_t pSprite, uint32_t index) {
-    if (GetSpriteType(pSprite) != SpriteType::INVALID)
-        if (uint32_t pModelComplex = ReadMemory(pSprite + 0x20))
-            if (ReadMemory(pModelComplex + 0xC) > index) // Geoset 数量
-                if (uint32_t pUnk = ReadMemory(pModelComplex + 0x20))
-                    return (uint8_t)(ReadMemory<float>(pUnk + 0xC + index * 0x10) * 255.f);
-    return 0xFF;
-}
-
-uint32_t __cdecl X_SetSpriteReplaceableTexture(uint32_t pSprite, uint32_t path, uint32_t replaceableID) {
+uint32_t __cdecl X_GetSpriteGeosetColor(CSprite* pSprite, uint32_t index) {
     checkValid();
-    static uint32_t pSprite_SetReplacableTexture = searchCSprite_SetReplacableTexture();
-    static uint32_t pLoadTexture = searchLoadTexture();
-    uint32_t pTexture = base::std_call<uint32_t>(pLoadTexture, jass::from_string(path), 0);
-    if (!pTexture)
-        return false;
-    base::fast_call<void>(pSprite_SetReplacableTexture, pSprite, pTexture, replaceableID);
+
+    if (CModel* pModel = pSprite->model)
+        if (pModel->geoset_color.size > index)
+            return pModel->geoset_color.data[index].color.ARGB & 0xFFFFFF;
+    return 0xFFFFFF;
+}
+
+uint32_t __cdecl X_GetSpriteGeosetAlpha(CSprite* pSprite, uint32_t index) {
+    checkValid();
+
+    if (CModel* pModel = pSprite->model)
+        if (pModel->geoset_color.size > index)
+            return (uint8_t)(pModel->geoset_color.data[index].alpha * 255.f);
+    return 0xFF;
+}
+
+uint32_t __cdecl X_SetSpriteReplaceableTexture(CSprite* pSprite, uint32_t path, uint32_t replaceableID) {
+    checkValid();
+    pSprite->SetReplacableTexture(jass::from_string(path), replaceableID, 0);
     return true;
 }
 
@@ -316,30 +342,28 @@ uint32_t __cdecl X_SetSpriteReplaceableTexture(uint32_t pSprite, uint32_t path, 
 //      queue               1 << 1
 //      RARITY_FREQUENT     1 << 4
 //      RARITY_RARE         1 << 5
-uint32_t __cdecl X_SetSpriteAnimationEx(uint32_t pSprite, uint32_t animName, uint32_t flag) {
+uint32_t __cdecl X_SetSpriteAnimationEx(CSprite* pSprite, uint32_t animName, uint32_t flag) {
     checkValid();
-    static SetSpriteAnimationByNameAddress addr = searchSetSpriteAnimation();
-    uint32_t AnimData[4] = { 0, 0, 0, 0 };
 
-    if (get_war3_searcher().get_version() == version_126) {
+    uint32_t animData[4] = { 0, 0, 0, 0 };
+    if (version == version_126) {
         _asm {
             mov ecx, animName;
-            lea edi, AnimData;
-            call addr.GetAnimationDataFromJassString;
+            lea edi, animData;
+            call FUNC::GetAnimationDataFromJassString;
         }
     }
-    else {
-        base::fast_call<void>(addr.GetAnimationDataFromJassString, animName, AnimData);
-    }
+    else
+        FUNC::GetAnimationDataFromJassString(animName, animData);
 
-    if (!AnimData[1])
+    if (!animData[1])
         return false;
 
-    base::fast_call<double>(addr.SetSpriteAnimation, pSprite, AnimData[2], AnimData[1], flag);
+    pSprite->SetAnimation(animData[2], animData[1], flag);
     return true;
 }
 
-uint32_t __cdecl X_SetSpriteAnimation(uint32_t pSprite, uint32_t animName) {
+uint32_t __cdecl X_SetSpriteAnimation(CSprite* pSprite, uint32_t animName) {
     return X_SetSpriteAnimationEx(pSprite, animName, 0);
 }
 
@@ -348,23 +372,22 @@ uint32_t __cdecl X_SetSpriteAnimation(uint32_t pSprite, uint32_t animName) {
 //      queue               1 << 1
 //      RARITY_FREQUENT     1 << 4
 //      RARITY_RARE         1 << 5
-uint32_t __cdecl X_SetSpriteAnimationByIndexEx(uint32_t pSprite, uint32_t index, uint32_t flag) {
+uint32_t __cdecl X_SetSpriteAnimationByIndexEx(CSprite* pSprite, uint32_t index, uint32_t flag) {
     checkValid();
 
-    static uint32_t pSetSpriteAnimationByIndex = searchSetSpriteAnimationByIndex();
-    base::fast_call<double>(pSetSpriteAnimationByIndex, pSprite, index, flag);
+    pSprite->SetAnimationByIndex(index, flag);
     return true;
 }
 
-uint32_t __cdecl X_SetSpriteAnimationByIndex(uint32_t pSprite, uint32_t index) {
+uint32_t __cdecl X_SetSpriteAnimationByIndex(CSprite* pSprite, uint32_t index) {
     return X_SetSpriteAnimationByIndexEx(pSprite, index, 0);
 }
 
 #undef checkValid
 #undef setupOffset
 
-init(Sprite) {
-    jass::japi_add((uint32_t)X_SpriteFrameGetSprite,            "X_SpriteFrameGetSprite",           "(I)I");                     // CSpriteUber
+init_L(Sprite) {
+    jass::japi_add((uint32_t)X_SpriteFrameGetSprite,            "X_SpriteFrameGetSprite",           "(II)I");                    // CSpriteUber
     jass::japi_add((uint32_t)X_War3ImageGetSprite,              "X_UnitGetSprite",                  "(Hunit;)I");                // CSpriteUber
     jass::japi_add((uint32_t)X_War3ImageGetSprite,              "X_EffectGetSprite",                "(Heffect;)I");              // CSpriteUber
     jass::japi_add((uint32_t)X_War3ImageGetSprite,              "X_TrackableGetSprite",             "(Htrackable;)I");           // CSpriteUber

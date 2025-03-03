@@ -1,12 +1,14 @@
 ﻿#pragma once
+
 #include "util.h"
 
 namespace TriggerEvent {
-    enum class Type : uint32_t {
-        CPlayerUnitEventDataBase = 'pued',
-    };
     enum JAPI_eventid : uint32_t {
-        EVENT_PLAYER_UNIT_ATTACK_MISS = 0x81000,
+        // 这个 事件ID 使用 1.31+ 的魔兽 事件ID
+        EVENT_PLAYER_UNIT_DAMAGED = 0x80334,
+        EVENT_PLAYER_UNIT_DAMAGING = 0x8033B,
+        // 自定义的 事件ID 使用 0x81200 以上
+        EVENT_PLAYER_UNIT_ATTACK_MISS = 0x81200,
         EVENT_PLAYER_UNIT_ATTACK_LAUNCH,
         EVENT_PLAYER_UNIT_UPDATE_INVENTORY,
     };
@@ -17,9 +19,12 @@ namespace TriggerEvent {
         uint32_t unk_func2[14];
         uint32_t GetTypeName;
         uint32_t unk_func3[2];
-        uint32_t GetFilterUnit;
+        CUnit*(__thiscall* GetFilterUnit)();
         CPlayerUnitEventDataBase_vtable() {
-            memcpy(this, (void*)get_vfn_ptr(".?AVCPlayerUnitEventDataBase@@"), sizeof(CPlayerUnitEventDataBase_vtable));
+            memset(this, 0, sizeof(CPlayerUnitEventDataBase_vtable));
+        };
+        void real_init() {
+            memcpy(this, (void*)VFN::CPlayerUnitEventDataBase, sizeof(CPlayerUnitEventDataBase_vtable));
         };
         CPlayerUnitEventDataBase_vtable* copy() {
             CPlayerUnitEventDataBase_vtable* ret = new CPlayerUnitEventDataBase_vtable();
@@ -28,30 +33,20 @@ namespace TriggerEvent {
         }
     };
     extern CPlayerUnitEventDataBase_vtable CPlayerUnitEventDataBase_vtable_instance;
-    class CPlayerUnitEventDataBase {
+    void CPlayerUnitEventDataBase_ctor(CPlayerUnitEventDataBase* _this);
+    class X_CPlayerUnitEventDataBase : public war3::CPlayerUnitEventDataBase {
     public:
-        CPlayerUnitEventDataBase();
-        void ctor();
-        CPlayerUnitEventDataBase_vtable* vtable;
-        // CObserver
-        uint32_t CObserver1[0x2];
-        // CAgent
-        objectid_64 unk1;
-        uint32_t CObserver2_vtable;
-        uint32_t CObserver2[0x2];
-        // CPlayerEventDataBase
-        objectid_64 player;
-        uint32_t unk2;
-        // CPlayerUnitEventDataBase
-        objectid_64 triggerUnit;
-        uint32_t unk3;
-        objectid_64 filterUnit;
-        uint32_t unk4;
+        constexpr static uint32_t typeID = 'Xpue';
+
+        uint32_t GetTypeID();
+        const char* GetTypeName();
+        static void ctor(X_CPlayerUnitEventDataBase* _this);
     };
-    #define defineEventData(name, id, filterunit, code)                                                                         \
+    #define definePlayerUnitEventData(name, id, filterunit, code)                                                                         \
         TriggerEvent::CPlayerUnitEventDataBase_vtable* name##_vtable;                                                           \
-        class name : public TriggerEvent::CPlayerUnitEventDataBase {                                                            \
+        class name : public TriggerEvent::X_CPlayerUnitEventDataBase {                                                          \
         public:                                                                                                                 \
+            constexpr static uint32_t typeID = id;                                                                              \
             code                                                                                                                \
             uint32_t GetTypeID() {                                                                                              \
                 return id;                                                                                                      \
@@ -62,9 +57,9 @@ namespace TriggerEvent {
             uint32_t GetFilterUnit() {                                                                                          \
                 return filterunit;                                                                                              \
             }                                                                                                                   \
-            static void ctor(uint32_t _this) {                                                                                  \
-                ((CPlayerUnitEventDataBase*)_this)->ctor();                                                                     \
-                ((name*)_this)->vtable = name##_vtable;                                                                         \
+            static void ctor(X_CPlayerUnitEventDataBase* _this) {                                                               \
+                TriggerEvent::CPlayerUnitEventDataBase_ctor(_this);                                                             \
+                ((name*)_this)->__vfn = (uint32_t)name##_vtable;                                                                \
             }                                                                                                                   \
         };
 #define setupEventData(name, eventid, ...) do {                                                                                 \
@@ -72,14 +67,11 @@ namespace TriggerEvent {
         WriteMemory((uint32_t)&name##_vtable->GetTypeID, &name::GetTypeID);                                                     \
         WriteMemory((uint32_t)&name##_vtable->GetTypeName, &name::GetTypeName);                                                 \
         WriteMemory((uint32_t)&name##_vtable->GetFilterUnit, &name::GetFilterUnit);                                             \
-        TriggerEvent::RegisterTriggerEventData(eventid, TriggerEvent::Type::CPlayerUnitEventDataBase, { __VA_ARGS__}, sizeof(name), 0x10, name::ctor); } while(0)
-#define setupEventData_s(name, eventid) setupEventData(name, eventid, eventid)
-    void RegisterTriggerEventData(uint32_t typeID, Type parentTypeID, std::vector<uint32_t> eventID, uint32_t size, uint32_t batchAllocCount, void(*ctor)(uint32_t));
+        TriggerEvent::RegisterTriggerEventData(eventid, TriggerEvent::X_CPlayerUnitEventDataBase::typeID, { __VA_ARGS__}, sizeof(name), 0x10, (void(*)(uint32_t))name::ctor); } while(0)
+#define setupPlayerUnitEventData_s(name, eventid) setupEventData(name, eventid, eventid)
+    void RegisterTriggerEventData(uint32_t typeID, uint32_t parentTypeID, std::vector<uint32_t> eventID, uint32_t size, uint32_t batchAllocCount, void(*ctor)(uint32_t), void(*dtor)(uint32_t) = NULL);
     uint32_t TriggerRegisterPlayerUnitEvent(uint32_t trigger, uint32_t player, uint32_t eventID, uint32_t boolexpr);
     uint32_t GetTriggerEventId();
-    uint32_t GetTriggerEventData(uint32_t typeID = 'wscd');
-    bool IsEventRegistered(uint32_t pObserver, uint32_t eventID);
-    uint32_t GetUnitOwner(uint32_t pUnit);
-    void FirePlayerUnitEvent(CPlayerUnitEventDataBase* pPlayerUnitEvent, uint32_t pUnit, uint32_t pUnit2, uint32_t eventID);
-
+    CScriptEventData* GetTriggerEventData(uint32_t typeID = 'wscd');
+    void FirePlayerUnitEvent(CPlayerUnitEventDataBase* pPlayerUnitEvent, CUnit* pUnit, CAgent* pAgent, uint32_t eventID);
 }

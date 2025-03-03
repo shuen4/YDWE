@@ -109,7 +109,6 @@ exit /b 0</Command>
     <ClCompile Include="Ability.cpp" />
     <ClCompile Include="Attack.cpp" />
     <ClCompile Include="Buff.cpp" />
-    <ClCompile Include="CAgentTimer.cpp" />
     <ClCompile Include="CallNative.cpp" />
     <ClCompile Include="ChannelFlag.cpp" />
     <ClCompile Include="Damage.cpp" />
@@ -129,13 +128,13 @@ exit /b 0</Command>
     <ClCompile Include="TriggerEvent.cpp" />
     <ClCompile Include="Unit.cpp" />
     <ClCompile Include="Util.cpp" />
+    <ClCompile Include="war3.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CAgentTimer.h" />
-    <ClInclude Include="qmatrix.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="TriggerEvent.h" />
     <ClInclude Include="util.h" />
+    <ClInclude Include="war3.h" />
     <None Include="version.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
