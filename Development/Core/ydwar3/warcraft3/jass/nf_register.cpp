@@ -29,24 +29,24 @@ namespace warcraft3::jass::nf_register {
         }
         return 0;
     }
-    uint32_t fake_RegisterJassNatives;
-    void real_RegisterJassNatives() {
-        base::c_call<void>(fake_RegisterJassNatives);
+    uint32_t real_RegisterJassNatives;
+    void fake_RegisterJassNatives() {
+        base::c_call<void>(real_RegisterJassNatives);
         event_add();
         nfunction_add();
         nfunction_hook();
     }
-    uint32_t fake_RegisterType;
-    void real_RegisterType() {
-        base::c_call<void>(fake_RegisterType);
+    uint32_t real_RegisterType;
+    void fake_RegisterType() {
+        base::c_call<void>(real_RegisterType);
         event_hook();
     }
     bool initialize() {
         DO_ONCE_NOTHREADSAFE() {
-            fake_RegisterJassNatives = searchRegisterJassNatives();
-            base::hook::install(&fake_RegisterJassNatives, (uint32_t)real_RegisterJassNatives);
-            fake_RegisterType = searchRegisterType();
-            base::hook::install(&fake_RegisterType, (uint32_t)real_RegisterType);
+            real_RegisterJassNatives = searchRegisterJassNatives();
+            base::hook::install(&real_RegisterJassNatives, (uint32_t)fake_RegisterJassNatives);
+            real_RegisterType = searchRegisterType();
+            base::hook::install(&real_RegisterType, (uint32_t)fake_RegisterType);
             return true;
         }
         return false;

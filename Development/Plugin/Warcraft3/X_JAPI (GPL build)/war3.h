@@ -136,7 +136,6 @@ namespace war3 {
     class CHandleObject;
     class CModel;
     class CDataMgr;
-    class CSprite_unk_base;
     class CSprite;
     class CSpriteMini_;
     class CSpriteUber_;
@@ -602,16 +601,7 @@ namespace war3 {
         uint32_t unk_24;
         uint32_t unk_28;
     }; static_assert(sizeof(CDataMgr) == 32);
-    class CSprite_unk_base : public CDataMgr {
-    public:
-        CModel* model;
-        uint32_t unk_36;
-        uint32_t unk_40;
-        uint16_t unk_44;
-        uint16_t unk_46;
-        uint32_t unk_48;
-    }; static_assert(sizeof(CSprite_unk_base) == 52);
-    class CSprite : public CSprite_unk_base {
+    class CSprite : public CDataMgr {
     public:
         enum class Type : int {
             INVALID,
@@ -619,7 +609,15 @@ namespace war3 {
             UBER,
         };
         Type GetSpriteType();
+        constexpr static uint32_t flag_is_sprite_uber = 0x400000;
+        constexpr static uint32_t flag_is_sprite_mini = 0x800000;
 
+        CModel* model;
+        uint32_t unk_36;
+        uint32_t flag;
+        uint16_t unk_44;
+        uint16_t unk_46;
+        uint32_t unk_48;
         uint32_t unk_52;
         uint32_t unk_56;
         uint32_t unk_60;

@@ -127,10 +127,10 @@ namespace war3 {
         if (IsBadReadPtr((void*)this, 4))
             return Type::INVALID;
 
-        if (__vfn == VFN::CSpriteMini_ || __vfn == VFN::TAllocatedHandleObjectLeaf_CSpriteMini_256)
+        if ((__vfn == VFN::CSpriteMini_ || __vfn == VFN::TAllocatedHandleObjectLeaf_CSpriteMini_256) && (flag & flag_is_sprite_mini))
             return Type::MINI;
 
-        if (__vfn == VFN::CSpriteUber_ || __vfn == VFN::TAllocatedHandleObjectLeaf_CSpriteUber_128)
+        if ((__vfn == VFN::CSpriteUber_ || __vfn == VFN::TAllocatedHandleObjectLeaf_CSpriteUber_128) && (flag & flag_is_sprite_uber))
             return Type::UBER;
 
         return Type::INVALID;
@@ -163,7 +163,7 @@ namespace war3 {
 
         for (size_t i = 0; i < 3; i++)
             for (size_t j = 0; j < 3; j++) {
-                float tmp1(0);
+                float tmp1 = 0.f;
                 for (size_t k = 0; k < 3; k++)
                     tmp1 += tmp[i][k] * r[k][j];
                 matrix[i][j] = tmp1;
@@ -496,6 +496,10 @@ namespace war3 {
 #define Set_vfn_(a, b) WriteMemory((uint32_t)&VFN::##a, get_vfn_ptr(b))
         war3_searcher& s = get_war3_searcher();
         version = (VERSION)s.get_version();
+
+        if (version != version_127a && version != version_126)
+            if (MessageBoxW(NULL, L"此魔兽版本未经过测试\n是否继续?", L"X JAPI", MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2 | MB_SETFOREGROUND) == IDNO)
+                return false;
         uint32_t ptr;
 
         Set_vfn(CSpriteFrame);
@@ -1175,5 +1179,6 @@ namespace war3 {
             ptr = convert_function(ptr);
             Set(FUNC::SStrHash);
         }
+        return true;
     }
 }
