@@ -8,7 +8,7 @@ definePlayerUnitEventData(X_PlayerUnitUpdateInventoryEventData, TriggerEvent::EV
 
 void(__thiscall* real_CUnit_UpdateInventory)(CUnit* pUnit);
 void __fastcall fake_CUnit_UpdateInventory(CUnit* pUnit) {
-    if (pUnit->GetOwner()->IsEventRegistered(TriggerEvent::EVENT_PLAYER_UNIT_UPDATE_INVENTORY)) {
+    if (pUnit && pUnit->GetOwner()->IsEventRegistered(TriggerEvent::EVENT_PLAYER_UNIT_UPDATE_INVENTORY)) {
         X_PlayerUnitUpdateInventoryEventData* pEventData = (X_PlayerUnitUpdateInventoryEventData*)Agile::CreateObject(X_PlayerUnitUpdateInventoryEventData::typeID, false);
 
         TriggerEvent::FirePlayerUnitEvent(pEventData, pUnit, NULL, TriggerEvent::EVENT_PLAYER_UNIT_UPDATE_INVENTORY);
